@@ -18,14 +18,14 @@ CONFIG += c++11
 
 DEFINES += ASN1_LIBRARY
 
-SOURCES += berByteArrayOutputStream.cpp \
-	berIdentifier.cpp \
-    berLength.cpp 
+SOURCES += src/berByteArrayOutputStream.cpp \
+	src/berIdentifier.cpp \
+    src/berLength.cpp 
 
-HEADERS += asn1_global.h \
-    berByteArrayOutputStream.h \
-	berIdentifier.h \
-    berLength.h 
+HEADERS += src/asn1_global.h \
+    src/berByteArrayOutputStream.h \
+	src/berIdentifier.h \
+    src/berLength.h 
     
 unix {
     CONFIG (debug, debug|release) {

@@ -1,4 +1,4 @@
-#include "berIdentifier.h"
+#include "src/berIdentifier.h"
 
 qint32 CBerIdentifier::UNIVERSAL_CLASS = 0x00;
 qint32 CBerIdentifier::APPLICATION_CLASS = 0x40;

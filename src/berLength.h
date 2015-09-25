@@ -26,7 +26,7 @@
  */
 
 #include "asn1_global.h"
-#include "berByteArrayOutputStream.h"
+#include "src/berByteArrayOutputStream.h"
 
 class CBerLength: public QObject
 {

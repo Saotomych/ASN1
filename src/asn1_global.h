@@ -1,7 +1,7 @@
 #ifndef ASN1_GLOBAL_H
 #define ASN1_GLOBAL_H
 
-#include <QtCore/global.h>
+#include <QtCore/qglobal.h>
 #include <QObject>
 #include <QHostAddress>
 #include <QMutex>
