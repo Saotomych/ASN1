@@ -1,11 +1,11 @@
 /*
- * Java version
- * Copyright Fraunhofer ISE, 2011
- * Author(s): Stefan Feuerhahn
- *
  * C++/QT Version
  * Open source, 2015
  * Author(s): Alexey Alyoshkin
+ *
+ * Based on Java version
+ * Copyright Fraunhofer ISE, 2011
+ * Author(s): Stefan Feuerhahn
  *
  * This file is part of jASN1.
  * For more information visit http://www.openmuc.org
@@ -26,3 +26,24 @@
  */
 
 #include "asn1_global.h"
+#include "berByteArrayOutputStream.h"
+
+class CBerLength: public QObject
+{
+
+	Q_OBJECT
+
+	quint32 m_valLength;
+
+public:
+
+	static qint32 encodeLength(CBerByteArrayOutputStream& berOStream, qint32 length);
+
+	CBerLength(): m_valLength(0) {}
+
+	qint32 decode(QDataStream& iStream);
+
+signals:
+	void signalIOError(QString strErr);
+
+};

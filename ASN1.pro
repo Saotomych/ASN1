@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2015-07-30T16:52:21
+# Project created by QtCreator 2015-09-24T16:52:21
 #
 #-------------------------------------------------
 
@@ -20,12 +20,12 @@ DEFINES += ASN1_LIBRARY
 
 SOURCES += berByteArrayOutputStream.cpp \
 	berIdentifier.cpp \
-    berLength.cpp \
+    berLength.cpp 
 
 HEADERS += asn1_global.h \
     berByteArrayOutputStream.h \
 	berIdentifier.h \
-    berLength.h \
+    berLength.h 
     
 unix {
     CONFIG (debug, debug|release) {
@@ -40,7 +40,7 @@ unix {
 }
 
 CONFIG += debug_and_release build_all
-INCLUDEPATH += include/asn1
+INCLUDEPATH += include/ASN1
 
 CONFIG (debug, debug|release){
     OBJECTS_DIR = build/debug

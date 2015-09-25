@@ -1,7 +1,7 @@
 #ifndef ASN1_GLOBAL_H
 #define ASN1_GLOBAL_H
 
-#include <QtCore/qglobal.h>
+#include <QtCore/global.h>
 #include <QObject>
 #include <QHostAddress>
 #include <QMutex>
@@ -13,13 +13,14 @@
 #include <QScopedPointer>
 #include <QSharedPointer>
 #include <QByteArray>
+#include <QtCore/qmath.h>
 
 #include <exception>
 
 #if defined(ASN1_LIBRARY)
-#  define ASN1_EXPORT Q_DECL_EXPORT
+#  define ASN1_SHAREDEXPORT Q_DECL_EXPORT
 #else
-#  define ASN1_EXPORT Q_DECL_IMPORT
+#  define ASN1_SHAREDEXPORT Q_DECL_IMPORT
 #endif
 
 #endif // OSITRANSPORT_GLOBAL_H

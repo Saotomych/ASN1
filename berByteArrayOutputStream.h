@@ -1,11 +1,11 @@
 /*
- * Java version
- * Copyright Fraunhofer ISE, 2011
- * Author(s): Stefan Feuerhahn
- *
  * C++/QT Version
  * Open source, 2015
  * Author(s): Alexey Alyoshkin
+ *
+ * Based on Java version
+ * Copyright Fraunhofer ISE, 2011
+ * Author(s): Stefan Feuerhahn
  *
  * This file is part of jASN1.
  * For more information visit http://www.openmuc.org
@@ -27,12 +27,16 @@
 
 #include "asn1_global.h"
 
-class CBerByteArrayOutputStream: public QDataStream
+class CBerByteArrayOutputStream: public QObject
 {
 
-	QByteBuffer m_buffer;
-	quint32 m_index;
+	Q_OBJECT
+
+	QList<QByteArray> m_buffer;
+	qint32 m_index;
 	bool m_bAutoResize;
+
+	void resize();
 
 public:
 
@@ -45,32 +49,21 @@ public:
 	 * @param bufferSize
 	 *            the size of the underlying buffer
 	 */
-	CBerByteArrayOutputStream(int bufferSize)
-	{
-		m_buffer.resize(bufferSize);
-		m_index = bufferSize-1;
-		m_bAutoResize = false;
-	}
+	CBerByteArrayOutputStream(int bufferSize);
+	CBerByteArrayOutputStream(quint32 bufferSize, bool automaticResize);
+	CBerByteArrayOutputStream(QByteArray& buffer, quint32 startingIndex);
+	CBerByteArrayOutputStream(QByteArray& buffer, quint32 startingIndex, bool automaticResize);
 
-	CBerByteArrayOutputStream(quint32 bufferSize, bool automaticResize)
-	{
-		m_buffer.resize(bufferSize);
-		m_index = bufferSize-1;
-		m_bAutoResize = automaticResize;
-	}
+	bool write(quint32 arg0);
 
-	CBerByteArrayOutputStream(QByteBuffer& buffer, quint32 startingIndex) {
-		m_buffer = buffer;
-		m_index = startingIndex;
-		m_bAutoResize = false;
-	}
+	bool write(quint8 arg0);
 
-	CBerByteArrayOutputStream(QByteBuffer& buffer, int startingIndex, bool automaticResize) {
-		m_buffer = buffer;
-		m_index = startingIndex;
-		m_bAutoResize = automaticResize;
-	}
+	bool write(QByteArray& byteArray);
 
+	QByteArray getByteArray();
+
+signals:
+	void signalByteArrayIndexIsOutOfBound(QString strErr);
 
 };
 
