@@ -31,16 +31,16 @@ qint32 CBerLength::decode(QDataStream& iStream)
 {
 	if (iStream.device()->bytesAvailable() == 0) return 0;
 
-	iStream >> m_valLength;
+	iStream >> m_ValLength;
 
 	qint32 length = 1;
 
-	if ((m_valLength & 0x80) != 0)
+	if ((m_ValLength & 0x80) != 0)
 	{
-		qint32 lengthLength = m_valLength & 0x7f;
+		qint32 lengthLength = m_ValLength & 0x7f;
 
 		if (lengthLength == 0) {
-			m_valLength = -1;
+			m_ValLength = -1;
 			return 1;
 		}
 
@@ -49,7 +49,7 @@ qint32 CBerLength::decode(QDataStream& iStream)
 			return 1;
 		}
 
-		m_valLength = 0;
+		m_ValLength = 0;
 		QByteArray byteCode(lengthLength, Qt::Initialization::Uninitialized);
 
 		char *pBuffer = byteCode.d->data();
@@ -63,7 +63,7 @@ qint32 CBerLength::decode(QDataStream& iStream)
 
 		for (int i = 0; i < lengthLength; i++)
 		{
-			m_valLength |= (byteCode[i] & 0xff) << (8 * (lengthLength - i - 1));
+			m_ValLength |= (byteCode[i] & 0xff) << (8 * (lengthLength - i - 1));
 		}
 
 	}

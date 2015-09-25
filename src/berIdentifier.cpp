@@ -64,38 +64,38 @@ quint8 CBerIdentifier::TAG_NUMBER_MASK = 0x1F;
 
 void CBerIdentifier::code()
 {
-	if (m_tagNumber < 31)
+	if (m_TagNumber < 31)
 	{
-		m_identifier.resize(1);
-		m_identifier[0] = m_identifierClass | m_primitive | m_tagNumber;
+		m_Identifier.resize(1);
+		m_Identifier[0] = m_IdentifierClass | m_Primitive | m_TagNumber;
 	}
 	else
 	{
 		qint32 tagLength = 1;
-		while (m_tagNumber > (qPow(2, (7 * tagLength)) - 1)) {
+		while (m_TagNumber > (qPow(2, (7 * tagLength)) - 1)) {
 			tagLength++;
 		}
 
-		m_identifier.resize(1 + tagLength);
-		m_identifier[0] = m_identifierClass | m_primitive | 31;
+		m_Identifier.resize(1 + tagLength);
+		m_Identifier[0] = m_IdentifierClass | m_Primitive | 31;
 
 		for (int j = 1; j <= (tagLength - 1); j++) {
-			m_identifier[j] = (((m_tagNumber >> (7 * (tagLength - j))) & 0xff) | 0x80);
+			m_Identifier[j] = (((m_TagNumber >> (7 * (tagLength - j))) & 0xff) | 0x80);
 		}
 
-		m_identifier[tagLength] = (m_tagNumber & 0x7f);
+		m_Identifier[tagLength] = (m_TagNumber & 0x7f);
 
 	}
 }
 
 qint32 CBerIdentifier::encode(CBerByteArrayOutputStream berOStream)
 {
-	for (qint32 i = m_identifier.size() - 1; i >= 0; i--)
+	for (qint32 i = m_Identifier.size() - 1; i >= 0; i--)
 	{
-		berOStream.write((quint8) m_identifier[i]);
+		berOStream.write((quint8) m_Identifier[i]);
 	}
 
-	return m_identifier.size();
+	return m_Identifier.size();
 }
 
 qint32 CBerIdentifier::decode(QDataStream iStream)
@@ -106,14 +106,14 @@ qint32 CBerIdentifier::decode(QDataStream iStream)
 	quint8 nextByte;
 	nextByte << iStream;
 
-	m_identifierClass = nextByte & IDENTIFIER_CLASS_MASK;
-	m_primitive = nextByte & PRIMITIVE_MASK;
-	m_tagNumber = nextByte & TAG_NUMBER_MASK;
+	m_IdentifierClass = nextByte & IDENTIFIER_CLASS_MASK;
+	m_Primitive = nextByte & PRIMITIVE_MASK;
+	m_TagNumber = nextByte & TAG_NUMBER_MASK;
 
 	int codeLength = 1;
 
-	if (m_tagNumber == 0x1f) {
-		m_tagNumber = 0;
+	if (m_TagNumber == 0x1f) {
+		m_TagNumber = 0;
 
 		int counter = 0;
 
@@ -123,8 +123,8 @@ qint32 CBerIdentifier::decode(QDataStream iStream)
 			if (counter >= 6) {
 				emit signalBERError("CBerIdentifier::decode: Invalid Tag");
 			}
-			m_tagNumber = m_tagNumber << 7;
-			m_tagNumber |= (nextByte & 0x7f);
+			m_TagNumber = m_TagNumber << 7;
+			m_TagNumber |= (nextByte & 0x7f);
 			counter++;
 		} while ((nextByte & 0x80) == 0x80);
 
@@ -143,7 +143,7 @@ qint32 CBerIdentifier::decodeAndCheck(QDataStream iStream)
 {
 
 	quint8 nextByte;
-	for (quint8 myByte : m_identifier) {
+	for (quint8 myByte : m_Identifier) {
 
 		nextByte << iStream;
 
@@ -154,18 +154,18 @@ qint32 CBerIdentifier::decodeAndCheck(QDataStream iStream)
 		}
 	}
 
-	return m_identifier.size();
+	return m_Identifier.size();
 
 }
 
 bool CBerIdentifier::equals(int identifierClass, int primitive, int tagNumber)
 {
-	return (m_identifierClass == identifierClass && m_primitive == primitive && m_tagNumber == tagNumber);
+	return (m_IdentifierClass == identifierClass && m_Primitive == primitive && m_TagNumber == tagNumber);
 }
 
 QString CBerIdentifier::toString()
 {
 
-	return (QString("identifierClass: %1; primitive: %2; Tag Number: %3").arg(m_identifierClass).arg(m_primitive).arg(m_tagNumber));
+	return (QString("identifierClass: %1; primitive: %2; Tag Number: %3").arg(m_IdentifierClass).arg(m_Primitive).arg(m_TagNumber));
 
 }

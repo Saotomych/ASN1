@@ -32,9 +32,9 @@ class CBerByteArrayOutputStream: public QObject
 
 	Q_OBJECT
 
-	QList<QByteArray> m_buffer;
-	qint32 m_index;
-	bool m_bAutoResize;
+	QList<QByteArray> m_Buffer;
+	qint32 m_Index;
+	bool m_AutoResize;
 
 	void resize();
 

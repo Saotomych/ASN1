@@ -96,18 +96,18 @@ public:
 
 public:
 
-	 QByteArray m_identifier;
-	 qint32 m_identifierClass;
-	 qint32 m_primitive;
-	 qint32 m_tagNumber;
+	 QByteArray m_Identifier;
+	 qint32 m_IdentifierClass;
+	 qint32 m_Primitive;
+	 qint32 m_TagNumber;
 
-	 CBerIdentifier(): m_identifierClass(0), m_primitive(0), m_tagNumber(0)
+	 CBerIdentifier(): m_IdentifierClass(0), m_Primitive(0), m_TagNumber(0)
 	 {}
 
 	 CBerIdentifier(qint32 identifierClass, qint32 primitive, qint32 tagNumber):
-		 m_identifierClass(identifierClass),
-		 m_primitive(primitive),
-		 m_tagNumber(tagNumber)
+		 m_IdentifierClass(identifierClass),
+		 m_Primitive(primitive),
+		 m_TagNumber(tagNumber)
 	 {}
 
 	qint32 encode(CBerByteArrayOutputStream berOStream);

@@ -26,20 +26,20 @@
  */
 
 #include "asn1_global.h"
-#include "src/berByteArrayOutputStream.h"
+#include "berByteArrayOutputStream.h"
 
 class CBerLength: public QObject
 {
 
 	Q_OBJECT
 
-	quint32 m_valLength;
+	quint32 m_ValLength;
 
 public:
 
 	static qint32 encodeLength(CBerByteArrayOutputStream& berOStream, qint32 length);
 
-	CBerLength(): m_valLength(0) {}
+	CBerLength(): m_ValLength(0) {}
 
 	qint32 decode(QDataStream& iStream);
 
