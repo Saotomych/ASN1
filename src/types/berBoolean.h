@@ -25,28 +25,35 @@
  *
  */
 
-#ifndef BER_ANY
-#define BER_ANY
+#ifndef BER_BOOLEAN
+#define BER_BOOLEAN
 
+#include "../berBase.h"
 #include "../berByteArrayOutputStream.h"
+#include "../berIdentifier.h"
+#include "../berLength.h"
 
-class CBerAny
+class CBerBoolean: public CBerBase
 {
-	quint32 m_Length;
+
+protected:
+	bool m_Val;
 
 public:
 
-	CBerAny(): m_Length(0)
-	{}
+	static CBerIdentifier s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BOOLEAN_TAG);
 
-	CBerAny(quint32 length): m_Length(length)
-	{}
+	CBerBoolean();
+	CBerBoolean(bool val);
+	CBerBoolean(QByteArray code);
 
-	qint32 encode(CBerByteArrayOutputStream berOStream, bool expl)
-	{
-		return m_Length;
-	}
+	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
+	virtual quint32 deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength);
+
+	quint32 encode(CBerByteArrayOutputStream& berOStream, bool expl);
+	quint32 decode(QDataStream& iStream, bool expl);
+	void encodeAndSave(qint32 encodeSizeGuess);
 
 };
 
-#endif BER_ANY
+#endif

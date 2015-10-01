@@ -25,28 +25,33 @@
  *
  */
 
-#ifndef BER_ANY
-#define BER_ANY
+#ifndef BER_BITSTRING
+#define BER_BITSTRING
 
+#include "../berBase.h"
 #include "../berByteArrayOutputStream.h"
+#include "../berIdentifier.h"
+#include "../berLength.h"
 
-class CBerAny
+class CBerBitString: public CBerBase
 {
-	quint32 m_Length;
+
+protected:
+	QBitArray m_BitString;
 
 public:
+	static CBerIdentifier s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BIT_STRING_TAG);
 
-	CBerAny(): m_Length(0)
-	{}
+	CBerBitString();
+	CBerBitString(QBitArray& bitString);
+	CBerBitString(QByteArray& code);
 
-	CBerAny(quint32 length): m_Length(length)
-	{}
+	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
+	virtual quint32 deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength);
 
-	qint32 encode(CBerByteArrayOutputStream berOStream, bool expl)
-	{
-		return m_Length;
-	}
+	quint32 encode(CBerByteArrayOutputStream& berOStream, bool expl);
+	quint32 decode(QDataStream& iStream, bool expl);
 
 };
 
-#endif BER_ANY
+#endif

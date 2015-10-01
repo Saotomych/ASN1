@@ -25,6 +25,9 @@
  *
  */
 
+#ifndef BER_BYTEARRAYOUTPUTSTREAM
+#define BER_BYTEARRAYOUTPUTSTREAM
+
 #include "asn1_global.h"
 
 class CBerByteArrayOutputStream: public QObject
@@ -67,3 +70,4 @@ signals:
 
 };
 
+#endif

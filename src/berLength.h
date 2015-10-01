@@ -25,6 +25,9 @@
  *
  */
 
+#ifndef BER_LENGTH
+#define BER_LENGTH
+
 #include "asn1_global.h"
 #include "berByteArrayOutputStream.h"
 
@@ -43,7 +46,11 @@ public:
 
 	qint32 decode(QDataStream& iStream);
 
+	quint32 getVal();
+
 signals:
 	void signalIOError(QString strErr);
 
 };
+
+#endif

@@ -25,6 +25,9 @@
  *
  */
 
+#ifndef BER_IDENTIFIER
+#define BER_IDENTIFIER
+
 #include "asn1_global.h"
 
 class CBerIdentifier: public QObject
@@ -133,3 +136,5 @@ signals:
 	void signalBERError(QString strErr);
 
 };
+
+#endif BER_IDENTIFIER

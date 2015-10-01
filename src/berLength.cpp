@@ -72,3 +72,7 @@ qint32 CBerLength::decode(QDataStream& iStream)
 
 }
 
+quint32 CBerLength::getVal()
+{
+	return m_ValLength;
+}

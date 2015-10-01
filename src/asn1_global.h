@@ -13,6 +13,7 @@
 #include <QScopedPointer>
 #include <QSharedPointer>
 #include <QByteArray>
+#include <QBitArray>
 #include <QtCore/qmath.h>
 
 #include <exception>
