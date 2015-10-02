@@ -47,11 +47,13 @@ public:
 	CBerBoolean(bool val);
 	CBerBoolean(QByteArray code);
 
+	virtual ~CBerBoolean() {}
+
 	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
 	virtual quint32 deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength);
 
-	quint32 encode(CBerByteArrayOutputStream& berOStream, bool expl);
-	quint32 decode(QDataStream& iStream, bool expl);
+	quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
+	quint32 decode(QDataStream& iStream, bool explct);
 	void encodeAndSave(qint32 encodeSizeGuess);
 
 };

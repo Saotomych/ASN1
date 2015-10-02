@@ -12,19 +12,19 @@ CBerObjectIdentifier::CBerObjectIdentifier(QVector<qint32>& objectIdentifierComp
 	m_Identifier = s_Identifier;
 
 	if ( objectIdentifierComponents.size() < 2 )
-		argumentValid = argumentWrong();
+		argumentValid = argumentWrong("CBerObjectIdentifier::parameterWrong in constructor");
 
 	if ( ( objectIdentifierComponents[0] == 0 || objectIdentifierComponents[1] == 1) && ( objectIdentifierComponents[1] > 39) )
-		argumentValid = argumentWrong();
+		argumentValid = argumentWrong("CBerObjectIdentifier::parameterWrong in constructor");
 
 	if ( objectIdentifierComponents[0] > 2 )
-		argumentValid = argumentWrong();
+		argumentValid = argumentWrong("CBerObjectIdentifier::parameterWrong in constructor");
 
 	for (auto objectIdentifierComponent: objectIdentifierComponents)
 	{
 		if (objectIdentifierComponent < 0)
 		{
-			argumentValid = argumentWrong();
+			argumentValid = argumentWrong("CBerObjectIdentifier::parameterWrong in constructor");
 			break;
 		}
 	}
@@ -37,25 +37,6 @@ CBerObjectIdentifier::CBerObjectIdentifier(QByteArray& code)
 {
 	m_Identifier = s_Identifier;
 	m_Code = code;
-}
-
-bool CBerObjectIdentifier::argumentWrong()
-{
-	emit signalParameterWrong("CBerObjectIdentifier::parameterWrong in constructor");
-
-#ifdef DEBUG
-	throw invalid_argument("CBerObjectIdentifier::parameterWrong in constructor");
-#endif
-
-	return false;
-}
-
-void CBerObjectIdentifier::runtimeError(QString strErr)
-{
-	emit signalDecodeError(strErr);
-#ifdef DEBUG
-	throw std::runtime_error(strErr);
-#endif
 }
 
 quint32 CBerObjectIdentifier::serialize(CBerByteArrayOutputStream& berOStream)
@@ -97,6 +78,8 @@ quint32 CBerObjectIdentifier::serialize(CBerByteArrayOutputStream& berOStream)
 
 quint32 CBerObjectIdentifier::deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength)
 {
+	bool runtimeValid = true;
+
 	quint32 lenval = length.getVal();
 
 	if (lenval == 0) {
@@ -106,7 +89,7 @@ quint32 CBerObjectIdentifier::deserialize(QDataStream& iStream, CBerLength& leng
 
 	char byteCode[lenval];
 	if (iStream.readRawData(byteCode, lenval) == -1) {
-		runtimeError("CBerObjectIdentifier::deserialize: Read wrong");
+		runtimeValid = runtimeError("CBerObjectIdentifier::deserialize: Read wrong");
 	}
 
 	codeLength += lenval;
@@ -116,7 +99,7 @@ quint32 CBerObjectIdentifier::deserialize(QDataStream& iStream, CBerLength& leng
 	int subIDEndIndex = 0;
 	while ((byteCode[subIDEndIndex] & 0x80) == 0x80) {
 		if (subIDEndIndex >= (lenval - 1)) {
-			runtimeError("CBerObjectIdentifier::deserialize: Invalid Object Identifier");
+			runtimeValid = runtimeError("CBerObjectIdentifier::deserialize: Invalid Object Identifier");
 		}
 		subIDEndIndex++;
 	}
@@ -146,7 +129,7 @@ quint32 CBerObjectIdentifier::deserialize(QDataStream& iStream, CBerLength& leng
 
 		while ((byteCode[subIDEndIndex] & 0x80) == 0x80) {
 			if (subIDEndIndex == (lenval - 1)) {
-				runtimeError("Invalid Object Identifier");
+				runtimeValid = runtimeError("Invalid Object Identifier");
 			}
 			subIDEndIndex++;
 		}
@@ -158,7 +141,8 @@ quint32 CBerObjectIdentifier::deserialize(QDataStream& iStream, CBerLength& leng
 		subIDEndIndex++;
 	}
 
-	m_ObjectIdentifierComponents = objectIdentifierComponents;
+	if (runtimeValid == true)
+		m_ObjectIdentifierComponents = objectIdentifierComponents;
 
 	return codeLength;
 }

@@ -66,7 +66,6 @@ quint32 CBerBitString::encode(CBerByteArrayOutputStream& berOStream, bool explct
 
 quint32 CBerBitString::decode(QDataStream& iStream, bool explct)
 {
-
 	int codeLength =  CBerBase::decode(iStream, explct);
 
 	return codeLength;

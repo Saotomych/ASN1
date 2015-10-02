@@ -46,6 +46,8 @@ public:
 	CBerInteger(quint64 val);
 	CBerInteger(QByteArray& code);
 
+	virtual ~CBerInteger() {}
+
 	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
 	virtual quint32 deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength);
 

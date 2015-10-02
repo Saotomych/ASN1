@@ -46,11 +46,13 @@ public:
 	CBerBitString(QBitArray& bitString);
 	CBerBitString(QByteArray& code);
 
+	virtual ~CBerBitString() {}
+
 	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
 	virtual quint32 deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength);
 
-	quint32 encode(CBerByteArrayOutputStream& berOStream, bool expl);
-	quint32 decode(QDataStream& iStream, bool expl);
+	quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
+	quint32 decode(QDataStream& iStream, bool explct);
 
 };
 

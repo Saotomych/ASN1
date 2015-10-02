@@ -17,6 +17,8 @@
 #include <QtCore/qmath.h>
 
 #include <exception>
+#include <stdexcept>
+#include <limits>
 
 #if defined(ASN1_LIBRARY)
 #  define ASN1_SHAREDEXPORT Q_DECL_EXPORT

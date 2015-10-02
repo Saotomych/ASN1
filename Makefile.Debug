@@ -159,7 +159,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d build/debug/asn1d0.0.0.0 || mkdir -p build/debug/asn1d0.0.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) build/debug/asn1d0.0.0.0/ && $(COPY_FILE) --parents src/asn1_global.h src/berByteArrayOutputStream.h src/berIdentifier.h src/berLength.h build/debug/asn1d0.0.0.0/ && $(COPY_FILE) --parents src/berByteArrayOutputStream.cpp src/berIdentifier.cpp src/berLength.cpp build/debug/asn1d0.0.0.0/ && (cd `dirname build/debug/asn1d0.0.0.0` && $(TAR) asn1d0.0.0.0.tar asn1d0.0.0.0 && $(COMPRESS) asn1d0.0.0.0.tar) && $(MOVE) `dirname build/debug/asn1d0.0.0.0`/asn1d0.0.0.0.tar.gz . && $(DEL_FILE) -r build/debug/asn1d0.0.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) build/debug/asn1d0.0.0.0/ && $(COPY_FILE) --parents src/asn1_global.h src/berByteArrayOutputStream.h src/berIdentifier.h src/berLength.h src/types/berAny.h build/debug/asn1d0.0.0.0/ && $(COPY_FILE) --parents src/berByteArrayOutputStream.cpp src/berIdentifier.cpp src/berLength.cpp build/debug/asn1d0.0.0.0/ && (cd `dirname build/debug/asn1d0.0.0.0` && $(TAR) asn1d0.0.0.0.tar asn1d0.0.0.0 && $(COMPRESS) asn1d0.0.0.0.tar) && $(MOVE) `dirname build/debug/asn1d0.0.0.0`/asn1d0.0.0.0.tar.gz . && $(DEL_FILE) -r build/debug/asn1d0.0.0.0
 
 
 clean:compiler_clean 

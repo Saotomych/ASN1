@@ -30,7 +30,7 @@
 
 #include "../berIdentifier.h"
 
-class CBerGeneralizedTime
+class CBerGeneralizedTime: public CBerOctetString
 {
 
 	CBerIdentifier m_Identifier;
@@ -50,6 +50,8 @@ public:
 		m_Identifier = s_Identifier;
 		m_octetString = octetString;
 	}
+
+	virtual ~CBerGeneralizedTime() {}
 
 };
 

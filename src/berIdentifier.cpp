@@ -9,22 +9,7 @@ qint32 CBerIdentifier::PRIMITIVE = 0x00;
 qint32 CBerIdentifier::CONSTRUCTED = 0x20;
 
 qint32 CBerIdentifier::BOOLEAN_TAG = 1;
-qint32 CBerIdentifier::qint32EGER_TAG = 2;
-qint32 CBerIdentifier::BIT_STRING_TAG = 3;
-qint32 CBerIdentifier::OCTET_STRING_TAG = 4;
-qint32 CBerIdentifier::NULL_TAG = 5;
-qint32 CBerIdentifier::OBJECT_IDENTIFIER_TAG = 6;
-qint32 CBerIdentifier::REAL_TAG = 9;
-qint32 CBerIdentifier::UNIVERSAL_CLASS = 0x00;
-qint32 CBerIdentifier::APPLICATION_CLASS = 0x40;
-qint32 CBerIdentifier::CONTEXT_CLASS = 0x80;
-qint32 CBerIdentifier::PRIVATE_CLASS = 0xc0;
-
-qint32 CBerIdentifier::PRIMITIVE = 0x00;
-qint32 CBerIdentifier::CONSTRUCTED = 0x20;
-
-qint32 CBerIdentifier::BOOLEAN_TAG = 1;
-qint32 CBerIdentifier::qint32EGER_TAG = 2;
+qint32 CBerIdentifier::INTEGER_TAG = 2;
 qint32 CBerIdentifier::BIT_STRING_TAG = 3;
 qint32 CBerIdentifier::OCTET_STRING_TAG = 4;
 qint32 CBerIdentifier::NULL_TAG = 5;

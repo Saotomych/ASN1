@@ -36,9 +36,6 @@
 class CBerObjectIdentifier: public CBerBase
 {
 
-	bool argumentWrong();
-	void runtimeError(QString strErr);
-
 protected:
 
 	QVector<qint32> m_ObjectIdentifierComponents;

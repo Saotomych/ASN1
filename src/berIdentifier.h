@@ -59,7 +59,7 @@ public:
 	 static qint32 CONSTRUCTED;
 
 	 static qint32 BOOLEAN_TAG;
-	 static qint32 qint32EGER_TAG;
+	 static qint32 INTEGER_TAG;
 	 static qint32 BIT_STRING_TAG;
 	 static qint32 OCTET_STRING_TAG;
 	 static qint32 NULL_TAG;

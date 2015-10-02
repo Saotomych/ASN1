@@ -40,3 +40,24 @@ quint32 CBerBase::decode(QDataStream& iStream, bool explct)
 	return codeLength;
 
 }
+
+bool CBerBase::runtimeError(QString strErr)
+{
+	emit signalDecodeError(strErr);
+#ifdef DEBUG
+	throw std::runtime_error(strErr);
+#endif
+
+	return false;
+}
+
+bool CBerBase::argumentWrong(QString strErr)
+{
+	emit signalParameterWrong(strErr);
+
+#ifdef DEBUG
+	throw invalid_argument("CBerObjectIdentifier::parameterWrong in constructor");
+#endif
+
+	return false;
+}

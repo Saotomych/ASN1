@@ -25,7 +25,8 @@ SOURCES += src/berByteArrayOutputStream.cpp \
 HEADERS += src/asn1_global.h \
     src/berByteArrayOutputStream.h \
 	src/berIdentifier.h \
-    src/berLength.h 
+    src/berLength.h \
+    src/types/berAny.h
     
 unix {
     CONFIG (debug, debug|release) {
