@@ -78,8 +78,6 @@ quint32 CBerObjectIdentifier::serialize(CBerByteArrayOutputStream& berOStream)
 
 quint32 CBerObjectIdentifier::deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength)
 {
-	bool runtimeValid = true;
-
 	quint32 lenval = length.getVal();
 
 	if (lenval == 0) {
@@ -89,7 +87,8 @@ quint32 CBerObjectIdentifier::deserialize(QDataStream& iStream, CBerLength& leng
 
 	char byteCode[lenval];
 	if (iStream.readRawData(byteCode, lenval) == -1) {
-		runtimeValid = runtimeError("CBerObjectIdentifier::deserialize: Read wrong");
+		runtimeError("CBerObjectIdentifier::deserialize: Read wrong");
+		return codeLength;
 	}
 
 	codeLength += lenval;
@@ -99,7 +98,8 @@ quint32 CBerObjectIdentifier::deserialize(QDataStream& iStream, CBerLength& leng
 	int subIDEndIndex = 0;
 	while ((byteCode[subIDEndIndex] & 0x80) == 0x80) {
 		if (subIDEndIndex >= (lenval - 1)) {
-			runtimeValid = runtimeError("CBerObjectIdentifier::deserialize: Invalid Object Identifier");
+			runtimeError("CBerObjectIdentifier::deserialize: Invalid Object Identifier");
+			return codeLength;
 		}
 		subIDEndIndex++;
 	}
@@ -129,7 +129,8 @@ quint32 CBerObjectIdentifier::deserialize(QDataStream& iStream, CBerLength& leng
 
 		while ((byteCode[subIDEndIndex] & 0x80) == 0x80) {
 			if (subIDEndIndex == (lenval - 1)) {
-				runtimeValid = runtimeError("Invalid Object Identifier");
+				runtimeError("Invalid Object Identifier");
+				return codeLength;
 			}
 			subIDEndIndex++;
 		}
@@ -141,8 +142,7 @@ quint32 CBerObjectIdentifier::deserialize(QDataStream& iStream, CBerLength& leng
 		subIDEndIndex++;
 	}
 
-	if (runtimeValid == true)
-		m_ObjectIdentifierComponents = objectIdentifierComponents;
+	m_ObjectIdentifierComponents = objectIdentifierComponents;
 
 	return codeLength;
 }

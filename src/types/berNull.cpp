@@ -30,12 +30,7 @@ quint32 CBerNull::decode(QDataStream& iStream, bool explct)
 
 	if (codeLength != 0)
 	{
-		emit signalDecodeError("CBerNull::decode wrong");
-
-#ifdef DEBUG
-		throw std::runtime_error("CBerNull::decode wrong");
-#endif
-
+		runtimeError("CBerNull::decode: decode wrong");
 	}
 
 	return codeLength;

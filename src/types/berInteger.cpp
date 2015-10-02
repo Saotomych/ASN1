@@ -38,10 +38,18 @@ quint32 CBerInteger::deserialize(QDataStream& iStream, CBerLength& length, quint
 {
 
 	quint32 lenval = length.getVal();
-	if ( lenval < 1 || lenval > 8) return 0;
+	if ( lenval < 1 || lenval > 8)
+	{
+		runtimeError("CBerInteger::deserialize: decoded length");
+		return codeLength;
+	}
 
 	char data[lenval];
-	if ( iStream.readRawData(data, lenval) < lenval) return 0;
+	if ( iStream.readRawData(data, lenval) < lenval)
+	{
+		runtimeError("CBerInteger::deserialize: read wrong");
+		return codeLength;
+	}
 
 	codeLength += lenval;
 

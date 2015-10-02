@@ -37,6 +37,10 @@ quint32 CBerBoolean::deserialize(QDataStream& iStream, CBerLength& length, quint
 
 		m_Val = (data == 0) ? false : true;
 	}
+	else
+	{
+		runtimeError("CBerBoolean::deserialize: length read wrong");
+	}
 
 	return codeLength;
 }

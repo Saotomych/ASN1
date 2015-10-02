@@ -52,6 +52,10 @@ quint32 CBerBitString::deserialize(QDataStream& iStream, CBerLength& length, qui
 
 			codeLength += rdLength + 1;
 		}
+		else
+		{
+			runtimeError("CBerBitString::deserialize: error decoding");
+		}
 	}
 
 	return codeLength;

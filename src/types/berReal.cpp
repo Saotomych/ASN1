@@ -56,6 +56,7 @@ quint32 CBerReal::serialize(CBerByteArrayOutputStream& berOStream)
 		}
 		else {
 			argumentWrong("CBerReal::serialize: NAN not supported");
+			return 0;
 		}
 	}
 	else if (!(exponent == 0 && mantissa == 0x0010000000000000L)) {
@@ -115,8 +116,6 @@ quint32 CBerReal::serialize(CBerByteArrayOutputStream& berOStream)
 
 quint32 CBerReal::deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength)
 {
-	bool runtimeValid = true;
-
 	qint32 lenval = length.getVal();
 
 	if (lenval == 0) {
@@ -127,7 +126,11 @@ quint32 CBerReal::deserialize(QDataStream& iStream, CBerLength& length, quint32 
 	if (lenval == 1) {
 		char myByte;
 		quint32 len = 1;
-		iStream.readRawData(&myByte, len);
+		if (iStream.readRawData(&myByte, len) < 1)
+		{
+			runtimeError("CBerReal::deserialize: length read wrong");
+			return codeLength;
+		}
 
 		if ( (myByte == 0x40) || (myByte == 0x41))
 		{
@@ -135,7 +138,8 @@ quint32 CBerReal::deserialize(QDataStream& iStream, CBerLength& length, quint32 
 		}
 		else
 		{
-			runtimeValid = runtimeError("CBerReal::deserialize: invalid real encoding");
+			runtimeError("CBerReal::deserialize: invalid real encoding");
+			return codeLength;
 		}
 		return codeLength + 1;
 	}
@@ -143,7 +147,8 @@ quint32 CBerReal::deserialize(QDataStream& iStream, CBerLength& length, quint32 
 	char byteCode[lenval];
 	if (iStream.readRawData(byteCode, lenval) < lenval)
 	{
-		runtimeValid = runtimeError("Error Decoding BerInteger");
+		runtimeError("CBerReal::deserialize: data read wrong");
+		return codeLength;
 	}
 
 	codeLength += lenval;
@@ -172,8 +177,7 @@ quint32 CBerReal::deserialize(QDataStream& iStream, CBerLength& length, quint32 
 		mantissa |= byteCode[i + tempLength] << (8 * (lenval - tempLength - i - 1));
 	}
 
-	if (runtimeValid == true)
-		m_Real = sign * mantissa * pow(2, exponent);
+	m_Real = sign * mantissa * pow(2, exponent);
 
 	return codeLength;
 }
