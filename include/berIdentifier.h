@@ -31,7 +31,7 @@
 #include "berByteArrayOutputStream.h"
 #include "asn1_global.h"
 
-class CBerIdentifier: public QObject
+class ASN1_SHAREDEXPORT CBerIdentifier: public QObject
 {
 	Q_OBJECT
 

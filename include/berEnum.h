@@ -31,7 +31,7 @@
 #include "berIdentifier.h"
 #include "berInteger.h"
 
-class CBerEnum: public CBerInteger
+class ASN1_SHAREDEXPORT CBerEnum: public CBerInteger
 {
 
 	CBerIdentifier m_Identifier;

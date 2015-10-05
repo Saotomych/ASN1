@@ -28,7 +28,7 @@
 #include "include/berLength.h"
 #include "asn1_global.h"
 
-class CBerBase: public QObject
+class ASN1_SHAREDEXPORT CBerBase: public QObject
 {
 	Q_OBJECT
 

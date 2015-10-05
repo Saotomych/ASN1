@@ -30,7 +30,7 @@
 
 #include "../../include/berByteArrayOutputStream.h"
 
-class CBerAny
+class  ASN1_SHAREDEXPORT CBerAny
 {
 	quint32 m_Length;
 

@@ -30,7 +30,7 @@
 
 #include "berIdentifier.h"
 
-class CBerGeneralizedTime: public CBerOctetString
+class ASN1_SHAREDEXPORT CBerGeneralizedTime: public CBerOctetString
 {
 
 	CBerIdentifier m_Identifier;

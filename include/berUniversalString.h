@@ -33,7 +33,7 @@
 #include "berLength.h"
 #include "berOctetString.h"
 
-class CBerUniversalString: public CBerOctetString
+class ASN1_SHAREDEXPORT CBerUniversalString: public CBerOctetString
 {
 
 public:

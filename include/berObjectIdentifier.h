@@ -33,7 +33,7 @@
 #include "berIdentifier.h"
 #include "berLength.h"
 
-class CBerObjectIdentifier: public CBerBase
+class ASN1_SHAREDEXPORT CBerObjectIdentifier: public CBerBase
 {
 
 protected:

@@ -30,7 +30,7 @@
 
 #include "asn1_global.h"
 
-class CBerByteArrayOutputStream: public QObject
+class ASN1_SHAREDEXPORT CBerByteArrayOutputStream: public QObject
 {
 
 	Q_OBJECT
