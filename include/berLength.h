@@ -28,7 +28,7 @@
 #ifndef BER_LENGTH
 #define BER_LENGTH
 
-#include "../../include/berByteArrayOutputStream.h"
+#include "berByteArrayOutputStream.h"
 #include "asn1_global.h"
 
 class CBerLength: public QObject

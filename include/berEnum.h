@@ -28,8 +28,8 @@
 #ifndef BER_ENUM
 #define BER_ENUM
 
-#include "../../include/berIdentifier.h"
-#include "../../include/berInteger.h"
+#include "berIdentifier.h"
+#include "berInteger.h"
 
 class CBerEnum: public CBerInteger
 {

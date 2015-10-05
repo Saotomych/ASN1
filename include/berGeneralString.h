@@ -28,10 +28,10 @@
 #ifndef BER_OCTETSTRING
 #define BER_OCTETSTRING
 
-#include "../../include/berByteArrayOutputStream.h"
-#include "../../include/berIdentifier.h"
-#include "../../include/berLength.h"
-#include "../../include/berOctetString.h"
+#include "berByteArrayOutputStream.h"
+#include "berIdentifier.h"
+#include "berLength.h"
+#include "berOctetString.h"
 
 class CBerGeneralString: public CBerOctetString
 {

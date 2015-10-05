@@ -28,10 +28,10 @@
 #ifndef BER_BOOLEAN
 #define BER_BOOLEAN
 
-#include "../../include/berBase.h"
-#include "../../include/berByteArrayOutputStream.h"
-#include "../../include/berIdentifier.h"
-#include "../../include/berLength.h"
+#include "berBase.h"
+#include "berByteArrayOutputStream.h"
+#include "berIdentifier.h"
+#include "berLength.h"
 
 class CBerBoolean: public CBerBase
 {

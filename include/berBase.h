@@ -23,9 +23,9 @@
 #ifndef BER_BASE
 #define BER_BASE
 
-#include "../../include/berByteArrayOutputStream.h"
-#include "../../include/berIdentifier.h"
-#include "../../include/berLength.h"
+#include "include/berByteArrayOutputStream.h"
+#include "include/berIdentifier.h"
+#include "include/berLength.h"
 #include "asn1_global.h"
 
 class CBerBase: public QObject

@@ -28,7 +28,7 @@
 #ifndef BER_GENERALIZED_TIME
 #define BER_GENERALIZED_TIME
 
-#include "../../include/berIdentifier.h"
+#include "berIdentifier.h"
 
 class CBerGeneralizedTime: public CBerOctetString
 {

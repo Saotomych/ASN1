@@ -36,7 +36,7 @@ HEADERS += src/asn1_global.h \
 	include/berIdentifier.h \
     include/berLength.h \
     include/berBase.h \
-    include/types/berAny.h \
+    include/berAny.h \
     include/berBitString.h \
     include/berBoolean.h \
     include/berEnum.h \
@@ -71,7 +71,7 @@ unix {
 }
 
 CONFIG += debug_and_release build_all
-INCLUDEPATH += include
+INCLUDEPATH += src include
 
 CONFIG (debug, debug|release){
     OBJECTS_DIR = build/debug

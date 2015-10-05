@@ -28,7 +28,7 @@
 #ifndef BER_IDENTIFIER
 #define BER_IDENTIFIER
 
-#include "../../include/berByteArrayOutputStream.h"
+#include "berByteArrayOutputStream.h"
 #include "asn1_global.h"
 
 class CBerIdentifier: public QObject
