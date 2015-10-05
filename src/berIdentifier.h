@@ -82,7 +82,7 @@ public:
 	 static qint32 ENUMERATED_TAG;
 	 static qint32 UTF8_STRING_TAG;
 	 static qint32 NUMERIC_STRING_TAG;
-	 static qint32 PRqint32ABLE_STRING_TAG;
+	 static qint32 PRINTABLE_STRING_TAG;
 	 static qint32 TELETEX_STRING_TAG;
 	 static qint32 VIDEOTEX_STRING_TAG;
 	 static qint32 IA5_STRING_TAG;

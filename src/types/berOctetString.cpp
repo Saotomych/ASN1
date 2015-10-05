@@ -36,6 +36,9 @@ quint32 CBerOctetString::deserialize(QDataStream& iStream, CBerLength& length, q
 			return codeLength;
 		}
 
+		m_OctetString.clear();
+		m_OctetString.append(data, sizeof(data) / sizeof(data[0]) );
+
 		codeLength += lenval;
 	}
 
