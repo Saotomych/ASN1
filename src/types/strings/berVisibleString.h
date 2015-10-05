@@ -41,7 +41,7 @@ protected:
 	QByteArray m_OctetString;
 
 public:
-	static CBerIdentifier s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::VISIBLE_STRING_TAG);
+	static CBerIdentifier s_Identifier;
 
 	CBerVisibleString();
 	CBerVisibleString(QByteArray& octetString);
@@ -58,5 +58,7 @@ public:
 	virtual QString toString();
 
 };
+
+CBerIdentifier CBerVisibleString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::VISIBLE_STRING_TAG);
 
 #endif

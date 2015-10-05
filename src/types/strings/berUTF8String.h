@@ -28,16 +28,16 @@
 #ifndef BER_OCTETSTRING
 #define BER_OCTETSTRING
 
-#include "types/berOctetString.h"
 #include "berByteArrayOutputStream.h"
 #include "berIdentifier.h"
 #include "berLength.h"
+#include "berOctetString.h"
 
 class CBerUTF8String: public CBerOctetString
 {
 
 public:
-	static CBerIdentifier s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::UTF8_STRING_TAG);
+	static CBerIdentifier s_Identifier;
 
 	CBerUTF8String()
 	{
@@ -58,5 +58,7 @@ public:
 
 	virtual ~CBerUTF8String() {}
 };
+
+CBerIdentifier CBerUTF8String::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::UTF8_STRING_TAG);
 
 #endif

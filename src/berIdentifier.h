@@ -29,6 +29,7 @@
 #define BER_IDENTIFIER
 
 #include "asn1_global.h"
+#include "berByteArrayOutputStream.h"
 
 class CBerIdentifier: public QObject
 {
@@ -44,41 +45,12 @@ public:
 	 static qint32 CONSTRUCTED;
 
 	 static qint32 BOOLEAN_TAG;
-	 static qint32 qint32EGER_TAG;
-	 static qint32 BIT_STRING_TAG;
-	 static qint32 OCTET_STRING_TAG;
-	 static qint32 NULL_TAG;
-	 static qint32 OBJECT_IDENTIFIER_TAG;
-	 static qint32 REAL_TAG;
-	 static qint32 UNIVERSAL_CLASS;
-	 static qint32 APPLICATION_CLASS;
-	 static qint32 CONTEXT_CLASS;
-	 static qint32 PRIVATE_CLASS;
-
-	 static qint32 PRIMITIVE;
-	 static qint32 CONSTRUCTED;
-
-	 static qint32 BOOLEAN_TAG;
 	 static qint32 INTEGER_TAG;
 	 static qint32 BIT_STRING_TAG;
 	 static qint32 OCTET_STRING_TAG;
 	 static qint32 NULL_TAG;
 	 static qint32 OBJECT_IDENTIFIER_TAG;
 	 static qint32 REAL_TAG;
-	 static qint32 ENUMERATED_TAG;
-	 static qint32 UTF8_STRING_TAG;
-	 static qint32 NUMERIC_STRING_TAG;
-	 static qint32 PRqint32ABLE_STRING_TAG;
-	 static qint32 TELETEX_STRING_TAG;
-	 static qint32 VIDEOTEX_STRING_TAG;
-	 static qint32 IA5_STRING_TAG;
-	 static qint32 GENERALIZED_TIME_TAG;
-	 static qint32 GRAPHIC_STRING_TAG;
-	 static qint32 VISIBLE_STRING_TAG;
-	 static qint32 GENERAL_STRING_TAG;
-	 static qint32 UNIVERSAL_STRING_TAG;
-	 static qint32 BMP_STRING_TAG;
-
 	 static qint32 ENUMERATED_TAG;
 	 static qint32 UTF8_STRING_TAG;
 	 static qint32 NUMERIC_STRING_TAG;
@@ -99,30 +71,44 @@ public:
 
 public:
 
-	 QByteArray m_Identifier;
-	 qint32 m_IdentifierClass;
-	 qint32 m_Primitive;
-	 qint32 m_TagNumber;
+	QByteArray m_Identifier;
+	qint32 m_IdentifierClass;
+	qint32 m_Primitive;
+	qint32 m_TagNumber;
 
-	 CBerIdentifier(): m_IdentifierClass(0), m_Primitive(0), m_TagNumber(0)
-	 {}
+	CBerIdentifier(): m_IdentifierClass(0), m_Primitive(0), m_TagNumber(0)
+	{}
 
-	 CBerIdentifier(qint32 identifierClass, qint32 primitive, qint32 tagNumber):
-		 m_IdentifierClass(identifierClass),
-		 m_Primitive(primitive),
-		 m_TagNumber(tagNumber)
-	 {}
+	CBerIdentifier(qint32 identifierClass, qint32 primitive, qint32 tagNumber):
+	 m_IdentifierClass(identifierClass),
+	 m_Primitive(primitive),
+	 m_TagNumber(tagNumber)
+	{}
 
-	qint32 encode(CBerByteArrayOutputStream berOStream);
+	CBerIdentifier& operator=(const CBerIdentifier& that)
+	{
+		if (this == &that) {
+			return *this;
+		}
 
-	qint32 decode(QDataStream iStream);
+		m_Identifier = that.m_Identifier;
+		m_IdentifierClass = that.m_IdentifierClass;
+		m_Primitive = that.m_Primitive;
+		m_TagNumber = that.m_TagNumber;
+
+		return *this;
+	}
+
+	qint32 encode(CBerByteArrayOutputStream& berOStream);
+
+	qint32 decode(QDataStream& iStream);
 
 	/**
 	 * Decodes the Identifier from the ByteArrayInputStream and throws an
 	 * Exception if it is not equal to itself. Returns the number of bytes read
 	 * from the InputStream.
 	 */
-	qint32 decodeAndCheck(QDataStream iStream);
+	qint32 decodeAndCheck(QDataStream& iStream);
 
 	bool equals(int identifierClass, int primitive, int tagNumber);
 
@@ -137,4 +123,4 @@ signals:
 
 };
 
-#endif BER_IDENTIFIER
+#endif

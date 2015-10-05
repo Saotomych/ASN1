@@ -28,10 +28,10 @@
 #ifndef BER_OBJECTIDENTIFIER
 #define BER_OBJECTIDENTIFIER
 
-#include "../berBase.h"
-#include "../berByteArrayOutputStream.h"
-#include "../berIdentifier.h"
-#include "../berLength.h"
+#include "berBase.h"
+#include "berByteArrayOutputStream.h"
+#include "berIdentifier.h"
+#include "berLength.h"
 
 class CBerObjectIdentifier: public CBerBase
 {
@@ -41,7 +41,7 @@ protected:
 	QVector<qint32> m_ObjectIdentifierComponents;
 
 public:
-	static CBerIdentifier s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OBJECT_IDENTIFIER_TAG);
+	static CBerIdentifier s_Identifier;
 
 	CBerObjectIdentifier();
 	CBerObjectIdentifier(QVector<qint32>& bitString);
@@ -57,5 +57,7 @@ public:
 
 	virtual QString toString();
 };
+
+CBerIdentifier CBerObjectIdentifier::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OBJECT_IDENTIFIER_TAG);
 
 #endif

@@ -32,7 +32,7 @@ quint32 CBerOctetString::deserialize(QDataStream& iStream, CBerLength& length, q
 		char data[lenval];
 		if (iStream.readRawData(data, lenval) < lenval)
 		{
-			runtimeError("CBerOctetString::deserialize: error decoding");
+			runtimeError("CBerOctetString::deserialize: error reading");
 			return codeLength;
 		}
 

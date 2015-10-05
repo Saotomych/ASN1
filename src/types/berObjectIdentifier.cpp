@@ -47,7 +47,7 @@ quint32 CBerObjectIdentifier::serialize(CBerByteArrayOutputStream& berOStream)
 
 	quint32 codeLength = 0;
 
-	for (int i = (m_ObjectIdentifierComponents.length - 1); i > 0; i--) {
+	for (int i = (m_ObjectIdentifierComponents.size() - 1); i > 0; i--) {
 
 		if (i == 1) {
 			subidentifier = firstSubidentifier;
@@ -78,7 +78,7 @@ quint32 CBerObjectIdentifier::serialize(CBerByteArrayOutputStream& berOStream)
 
 quint32 CBerObjectIdentifier::deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength)
 {
-	quint32 lenval = length.getVal();
+	qint32 lenval = length.getVal();
 
 	if (lenval == 0) {
 		m_ObjectIdentifierComponents.clear();

@@ -28,10 +28,10 @@
 #ifndef BER_BOOLEAN
 #define BER_BOOLEAN
 
-#include "../berBase.h"
-#include "../berByteArrayOutputStream.h"
-#include "../berIdentifier.h"
-#include "../berLength.h"
+#include "berBase.h"
+#include "berByteArrayOutputStream.h"
+#include "berIdentifier.h"
+#include "berLength.h"
 
 class CBerBoolean: public CBerBase
 {
@@ -41,7 +41,7 @@ protected:
 
 public:
 
-	static CBerIdentifier s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BOOLEAN_TAG);
+	static CBerIdentifier s_Identifier;
 
 	CBerBoolean();
 	CBerBoolean(bool val);
@@ -57,5 +57,7 @@ public:
 	void encodeAndSave(qint32 encodeSizeGuess);
 
 };
+
+CBerIdentifier CBerBoolean::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BOOLEAN_TAG);
 
 #endif

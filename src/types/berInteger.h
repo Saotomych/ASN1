@@ -28,10 +28,10 @@
 #ifndef BER_INTEGER
 #define BER_INTEGER
 
-#include "../berBase.h"
-#include "../berByteArrayOutputStream.h"
-#include "../berIdentifier.h"
-#include "../berLength.h"
+#include "berBase.h"
+#include "berByteArrayOutputStream.h"
+#include "berIdentifier.h"
+#include "berLength.h"
 
 class CBerInteger: public CBerBase
 {
@@ -40,7 +40,7 @@ protected:
 	quint64 m_Val;
 
 public:
-	static CBerIdentifier s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::INTEGER_TAG);
+	static CBerIdentifier s_Identifier;
 
 	CBerInteger();
 	CBerInteger(quint64 val);
@@ -57,5 +57,7 @@ public:
 	void encodeAndSave(int encodingSizeGuess);
 
 };
+
+CBerIdentifier CBerInteger::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::INTEGER_TAG);
 
 #endif

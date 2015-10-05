@@ -28,10 +28,10 @@
 #ifndef BER_REAL
 #define BER_REAL
 
-#include "../berBase.h"
-#include "../berByteArrayOutputStream.h"
-#include "../berIdentifier.h"
-#include "../berLength.h"
+#include "berBase.h"
+#include "berByteArrayOutputStream.h"
+#include "berIdentifier.h"
+#include "berLength.h"
 
 class CBerReal: public CBerBase
 {
@@ -40,7 +40,7 @@ protected:
 	double m_Real;
 
 public:
-	static CBerIdentifier s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::REAL_TAG);
+	static CBerIdentifier s_Identifier;
 
 	CBerReal();
 	CBerReal(double real);
@@ -57,5 +57,7 @@ public:
 	void encodeAndSave(qint32 encodingSizeGuess);
 
 };
+
+CBerIdentifier CBerReal::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::REAL_TAG);
 
 #endif

@@ -1,4 +1,4 @@
-#include "src/berIdentifier.h"
+#include "berIdentifier.h"
 
 qint32 CBerIdentifier::UNIVERSAL_CLASS = 0x00;
 qint32 CBerIdentifier::APPLICATION_CLASS = 0x40;
@@ -19,20 +19,6 @@ qint32 CBerIdentifier::ENUMERATED_TAG = 10;
 qint32 CBerIdentifier::UTF8_STRING_TAG = 12;
 qint32 CBerIdentifier::NUMERIC_STRING_TAG = 18;
 qint32 CBerIdentifier::PRINTABLE_STRING_TAG = 19;
-qint32 CBerIdentifier::TELETEX_STRING_TAG = 20;
-qint32 CBerIdentifier::VIDEOTEX_STRING_TAG = 21;
-qint32 CBerIdentifier::IA5_STRING_TAG = 22;
-qint32 CBerIdentifier::GENERALIZED_TIME_TAG = 24;
-qint32 CBerIdentifier::GRAPHIC_STRING_TAG = 25;
-qint32 CBerIdentifier::VISIBLE_STRING_TAG = 26;
-qint32 CBerIdentifier::GENERAL_STRING_TAG = 27;
-qint32 CBerIdentifier::UNIVERSAL_STRING_TAG = 28;
-qint32 CBerIdentifier::BMP_STRING_TAG = 30;
-
-qint32 CBerIdentifier::ENUMERATED_TAG = 10;
-qint32 CBerIdentifier::UTF8_STRING_TAG = 12;
-qint32 CBerIdentifier::NUMERIC_STRING_TAG = 18;
-qint32 CBerIdentifier::PRqint32ABLE_STRING_TAG = 19;
 qint32 CBerIdentifier::TELETEX_STRING_TAG = 20;
 qint32 CBerIdentifier::VIDEOTEX_STRING_TAG = 21;
 qint32 CBerIdentifier::IA5_STRING_TAG = 22;
@@ -73,7 +59,7 @@ void CBerIdentifier::code()
 	}
 }
 
-qint32 CBerIdentifier::encode(CBerByteArrayOutputStream berOStream)
+qint32 CBerIdentifier::encode(CBerByteArrayOutputStream& berOStream)
 {
 	for (qint32 i = m_Identifier.size() - 1; i >= 0; i--)
 	{
@@ -83,13 +69,13 @@ qint32 CBerIdentifier::encode(CBerByteArrayOutputStream berOStream)
 	return m_Identifier.size();
 }
 
-qint32 CBerIdentifier::decode(QDataStream iStream)
+qint32 CBerIdentifier::decode(QDataStream& iStream)
 {
 
 	if (iStream.device()->bytesAvailable() == false) return 0;
 
 	quint8 nextByte;
-	nextByte << iStream;
+	iStream >> nextByte;
 
 	m_IdentifierClass = nextByte & IDENTIFIER_CLASS_MASK;
 	m_Primitive = nextByte & PRIMITIVE_MASK;
@@ -124,13 +110,13 @@ qint32 CBerIdentifier::decode(QDataStream iStream)
  * Exception if it is not equal to itself. Returns the number of bytes read
  * from the InputStream.
  */
-qint32 CBerIdentifier::decodeAndCheck(QDataStream iStream)
+qint32 CBerIdentifier::decodeAndCheck(QDataStream& iStream)
 {
 
 	quint8 nextByte;
 	for (quint8 myByte : m_Identifier) {
 
-		nextByte << iStream;
+		iStream >> nextByte;
 
 		if (nextByte != (myByte & 0xff))
 		{

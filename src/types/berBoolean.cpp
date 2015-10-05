@@ -32,6 +32,11 @@ quint32 CBerBoolean::deserialize(QDataStream& iStream, CBerLength& length, quint
 	{
 		char data;
 		qint32 rdLength = iStream.readRawData(&data, 1);
+		if (rdLength != 1)
+		{
+			runtimeError("CBerBoolean::deserialize: error reading");
+			return codeLength;
+		}
 
 		codeLength++;
 

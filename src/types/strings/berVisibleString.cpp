@@ -14,7 +14,7 @@ CBerVisibleString::CBerVisibleString(QByteArray& octetString)
 CBerVisibleString::CBerVisibleString(QString& octetString)
 {
 	m_Identifier = s_Identifier;
-	m_OctetString = octetString;
+	m_OctetString = octetString.toUtf8();
 }
 
 quint32 CBerVisibleString::serialize(CBerByteArrayOutputStream& berOStream)

@@ -21,7 +21,7 @@ quint32 CBerBitString::serialize(CBerByteArrayOutputStream& berOStream)
 {
 	quint32 codeLength = 0;
 
-	for (quint32 i = m_BitString.size()-1; i >= 0; --i)
+	for (qint32 i = m_BitString.size()-1; i >= 0; --i)
 	{
 		quint8 data = (m_BitString[i] == false) ? 0 : 0xFF;
 		berOStream.write(data);
@@ -40,11 +40,11 @@ quint32 CBerBitString::deserialize(QDataStream& iStream, CBerLength& length, qui
 	qint8 data[length.getVal()];
 	if (m_BitString.size() > 0)
 	{
-		qint32 rdLength = iStream.readRawData((char*)data, (qint32) (length.getVal()) );
+		quint32 rdLength = iStream.readRawData((char*)data, (qint32) (length.getVal()) );
 		if (rdLength == length.getVal())
 		{
 			m_BitString.resize(rdLength);
-			for (qint32 i=0; i<rdLength; ++i)
+			for (quint32 i=0; i<rdLength; ++i)
 			{
 				if (data[i]) m_BitString.setBit(i);
 				else m_BitString.clearBit(i);

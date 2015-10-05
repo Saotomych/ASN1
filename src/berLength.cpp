@@ -1,4 +1,4 @@
-#include "src/berLength.h"
+#include "berLength.h"
 
 qint32 CBerLength::encodeLength(CBerByteArrayOutputStream& berOStream, qint32 length)
 {
@@ -50,12 +50,10 @@ qint32 CBerLength::decode(QDataStream& iStream)
 		}
 
 		m_ValLength = 0;
-		QByteArray byteCode(lengthLength, Qt::Initialization::Uninitialized);
+		char byteCode[lengthLength];
 
-		char *pBuffer = byteCode.d->data();
-
-		if (iStream.readRawData(pBuffer, lengthLength) == -1) {
-			emit signalIOError("CBerLength::decode: Error Decoding ASN1Integer");
+		if (iStream.readRawData(byteCode, lengthLength) == -1) {
+			emit signalIOError("CBerLength::decode: Error Decoding ASN1 Integer");
 			return 1;
 		}
 

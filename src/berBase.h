@@ -25,13 +25,12 @@
 
 #include "asn1_global.h"
 #include "berByteArrayOutputStream.h"
+#include "berIdentifier.h"
+#include "berLength.h"
 
 class CBerBase: public QObject
 {
 	Q_OBJECT
-
-	virtual bool argumentWrong(QString strErr);
-	virtual bool runtimeError(QString strErr);
 
 protected:
 	CBerIdentifier m_Identifier;
@@ -43,6 +42,9 @@ protected:
 	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream) = 0;
 	virtual quint32 deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength) = 0;
 
+	virtual bool argumentWrong(QString strErr);
+	virtual bool runtimeError(QString strErr);
+
 public:
 
 	virtual ~CBerBase() {}
@@ -53,5 +55,5 @@ signals:
 
 };
 
-#endif BER_BASE
+#endif
 

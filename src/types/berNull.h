@@ -28,17 +28,17 @@
 #ifndef BER_NULL
 #define BER_NULL
 
-#include "../berBase.h"
-#include "../berByteArrayOutputStream.h"
-#include "../berIdentifier.h"
-#include "../berLength.h"
+#include "berBase.h"
+#include "berByteArrayOutputStream.h"
+#include "berIdentifier.h"
+#include "berLength.h"
 
 class CBerNull: public CBerBase
 {
 
 public:
 
-	static CBerIdentifier s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::NULL_TAG);
+	static CBerIdentifier s_Identifier;
 
 	CBerNull();
 
@@ -51,5 +51,7 @@ public:
 	quint32 decode(QDataStream& iStream, bool explct);
 
 };
+
+CBerIdentifier CBerNull::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::NULL_TAG);
 
 #endif

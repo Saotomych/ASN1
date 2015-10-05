@@ -28,7 +28,7 @@
 #ifndef BER_GENERALIZED_TIME
 #define BER_GENERALIZED_TIME
 
-#include "../berIdentifier.h"
+#include "berIdentifier.h"
 
 class CBerGeneralizedTime: public CBerOctetString
 {
@@ -38,7 +38,7 @@ class CBerGeneralizedTime: public CBerOctetString
 
 public:
 
-	static CBerIdentifier s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::GENERALIZED_TIME_TAG);
+	static CBerIdentifier s_Identifier;
 
 	CBerGeneralizedTime()
 	{
@@ -54,5 +54,7 @@ public:
 	virtual ~CBerGeneralizedTime() {}
 
 };
+
+CBerIdentifier CBerGeneralizedTime::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::GENERALIZED_TIME_TAG);
 
 #endif

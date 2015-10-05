@@ -28,7 +28,7 @@
 #ifndef BER_ANY
 #define BER_ANY
 
-#include "../berByteArrayOutputStream.h"
+#include "berByteArrayOutputStream.h"
 
 class CBerAny
 {

@@ -7,7 +7,7 @@ quint32 CBerBase::encode(CBerByteArrayOutputStream& berOStream, bool explct)
 	if (m_Code.size())
 	{
 		codeLength = m_Code.size();
-		for (quint32 i = codeLength-1; i >= 0; --i)
+		for (qint32 i = codeLength-1; i >= 0; --i)
 			berOStream.write((quint8) m_Code[i] );
 	}
 	else
@@ -45,7 +45,7 @@ bool CBerBase::runtimeError(QString strErr)
 {
 	emit signalDecodeError(strErr);
 #ifdef DEBUG
-	throw std::runtime_error(strErr);
+	throw std::runtime_error(strErr.toStdString());
 #endif
 
 	return false;
@@ -56,7 +56,7 @@ bool CBerBase::argumentWrong(QString strErr)
 	emit signalParameterWrong(strErr);
 
 #ifdef DEBUG
-	throw invalid_argument("CBerObjectIdentifier::parameterWrong in constructor");
+	throw std::invalid_argument(strErr.toStdString());
 #endif
 
 	return false;

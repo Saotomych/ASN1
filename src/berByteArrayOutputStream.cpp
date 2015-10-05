@@ -30,7 +30,7 @@ CBerByteArrayOutputStream::CBerByteArrayOutputStream(QByteArray& buffer, quint32
 }
 
 CBerByteArrayOutputStream::CBerByteArrayOutputStream(QByteArray& buffer, quint32 startingIndex, bool automaticResize) {
-	m_Buffer = buffer;
+	m_Buffer.push_front(buffer);
 	m_Index = startingIndex;
 	m_AutoResize = automaticResize;
 }
@@ -48,7 +48,7 @@ bool CBerByteArrayOutputStream::write(quint8 arg0)
 		return false;
 	}
 
-	m_Buffer.begin()[m_Index] = arg0;
+	m_Buffer.begin()[m_Index].push_back(arg0);
 
 	if (m_Index == 0 && m_AutoResize)
 	{
@@ -81,5 +81,5 @@ QByteArray CBerByteArrayOutputStream::getByteArray()
 		if (byteArray.size()) tempBuffer += byteArray;
 	}
 
-	return QByteArray;
+	return tempBuffer;
 }

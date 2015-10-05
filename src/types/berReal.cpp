@@ -41,7 +41,7 @@ quint32 CBerReal::serialize(CBerByteArrayOutputStream& berOStream)
 	}
 	quint8 exponentFormat = 0;
 
-	qint8 exponent = ((int) (longVal >> 52)) & 0x7ff;
+	qint32 exponent = ((qint32) (longVal >> 52)) & 0x7ff;
 	quint64 mantissa = (longVal & 0x000fffffffffffffL) | 0x0010000000000000L;
 
 	if (exponent == 0x7ff) {

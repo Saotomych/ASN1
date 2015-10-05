@@ -1,6 +1,6 @@
 #include "berInteger.h"
 
-CBerInteger::CBerInteger()
+CBerInteger::CBerInteger(): m_Val(0)
 {
 	m_Identifier = s_Identifier;
 }
@@ -11,7 +11,7 @@ CBerInteger::CBerInteger(quint64 val)
 	m_Val = val;
 }
 
-CBerInteger::CBerInteger(QByteArray& code)
+CBerInteger::CBerInteger(QByteArray& code): m_Val(0)
 {
 	m_Identifier = s_Identifier;
 	m_Code = code;
@@ -37,7 +37,7 @@ quint32 CBerInteger::serialize(CBerByteArrayOutputStream& berOStream)
 quint32 CBerInteger::deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength)
 {
 
-	quint32 lenval = length.getVal();
+	qint32 lenval = length.getVal();
 	if ( lenval < 1 || lenval > 8)
 	{
 		runtimeError("CBerInteger::deserialize: decoded length");
@@ -56,16 +56,16 @@ quint32 CBerInteger::deserialize(QDataStream& iStream, CBerLength& length, quint
 	if ( (data[0] & 0x80) == 0x80)
 	{
 		m_Val = -1;
-		for (int i = 0; i < lenval; ++i)
+		for (qint32 i = 0; i < lenval; ++i)
 		{
-			quint32 numShiftBits = 8 * (lenval - i -1);
+			qint32 numShiftBits = 8 * (lenval - i -1);
 			m_Val &= (quint64) ( ( (quint64)(data[i]) << numShiftBits) | ~( (quint64)(0xFF) << numShiftBits) );
 		}
 	}
 	else
 	{
 		m_Val = 0;
-		for (quint32 i = 0; i < lenval; ++i)
+		for (qint32 i = 0; i < lenval; ++i)
 		{
 			m_Val |= ( (quint64)(data[i]) << (8 * (lenval - i - 1)) );
 		}

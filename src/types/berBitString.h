@@ -28,10 +28,10 @@
 #ifndef BER_BITSTRING
 #define BER_BITSTRING
 
-#include "../berBase.h"
-#include "../berByteArrayOutputStream.h"
-#include "../berIdentifier.h"
-#include "../berLength.h"
+#include "berBase.h"
+#include "berByteArrayOutputStream.h"
+#include "berIdentifier.h"
+#include "berLength.h"
 
 class CBerBitString: public CBerBase
 {
@@ -40,7 +40,7 @@ protected:
 	QBitArray m_BitString;
 
 public:
-	static CBerIdentifier s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BIT_STRING_TAG);
+	static CBerIdentifier s_Identifier;
 
 	CBerBitString();
 	CBerBitString(QBitArray& bitString);
@@ -55,5 +55,7 @@ public:
 	quint32 decode(QDataStream& iStream, bool explct);
 
 };
+
+CBerIdentifier CBerBitString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BIT_STRING_TAG);
 
 #endif

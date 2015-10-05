@@ -28,10 +28,10 @@
 #ifndef BER_OCTETSTRING
 #define BER_OCTETSTRING
 
-#include "../berBase.h"
-#include "../berByteArrayOutputStream.h"
-#include "../berIdentifier.h"
-#include "../berLength.h"
+#include "berBase.h"
+#include "berByteArrayOutputStream.h"
+#include "berIdentifier.h"
+#include "berLength.h"
 
 class CBerOctetString: public CBerBase
 {
@@ -41,7 +41,7 @@ protected:
 	QByteArray m_OctetString;
 
 public:
-	static CBerIdentifier s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OCTET_STRING_TAG);
+	static CBerIdentifier s_Identifier;
 
 	CBerOctetString();
 	CBerOctetString(QByteArray& octetString);
@@ -57,5 +57,7 @@ public:
 	virtual QString toString();
 
 };
+
+CBerIdentifier CBerOctetString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OCTET_STRING_TAG);
 
 #endif

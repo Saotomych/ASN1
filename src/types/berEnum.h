@@ -28,8 +28,8 @@
 #ifndef BER_ENUM
 #define BER_ENUM
 
+#include "berIdentifier.h"
 #include "berInteger.h"
-#include "../berIdentifier.h"
 
 class CBerEnum: public CBerInteger
 {
@@ -40,7 +40,7 @@ class CBerEnum: public CBerInteger
 
 public:
 
-	static CBerIdentifier s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::ENUMERATED_TAG);
+	static CBerIdentifier s_Identifier;
 
 	CBerEnum(): m_Val(0)
 	{
@@ -60,5 +60,7 @@ public:
 	}
 
 };
+
+CBerIdentifier CBerEnum::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::ENUMERATED_TAG);
 
 #endif
