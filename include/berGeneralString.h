@@ -28,36 +28,31 @@
 #ifndef BER_OCTETSTRING
 #define BER_OCTETSTRING
 
-#include "berBase.h"
-#include "berByteArrayOutputStream.h"
-#include "berIdentifier.h"
-#include "berLength.h"
+#include "../../include/berByteArrayOutputStream.h"
+#include "../../include/berIdentifier.h"
+#include "../../include/berLength.h"
+#include "../../include/berOctetString.h"
 
-class CBerOctetString: public CBerBase
+class CBerGeneralString: public CBerOctetString
 {
-
-protected:
-
-	QByteArray m_OctetString;
 
 public:
 	static CBerIdentifier s_Identifier;
 
-	CBerOctetString();
-	CBerOctetString(QByteArray& octetString);
+	CBerGeneralString()
+	{
+		m_Identifier = s_Identifier;
+	}
 
-	virtual ~CBerOctetString() {}
+	CBerGeneralString(QByteArray& octetString)
+	{
+		m_Identifier = s_Identifier;
+		m_OctetString = octetString;
+	}
 
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
-	virtual quint32 deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength);
-
-	quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	quint32 decode(QDataStream& iStream, bool explct);
-
-	virtual QString toString();
-
+	virtual ~CBerGeneralString() {}
 };
 
-CBerIdentifier CBerOctetString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OCTET_STRING_TAG);
+CBerIdentifier CBerGeneralString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::GENERAL_STRING_TAG);
 
 #endif

@@ -1,4 +1,4 @@
-#include "berBoolean.h"
+#include <include/berBoolean.h>
 
 CBerBoolean::CBerBoolean(): m_Val(0)
 {

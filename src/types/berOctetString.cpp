@@ -1,4 +1,4 @@
-#include "berOctetString.h"
+#include <include/berOctetString.h>
 
 CBerOctetString::CBerOctetString()
 {

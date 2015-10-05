@@ -25,37 +25,39 @@
  *
  */
 
-#ifndef BER_BITSTRING
-#define BER_BITSTRING
+#ifndef BER_BOOLEAN
+#define BER_BOOLEAN
 
-#include "berBase.h"
-#include "berByteArrayOutputStream.h"
-#include "berIdentifier.h"
-#include "berLength.h"
+#include "../../include/berBase.h"
+#include "../../include/berByteArrayOutputStream.h"
+#include "../../include/berIdentifier.h"
+#include "../../include/berLength.h"
 
-class CBerBitString: public CBerBase
+class CBerBoolean: public CBerBase
 {
 
 protected:
-	QBitArray m_BitString;
+	bool m_Val;
 
 public:
+
 	static CBerIdentifier s_Identifier;
 
-	CBerBitString();
-	CBerBitString(QBitArray& bitString);
-	CBerBitString(QByteArray& code);
+	CBerBoolean();
+	CBerBoolean(bool val);
+	CBerBoolean(QByteArray code);
 
-	virtual ~CBerBitString() {}
+	virtual ~CBerBoolean() {}
 
 	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
 	virtual quint32 deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength);
 
 	quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
 	quint32 decode(QDataStream& iStream, bool explct);
+	void encodeAndSave(qint32 encodeSizeGuess);
 
 };
 
-CBerIdentifier CBerBitString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BIT_STRING_TAG);
+CBerIdentifier CBerBoolean::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BOOLEAN_TAG);
 
 #endif

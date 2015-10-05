@@ -28,31 +28,31 @@
 #ifndef BER_OCTETSTRING
 #define BER_OCTETSTRING
 
-#include "berByteArrayOutputStream.h"
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "berOctetString.h"
+#include "../../include/berByteArrayOutputStream.h"
+#include "../../include/berIdentifier.h"
+#include "../../include/berLength.h"
+#include "../../include/berOctetString.h"
 
-class CBerNumericString: public CBerOctetString
+class CBerVideotexString: public CBerOctetString
 {
 
 public:
 	static CBerIdentifier s_Identifier;
 
-	CBerNumericString()
+	CBerVideotexString()
 	{
 		m_Identifier = s_Identifier;
 	}
 
-	CBerNumericString(QByteArray& octetString)
+	CBerVideotexString(QByteArray& octetString)
 	{
 		m_Identifier = s_Identifier;
 		m_OctetString = octetString;
 	}
 
-	virtual ~CBerNumericString() {}
+	virtual ~CBerVideotexString() {}
 };
 
-CBerIdentifier CBerNumericString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::NUMERIC_STRING_TAG);
+CBerIdentifier CBerVideotexString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::VIDEOTEX_STRING_TAG);
 
 #endif

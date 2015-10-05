@@ -1,4 +1,4 @@
-#include "berLength.h"
+#include <include/berLength.h>
 
 qint32 CBerLength::encodeLength(CBerByteArrayOutputStream& berOStream, qint32 length)
 {

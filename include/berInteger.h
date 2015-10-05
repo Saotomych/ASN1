@@ -25,36 +25,39 @@
  *
  */
 
-#ifndef BER_GENERALIZED_TIME
-#define BER_GENERALIZED_TIME
+#ifndef BER_INTEGER
+#define BER_INTEGER
 
-#include "berIdentifier.h"
+#include "../../include/berBase.h"
+#include "../../include/berByteArrayOutputStream.h"
+#include "../../include/berIdentifier.h"
+#include "../../include/berLength.h"
 
-class CBerGeneralizedTime: public CBerOctetString
+class CBerInteger: public CBerBase
 {
 
-	CBerIdentifier m_Identifier;
-	QByteArray m_octetString;
+protected:
+	quint64 m_Val;
 
 public:
-
 	static CBerIdentifier s_Identifier;
 
-	CBerGeneralizedTime()
-	{
-		m_Identifier = s_Identifier;
-	}
+	CBerInteger();
+	CBerInteger(quint64 val);
+	CBerInteger(QByteArray& code);
 
-	CBerGeneralizedTime(QByteArray& octetString)
-	{
-		m_Identifier = s_Identifier;
-		m_octetString = octetString;
-	}
+	virtual ~CBerInteger() {}
 
-	virtual ~CBerGeneralizedTime() {}
+	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
+	virtual quint32 deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength);
+
+	quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
+	quint32 decode(QDataStream& iStream, bool explct);
+
+	void encodeAndSave(int encodingSizeGuess);
 
 };
 
-CBerIdentifier CBerGeneralizedTime::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::GENERALIZED_TIME_TAG);
+CBerIdentifier CBerInteger::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::INTEGER_TAG);
 
 #endif

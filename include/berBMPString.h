@@ -28,31 +28,31 @@
 #ifndef BER_OCTETSTRING
 #define BER_OCTETSTRING
 
-#include "berByteArrayOutputStream.h"
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "berOctetString.h"
+#include "../../include/berByteArrayOutputStream.h"
+#include "../../include/berIdentifier.h"
+#include "../../include/berLength.h"
+#include "../../include/berOctetString.h"
 
-class CBerUniversalString: public CBerOctetString
+class CBerBMPString: public CBerOctetString
 {
 
 public:
 	static CBerIdentifier s_Identifier;
 
-	CBerUniversalString()
+	CBerBMPString()
 	{
 		m_Identifier = s_Identifier;
 	}
 
-	CBerUniversalString(QByteArray& octetString)
+	CBerBMPString(QByteArray& octetString)
 	{
 		m_Identifier = s_Identifier;
 		m_OctetString = octetString;
 	}
 
-	virtual ~CBerUniversalString() {}
+	virtual ~CBerBMPString() {}
 };
 
-CBerIdentifier CBerUniversalString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::UNIVERSAL_STRING_TAG);
+CBerIdentifier CBerBMPString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BMP_STRING_TAG);
 
 #endif

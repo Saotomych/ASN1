@@ -28,8 +28,8 @@
 #ifndef BER_IDENTIFIER
 #define BER_IDENTIFIER
 
+#include "../../include/berByteArrayOutputStream.h"
 #include "asn1_global.h"
-#include "berByteArrayOutputStream.h"
 
 class CBerIdentifier: public QObject
 {
@@ -64,6 +64,7 @@ public:
 	 static qint32 GENERAL_STRING_TAG;
 	 static qint32 UNIVERSAL_STRING_TAG;
 	 static qint32 BMP_STRING_TAG;
+	 static qint32 PPDU_TAG;
 
 	 static quint8 IDENTIFIER_CLASS_MASK;
 	 static quint8 PRIMITIVE_MASK;

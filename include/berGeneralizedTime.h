@@ -25,34 +25,36 @@
  *
  */
 
-#ifndef BER_OCTETSTRING
-#define BER_OCTETSTRING
+#ifndef BER_GENERALIZED_TIME
+#define BER_GENERALIZED_TIME
 
-#include "berByteArrayOutputStream.h"
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "berOctetString.h"
+#include "../../include/berIdentifier.h"
 
-class CBerVideotexString: public CBerOctetString
+class CBerGeneralizedTime: public CBerOctetString
 {
 
+	CBerIdentifier m_Identifier;
+	QByteArray m_octetString;
+
 public:
+
 	static CBerIdentifier s_Identifier;
 
-	CBerVideotexString()
+	CBerGeneralizedTime()
 	{
 		m_Identifier = s_Identifier;
 	}
 
-	CBerVideotexString(QByteArray& octetString)
+	CBerGeneralizedTime(QByteArray& octetString)
 	{
 		m_Identifier = s_Identifier;
-		m_OctetString = octetString;
+		m_octetString = octetString;
 	}
 
-	virtual ~CBerVideotexString() {}
+	virtual ~CBerGeneralizedTime() {}
+
 };
 
-CBerIdentifier CBerVideotexString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::VIDEOTEX_STRING_TAG);
+CBerIdentifier CBerGeneralizedTime::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::GENERALIZED_TIME_TAG);
 
 #endif

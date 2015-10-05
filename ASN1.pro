@@ -29,34 +29,34 @@ SOURCES += src/berByteArrayOutputStream.cpp \
     src/types/berObjectIdentifier.cpp \
     src/types/berOctetString.cpp \
     src/types/berReal.cpp \
-    src/types/strings/berVisibleString.cpp
+    src/types/berVisibleString.cpp
 
 HEADERS += src/asn1_global.h \
-    src/berByteArrayOutputStream.h \
-	src/berIdentifier.h \
-    src/berLength.h \
-    src/berBase.h \
-    src/types/berAny.h \
-    src/types/berBitString.h \
-    src/types/berBoolean.h \
-    src/types/berEnum.h \
-    src/types/berGeneralizedTime.h \
-    src/types/berInteger.h \
-    src/types/berNull.h \
-    src/types/berObjectIdentifier.h \
-    src/types/berOctetString.h \
-    src/types/berReal.h \
-    src/types/strings/berBMPString.h \
-    src/types/strings/berGeneralString.h \
-    src/types/strings/berGraphicString.h \
-    src/types/strings/berIA5String.h \
-    src/types/strings/berNumericString.h \
-    src/types/strings/berPrintableString.h \
-    src/types/strings/berTeletexString.h \
-    src/types/strings/berUniversalString.h \
-    src/types/strings/berUTF8String.h \
-    src/types/strings/berVideotexString.h \
-    src/types/strings/berVisibleString.h
+    include/berByteArrayOutputStream.h \
+	include/berIdentifier.h \
+    include/berLength.h \
+    include/berBase.h \
+    include/types/berAny.h \
+    include/berBitString.h \
+    include/berBoolean.h \
+    include/berEnum.h \
+    include/berGeneralizedTime.h \
+    include/berInteger.h \
+    include/berNull.h \
+    include/berObjectIdentifier.h \
+    include/berOctetString.h \
+    include/berReal.h \
+    include/berBMPString.h \
+    include/berGeneralString.h \
+    include/berGraphicString.h \
+    include/berIA5String.h \
+    include/berNumericString.h \
+    include/berPrintableString.h \
+    include/berTeletexString.h \
+    include/berUniversalString.h \
+    include/berUTF8String.h \
+    include/berVideotexString.h \
+    include/berVisibleString.h
     
 unix {
     CONFIG (debug, debug|release) {
@@ -71,7 +71,7 @@ unix {
 }
 
 CONFIG += debug_and_release build_all
-INCLUDEPATH += src src/types src/types/strings
+INCLUDEPATH += include
 
 CONFIG (debug, debug|release){
     OBJECTS_DIR = build/debug

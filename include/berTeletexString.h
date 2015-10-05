@@ -28,37 +28,31 @@
 #ifndef BER_OCTETSTRING
 #define BER_OCTETSTRING
 
-#include "berBase.h"
-#include "berByteArrayOutputStream.h"
-#include "berIdentifier.h"
-#include "berLength.h"
+#include "../../include/berByteArrayOutputStream.h"
+#include "../../include/berIdentifier.h"
+#include "../../include/berLength.h"
+#include "../../include/berOctetString.h"
 
-class CBerVisibleString: public CBerBase
+class CBerTeletexString: public CBerOctetString
 {
-
-protected:
-
-	QByteArray m_OctetString;
 
 public:
 	static CBerIdentifier s_Identifier;
 
-	CBerVisibleString();
-	CBerVisibleString(QByteArray& octetString);
-	CBerVisibleString(QString& octetString);
+	CBerTeletexString()
+	{
+		m_Identifier = s_Identifier;
+	}
 
-	virtual ~CBerVisibleString() {}
+	CBerTeletexString(QByteArray& octetString)
+	{
+		m_Identifier = s_Identifier;
+		m_OctetString = octetString;
+	}
 
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
-	virtual quint32 deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength);
-
-	quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	quint32 decode(QDataStream& iStream, bool explct);
-
-	virtual QString toString();
-
+	virtual ~CBerTeletexString() {}
 };
 
-CBerIdentifier CBerVisibleString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::VISIBLE_STRING_TAG);
+CBerIdentifier CBerTeletexString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::TELETEX_STRING_TAG);
 
 #endif

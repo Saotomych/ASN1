@@ -23,10 +23,10 @@
 #ifndef BER_BASE
 #define BER_BASE
 
+#include "../../include/berByteArrayOutputStream.h"
+#include "../../include/berIdentifier.h"
+#include "../../include/berLength.h"
 #include "asn1_global.h"
-#include "berByteArrayOutputStream.h"
-#include "berIdentifier.h"
-#include "berLength.h"
 
 class CBerBase: public QObject
 {

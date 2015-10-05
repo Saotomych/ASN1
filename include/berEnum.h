@@ -25,34 +25,42 @@
  *
  */
 
-#ifndef BER_OCTETSTRING
-#define BER_OCTETSTRING
+#ifndef BER_ENUM
+#define BER_ENUM
 
-#include "berByteArrayOutputStream.h"
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "berOctetString.h"
+#include "../../include/berIdentifier.h"
+#include "../../include/berInteger.h"
 
-class CBerBMPString: public CBerOctetString
+class CBerEnum: public CBerInteger
 {
 
+	CBerIdentifier m_Identifier;
+	QByteArray m_Code;
+	qint64 m_Val;
+
 public:
+
 	static CBerIdentifier s_Identifier;
 
-	CBerBMPString()
+	CBerEnum(): m_Val(0)
 	{
 		m_Identifier = s_Identifier;
 	}
 
-	CBerBMPString(QByteArray& octetString)
+	CBerEnum(QByteArray& code): m_Val(0)
 	{
 		m_Identifier = s_Identifier;
-		m_OctetString = octetString;
+		m_Code = code;
 	}
 
-	virtual ~CBerBMPString() {}
+	CBerEnum(qint64 val)
+	{
+		m_Identifier = s_Identifier;
+		m_Val = val;
+	}
+
 };
 
-CBerIdentifier CBerBMPString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BMP_STRING_TAG);
+CBerIdentifier CBerEnum::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::ENUMERATED_TAG);
 
 #endif

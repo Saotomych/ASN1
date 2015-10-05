@@ -25,32 +25,34 @@
  *
  */
 
-#ifndef BER_LENGTH
-#define BER_LENGTH
+#ifndef BER_OCTETSTRING
+#define BER_OCTETSTRING
 
-#include "asn1_global.h"
-#include "berByteArrayOutputStream.h"
+#include "../../include/berByteArrayOutputStream.h"
+#include "../../include/berIdentifier.h"
+#include "../../include/berLength.h"
+#include "../../include/berOctetString.h"
 
-class CBerLength: public QObject
+class CBerIA5String: public CBerOctetString
 {
 
-	Q_OBJECT
-
-	quint32 m_ValLength;
-
 public:
+	static CBerIdentifier s_Identifier;
 
-	static qint32 encodeLength(CBerByteArrayOutputStream& berOStream, qint32 length);
+	CBerIA5String()
+	{
+		m_Identifier = s_Identifier;
+	}
 
-	CBerLength(): m_ValLength(0) {}
+	CBerIA5String(QByteArray& octetString)
+	{
+		m_Identifier = s_Identifier;
+		m_OctetString = octetString;
+	}
 
-	qint32 decode(QDataStream& iStream);
-
-	quint32 getVal();
-
-signals:
-	void signalIOError(QString strErr);
-
+	virtual ~CBerIA5String() {}
 };
+
+CBerIdentifier CBerIA5String::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::IA5_STRING_TAG);
 
 #endif

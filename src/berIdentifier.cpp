@@ -1,4 +1,4 @@
-#include "berIdentifier.h"
+#include <include/berIdentifier.h>
 
 qint32 CBerIdentifier::UNIVERSAL_CLASS = 0x00;
 qint32 CBerIdentifier::APPLICATION_CLASS = 0x40;
@@ -28,6 +28,7 @@ qint32 CBerIdentifier::VISIBLE_STRING_TAG = 26;
 qint32 CBerIdentifier::GENERAL_STRING_TAG = 27;
 qint32 CBerIdentifier::UNIVERSAL_STRING_TAG = 28;
 qint32 CBerIdentifier::BMP_STRING_TAG = 30;
+qint32 CBerIdentifier::PPDU_TAG = 16;
 
 quint8 CBerIdentifier::IDENTIFIER_CLASS_MASK = 0xC0;
 quint8 CBerIdentifier::PRIMITIVE_MASK = 0x20;

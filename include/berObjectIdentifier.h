@@ -25,34 +25,39 @@
  *
  */
 
-#ifndef BER_OCTETSTRING
-#define BER_OCTETSTRING
+#ifndef BER_OBJECTIDENTIFIER
+#define BER_OBJECTIDENTIFIER
 
-#include "berByteArrayOutputStream.h"
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "berOctetString.h"
+#include "../../include/berBase.h"
+#include "../../include/berByteArrayOutputStream.h"
+#include "../../include/berIdentifier.h"
+#include "../../include/berLength.h"
 
-class CBerIA5String: public CBerOctetString
+class CBerObjectIdentifier: public CBerBase
 {
+
+protected:
+
+	QVector<qint32> m_ObjectIdentifierComponents;
 
 public:
 	static CBerIdentifier s_Identifier;
 
-	CBerIA5String()
-	{
-		m_Identifier = s_Identifier;
-	}
+	CBerObjectIdentifier();
+	CBerObjectIdentifier(QVector<qint32>& bitString);
+	CBerObjectIdentifier(QByteArray& code);
 
-	CBerIA5String(QByteArray& octetString)
-	{
-		m_Identifier = s_Identifier;
-		m_OctetString = octetString;
-	}
+	virtual ~CBerObjectIdentifier() {}
 
-	virtual ~CBerIA5String() {}
+	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
+	virtual quint32 deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength);
+
+	quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
+	quint32 decode(QDataStream& iStream, bool explct);
+
+	virtual QString toString();
 };
 
-CBerIdentifier CBerIA5String::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::IA5_STRING_TAG);
+CBerIdentifier CBerObjectIdentifier::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OBJECT_IDENTIFIER_TAG);
 
 #endif

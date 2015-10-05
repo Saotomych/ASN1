@@ -25,39 +25,40 @@
  *
  */
 
-#ifndef BER_REAL
-#define BER_REAL
+#ifndef BER_OCTETSTRING
+#define BER_OCTETSTRING
 
-#include "berBase.h"
-#include "berByteArrayOutputStream.h"
-#include "berIdentifier.h"
-#include "berLength.h"
+#include "../../include/berByteArrayOutputStream.h"
+#include "../../include/berIdentifier.h"
+#include "../../include/berLength.h"
+#include "../../include/berOctetString.h"
 
-class CBerReal: public CBerBase
+class CBerUTF8String: public CBerOctetString
 {
-
-protected:
-	double m_Real;
 
 public:
 	static CBerIdentifier s_Identifier;
 
-	CBerReal();
-	CBerReal(double real);
-	CBerReal(QByteArray& code);
+	CBerUTF8String()
+	{
+		m_Identifier = s_Identifier;
+	}
 
-	virtual ~CBerReal() {}
+	CBerUTF8String(QByteArray& octetString)
+	{
+		m_Identifier = s_Identifier;
+		m_OctetString = octetString;
+	}
 
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
-	virtual quint32 deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength);
+	CBerUTF8String(QString& octetString)
+	{
+		m_Identifier = s_Identifier;
+		m_OctetString = octetString;
+	}
 
-	quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	quint32 decode(QDataStream& iStream, bool explct);
-
-	void encodeAndSave(qint32 encodingSizeGuess);
-
+	virtual ~CBerUTF8String() {}
 };
 
-CBerIdentifier CBerReal::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::REAL_TAG);
+CBerIdentifier CBerUTF8String::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::UTF8_STRING_TAG);
 
 #endif

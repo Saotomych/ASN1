@@ -1,4 +1,4 @@
-#include "berBitString.h"
+#include <include/berBitString.h>
 
 CBerBitString::CBerBitString()
 {
