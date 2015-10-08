@@ -58,6 +58,4 @@ public:
 	virtual QString toString();
 };
 
-CBerIdentifier CBerObjectIdentifier::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OBJECT_IDENTIFIER_TAG);
-
 #endif

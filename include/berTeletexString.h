@@ -25,8 +25,9 @@
  *
  */
 
-#ifndef BER_OCTETSTRING
-#define BER_OCTETSTRING
+#ifndef BER_TELETEXSTRING
+#ifdef  BER_OCTETSTRING
+#define BER_TELETEXSTRING
 
 #include "berByteArrayOutputStream.h"
 #include "berIdentifier.h"
@@ -53,6 +54,5 @@ public:
 	virtual ~CBerTeletexString() {}
 };
 
-CBerIdentifier CBerTeletexString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::TELETEX_STRING_TAG);
-
+#endif
 #endif

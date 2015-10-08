@@ -1,15 +1,16 @@
 #include <include/berLength.h>
 
-qint32 CBerLength::encodeLength(CBerByteArrayOutputStream& berOStream, qint32 length)
+qint32 CBerLength::encodeLength(CBerByteArrayOutputStream& berOStream, quint8 length)
 {
 
 	if (length <= 127) {
 		// this is the short form, it is coded differently than the long
 		// form for values > 127
-		berOStream.write((quint8) length);
+		berOStream.write(length);
 		return 1;
 	}
-	else {
+	else
+	{
 		quint8 numLengthBytes = 1;
 
 		while (((qint32) (qPow(2, 8 * numLengthBytes) - 1)) < length) {

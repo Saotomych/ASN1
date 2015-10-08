@@ -58,6 +58,4 @@ public:
 
 };
 
-CBerIdentifier CBerReal::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::REAL_TAG);
-
 #endif

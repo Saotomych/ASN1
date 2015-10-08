@@ -25,8 +25,9 @@
  *
  */
 
-#ifndef BER_OCTETSTRING
-#define BER_OCTETSTRING
+#ifndef BER_PRINTABLESTRING
+#ifdef  BER_OCTETSTRING
+#define BER_PRINTABLESTRING
 
 #include "berByteArrayOutputStream.h"
 #include "berIdentifier.h"
@@ -53,6 +54,5 @@ public:
 	virtual ~CBerPrintableString() {}
 };
 
-CBerIdentifier CBerPrintableString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::PRINTABLE_STRING_TAG);
-
+#endif
 #endif

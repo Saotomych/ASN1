@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef BER_OCTETSTRING
-#define BER_OCTETSTRING
+#ifndef BER_VISIBLESTRING
+#define BER_VISIBLESTRING
 
 #include "berBase.h"
 #include "berByteArrayOutputStream.h"
@@ -58,7 +58,5 @@ public:
 	virtual QString toString();
 
 };
-
-CBerIdentifier CBerVisibleString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::VISIBLE_STRING_TAG);
 
 #endif

@@ -52,6 +52,4 @@ public:
 
 };
 
-CBerIdentifier CBerNull::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::NULL_TAG);
-
 #endif

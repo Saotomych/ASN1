@@ -25,8 +25,9 @@
  *
  */
 
-#ifndef BER_OCTETSTRING
-#define BER_OCTETSTRING
+#ifndef BER_VIDEOTEXSTRING
+#ifdef BER_OCTETSTRING
+#define BER_VIDEOTEXSTRING
 
 #include "berByteArrayOutputStream.h"
 #include "berIdentifier.h"
@@ -53,6 +54,5 @@ public:
 	virtual ~CBerVideotexString() {}
 };
 
-CBerIdentifier CBerVideotexString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::VIDEOTEX_STRING_TAG);
-
+#endif
 #endif

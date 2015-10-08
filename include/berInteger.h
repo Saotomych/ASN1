@@ -58,6 +58,4 @@ public:
 
 };
 
-CBerIdentifier CBerInteger::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::INTEGER_TAG);
-
 #endif

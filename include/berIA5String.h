@@ -25,8 +25,9 @@
  *
  */
 
-#ifndef BER_OCTETSTRING
-#define BER_OCTETSTRING
+#ifndef BER_IA5STRING
+#ifdef  BER_OCTETSTRING
+#define BER_IA5STRING
 
 #include "berByteArrayOutputStream.h"
 #include "berIdentifier.h"
@@ -53,6 +54,5 @@ public:
 	virtual ~CBerIA5String() {}
 };
 
-CBerIdentifier CBerIA5String::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::IA5_STRING_TAG);
-
+#endif
 #endif

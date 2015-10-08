@@ -25,8 +25,9 @@
  *
  */
 
-#ifndef BER_OCTETSTRING
-#define BER_OCTETSTRING
+#ifndef BER_UTF8STRING
+#ifdef  BER_OCTETSTRING
+#define BER_UTF8STRING
 
 #include "berByteArrayOutputStream.h"
 #include "berIdentifier.h"
@@ -53,12 +54,11 @@ public:
 	CBerUTF8String(QString& octetString)
 	{
 		m_Identifier = s_Identifier;
-		m_OctetString = octetString;
+		m_OctetString = octetString.toUtf8();
 	}
 
 	virtual ~CBerUTF8String() {}
 };
 
-CBerIdentifier CBerUTF8String::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::UTF8_STRING_TAG);
-
+#endif
 #endif

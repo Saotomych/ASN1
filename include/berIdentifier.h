@@ -28,8 +28,8 @@
 #ifndef BER_IDENTIFIER
 #define BER_IDENTIFIER
 
-#include "berByteArrayOutputStream.h"
 #include "asn1_global.h"
+#include "berByteArrayOutputStream.h"
 
 class ASN1_SHAREDEXPORT CBerIdentifier: public QObject
 {
@@ -78,13 +78,17 @@ public:
 	qint32 m_TagNumber;
 
 	CBerIdentifier(): m_IdentifierClass(0), m_Primitive(0), m_TagNumber(0)
-	{}
+	{
+		code();
+	}
 
 	CBerIdentifier(qint32 identifierClass, qint32 primitive, qint32 tagNumber):
-	 m_IdentifierClass(identifierClass),
-	 m_Primitive(primitive),
-	 m_TagNumber(tagNumber)
-	{}
+	m_IdentifierClass(identifierClass),
+	m_Primitive(primitive),
+	m_TagNumber(tagNumber)
+	{
+		code();
+	}
 
 	CBerIdentifier& operator=(const CBerIdentifier& that)
 	{

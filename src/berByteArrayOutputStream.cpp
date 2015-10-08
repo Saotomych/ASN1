@@ -48,7 +48,8 @@ bool CBerByteArrayOutputStream::write(quint8 arg0)
 		return false;
 	}
 
-	m_Buffer.begin()[m_Index].push_back(arg0);
+	QByteArray& lastBtArray = *(m_Buffer.begin());
+	lastBtArray[m_Index] = arg0;
 
 	if (m_Index == 0 && m_AutoResize)
 	{
@@ -64,9 +65,9 @@ bool CBerByteArrayOutputStream::write(quint8 arg0)
 
 bool CBerByteArrayOutputStream::write(QByteArray& byteArray)
 {
-	for (auto b: byteArray)
+	for (int idx = byteArray.size()-1; idx >= 0; --idx)
 	{
-		if (write( (quint8) b) == false) return false;
+		if (write( (quint8) byteArray[idx]) == false) return false;
 	}
 
 	return true;
@@ -78,7 +79,14 @@ QByteArray CBerByteArrayOutputStream::getByteArray()
 
 	for (QByteArray& byteArray: m_Buffer)
 	{
-		if (byteArray.size()) tempBuffer += byteArray;
+		if (m_Index == -1)
+		{
+			tempBuffer += byteArray;
+		}
+		else
+		{
+			tempBuffer = byteArray.mid(m_Index+1, byteArray.size()-1);
+		}
 	}
 
 	return tempBuffer;

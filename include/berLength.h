@@ -28,8 +28,8 @@
 #ifndef BER_LENGTH
 #define BER_LENGTH
 
-#include "berByteArrayOutputStream.h"
 #include "asn1_global.h"
+#include "berByteArrayOutputStream.h"
 
 class ASN1_SHAREDEXPORT CBerLength: public QObject
 {
@@ -40,7 +40,7 @@ class ASN1_SHAREDEXPORT CBerLength: public QObject
 
 public:
 
-	static qint32 encodeLength(CBerByteArrayOutputStream& berOStream, qint32 length);
+	static qint32 encodeLength(CBerByteArrayOutputStream& berOStream, quint8 length);
 
 	CBerLength(): m_ValLength(0) {}
 

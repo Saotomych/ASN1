@@ -61,6 +61,4 @@ public:
 
 };
 
-CBerIdentifier CBerEnum::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::ENUMERATED_TAG);
-
 #endif

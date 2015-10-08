@@ -26,15 +26,13 @@
  */
 
 #ifndef BER_GENERALIZED_TIME
+#ifdef  BER_OCTETSTRING
 #define BER_GENERALIZED_TIME
 
 #include "berIdentifier.h"
 
 class ASN1_SHAREDEXPORT CBerGeneralizedTime: public CBerOctetString
 {
-
-	CBerIdentifier m_Identifier;
-	QByteArray m_octetString;
 
 public:
 
@@ -48,13 +46,12 @@ public:
 	CBerGeneralizedTime(QByteArray& octetString)
 	{
 		m_Identifier = s_Identifier;
-		m_octetString = octetString;
+		m_OctetString = octetString;
 	}
 
 	virtual ~CBerGeneralizedTime() {}
 
 };
 
-CBerIdentifier CBerGeneralizedTime::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::GENERALIZED_TIME_TAG);
-
+#endif
 #endif

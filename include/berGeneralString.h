@@ -25,8 +25,9 @@
  *
  */
 
-#ifndef BER_OCTETSTRING
-#define BER_OCTETSTRING
+#ifndef BER_GENERALSTRING
+#ifdef  BER_OCTETSTRING
+#define BER_GENERALSTRING
 
 #include "berByteArrayOutputStream.h"
 #include "berIdentifier.h"
@@ -53,6 +54,5 @@ public:
 	virtual ~CBerGeneralString() {}
 };
 
-CBerIdentifier CBerGeneralString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::GENERAL_STRING_TAG);
-
+#endif
 #endif

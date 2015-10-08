@@ -1,4 +1,4 @@
-#include <include/berInteger.h>
+#include "berInteger.h"
 
 CBerInteger::CBerInteger(): m_Val(0)
 {

@@ -25,13 +25,14 @@
  *
  */
 
-#ifndef BER_OCTETSTRING
-#define BER_OCTETSTRING
+#ifndef BER_BMPSTRING
+#ifdef  BER_OCTETSTRING
+#define BER_BMPSTRING
 
-#include "../../include/berByteArrayOutputStream.h"
-#include "../../include/berIdentifier.h"
-#include "../../include/berLength.h"
-#include "../../include/berOctetString.h"
+#include "berByteArrayOutputStream.h"
+#include "berIdentifier.h"
+#include "berLength.h"
+#include "berOctetString.h"
 
 class ASN1_SHAREDEXPORT CBerBMPString: public CBerOctetString
 {
@@ -53,6 +54,5 @@ public:
 	virtual ~CBerBMPString() {}
 };
 
-CBerIdentifier CBerBMPString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BMP_STRING_TAG);
-
+#endif
 #endif
