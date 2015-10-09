@@ -30,6 +30,7 @@
 
 #include "berBase.h"
 #include "berByteArrayOutputStream.h"
+#include "berByteArrayInputStream.h"
 #include "berIdentifier.h"
 #include "berLength.h"
 
@@ -50,10 +51,10 @@ public:
 	virtual ~CBerBoolean() {}
 
 	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
-	virtual quint32 deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength);
+	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength);
 
 	quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	quint32 decode(QDataStream& iStream, bool explct);
+	quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
 	void encodeAndSave(qint32 encodeSizeGuess);
 
 };

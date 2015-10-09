@@ -70,13 +70,13 @@ qint32 CBerIdentifier::encode(CBerByteArrayOutputStream& berOStream)
 	return m_Identifier.size();
 }
 
-qint32 CBerIdentifier::decode(QDataStream& iStream)
+qint32 CBerIdentifier::decode(CBerByteArrayInputStream& iStream)
 {
 
-	if (iStream.device()->bytesAvailable() == false) return 0;
+	if (iStream.available() == 0) return 0;
 
 	quint8 nextByte;
-	iStream >> nextByte;
+	nextByte = iStream.read();
 
 	m_IdentifierClass = nextByte & IDENTIFIER_CLASS_MASK;
 	m_Primitive = nextByte & PRIMITIVE_MASK;
@@ -90,7 +90,7 @@ qint32 CBerIdentifier::decode(QDataStream& iStream)
 		int counter = 0;
 
 		do {
-			iStream >> nextByte;
+			nextByte = iStream.read();
 			codeLength++;
 			if (counter >= 6) {
 				emit signalBERError("CBerIdentifier::decode: Invalid Tag");
@@ -111,13 +111,13 @@ qint32 CBerIdentifier::decode(QDataStream& iStream)
  * Exception if it is not equal to itself. Returns the number of bytes read
  * from the InputStream.
  */
-qint32 CBerIdentifier::decodeAndCheck(QDataStream& iStream)
+qint32 CBerIdentifier::decodeAndCheck(CBerByteArrayInputStream& iStream)
 {
 
 	quint8 nextByte;
 	for (quint8 myByte : m_Identifier) {
 
-		iStream >> nextByte;
+		nextByte = iStream.read();
 
 		if (nextByte != (myByte & 0xff))
 		{

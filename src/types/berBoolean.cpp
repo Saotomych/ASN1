@@ -26,13 +26,12 @@ quint32 CBerBoolean::serialize(CBerByteArrayOutputStream& berOStream)
 	return codeLength;
 }
 
-quint32 CBerBoolean::deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength)
+quint32 CBerBoolean::deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength)
 {
 	if (length.getVal() == 1)
 	{
-		char data;
-		qint32 rdLength = iStream.readRawData(&data, 1);
-		if (rdLength != 1)
+		qint32 data = iStream.read();
+		if (data == -1)
 		{
 			runtimeError("CBerBoolean::deserialize: error reading");
 			return codeLength;
@@ -57,7 +56,7 @@ quint32 CBerBoolean::encode(CBerByteArrayOutputStream& berOStream, bool explct)
 	return codeLength;
 }
 
-quint32 CBerBoolean::decode(QDataStream& iStream, bool explct)
+quint32 CBerBoolean::decode(CBerByteArrayInputStream& iStream, bool explct)
 {
 	int codeLength =  CBerBase::decode(iStream, explct);
 

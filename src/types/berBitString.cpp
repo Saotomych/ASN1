@@ -33,14 +33,14 @@ quint32 CBerBitString::serialize(CBerByteArrayOutputStream& berOStream)
 	return codeLength;
 }
 
-quint32 CBerBitString::deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength)
+quint32 CBerBitString::deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength)
 {
 	m_BitString.clear();
 
-	qint8 data[length.getVal()];
+	QByteArray data(length.getVal(), Qt::Initialization::Uninitialized);
 	if (m_BitString.size() > 0)
 	{
-		quint32 rdLength = iStream.readRawData((char*)data, (qint32) (length.getVal()) );
+		quint32 rdLength = iStream.read(data, 0, (qint32) (length.getVal()) );
 		if (rdLength == length.getVal())
 		{
 			m_BitString.resize(rdLength);
@@ -68,7 +68,7 @@ quint32 CBerBitString::encode(CBerByteArrayOutputStream& berOStream, bool explct
 	return codeLength;
 }
 
-quint32 CBerBitString::decode(QDataStream& iStream, bool explct)
+quint32 CBerBitString::decode(CBerByteArrayInputStream& iStream, bool explct)
 {
 	int codeLength =  CBerBase::decode(iStream, explct);
 

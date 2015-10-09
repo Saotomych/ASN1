@@ -47,7 +47,7 @@ public:
 		return m_Length;
 	}
 
-	qint32 decode(QDataStream& iStream, bool explct)
+	qint32 decode(CBerByteArrayInputStream& iStream, bool explct)
 	{
 		CBerLength length;
 

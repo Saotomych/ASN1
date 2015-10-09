@@ -66,7 +66,7 @@ public:
 	QByteArray getByteArray();
 
 signals:
-	void signalByteArrayIndexIsOutOfBound(QString strErr);
+	void signalOutputStreamWarning(QString strErr);
 
 };
 

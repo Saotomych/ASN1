@@ -23,7 +23,7 @@ quint32 CBerBase::encode(CBerByteArrayOutputStream& berOStream, bool explct)
 	return codeLength;
 }
 
-quint32 CBerBase::decode(QDataStream& iStream, bool explct)
+quint32 CBerBase::decode(CBerByteArrayInputStream& iStream, bool explct)
 {
 	qint32 codeLength = 0;
 

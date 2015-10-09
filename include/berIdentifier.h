@@ -30,6 +30,7 @@
 
 #include "asn1_global.h"
 #include "berByteArrayOutputStream.h"
+#include "berByteArrayInputStream.h"
 
 class ASN1_SHAREDEXPORT CBerIdentifier: public QObject
 {
@@ -106,14 +107,14 @@ public:
 
 	qint32 encode(CBerByteArrayOutputStream& berOStream);
 
-	qint32 decode(QDataStream& iStream);
+	qint32 decode(CBerByteArrayInputStream& iStream);
 
 	/**
 	 * Decodes the Identifier from the ByteArrayInputStream and throws an
 	 * Exception if it is not equal to itself. Returns the number of bytes read
 	 * from the InputStream.
 	 */
-	qint32 decodeAndCheck(QDataStream& iStream);
+	qint32 decodeAndCheck(CBerByteArrayInputStream& iStream);
 
 	bool equals(int identifierClass, int primitive, int tagNumber);
 

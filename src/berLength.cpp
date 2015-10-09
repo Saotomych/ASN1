@@ -28,11 +28,11 @@ qint32 CBerLength::encodeLength(CBerByteArrayOutputStream& berOStream, quint8 le
 
 }
 
-qint32 CBerLength::decode(QDataStream& iStream)
+qint32 CBerLength::decode(CBerByteArrayInputStream& iStream)
 {
-	if (iStream.device()->bytesAvailable() == 0) return 0;
+	if (iStream.available() == 0) return 0;
 
-	iStream >> m_ValLength;
+	m_ValLength = iStream.read();
 
 	qint32 length = 1;
 
@@ -51,9 +51,9 @@ qint32 CBerLength::decode(QDataStream& iStream)
 		}
 
 		m_ValLength = 0;
-		char byteCode[lengthLength];
+		QByteArray byteCode(lengthLength, Qt::Initialization::Uninitialized);
 
-		if (iStream.readRawData(byteCode, lengthLength) == -1) {
+		if (iStream.read(byteCode, 0, lengthLength) == -1) {
 			emit signalIOError("CBerLength::decode: Error Decoding ASN1 Integer");
 			return 1;
 		}

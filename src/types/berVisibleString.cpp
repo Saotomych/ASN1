@@ -27,14 +27,14 @@ quint32 CBerVisibleString::serialize(CBerByteArrayOutputStream& berOStream)
 	return codeLength;
 }
 
-quint32 CBerVisibleString::deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength)
+quint32 CBerVisibleString::deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength)
 {
 	qint32 lenval = length.getVal();
 
 	if (lenval != 0)
 	{
-		char data[lenval];
-		if (iStream.readRawData(data, lenval) < lenval)
+		QByteArray data(lenval, Qt::Initialization::Uninitialized);
+		if (iStream.read(data, 0, lenval) < lenval)
 		{
 			runtimeError("CBerVisibleString::deserialize: error decoding");
 			return codeLength;
@@ -56,7 +56,7 @@ quint32 CBerVisibleString::encode(CBerByteArrayOutputStream& berOStream, bool ex
 	return codeLength;
 }
 
-quint32 CBerVisibleString::decode(QDataStream& iStream, bool explct)
+quint32 CBerVisibleString::decode(CBerByteArrayInputStream& iStream, bool explct)
 {
 	int codeLength =  CBerBase::decode(iStream, explct);
 

@@ -29,7 +29,6 @@
 #ifdef  BER_OCTETSTRING
 #define BER_GENERALSTRING
 
-#include "berByteArrayOutputStream.h"
 #include "berIdentifier.h"
 #include "berLength.h"
 #include "berOctetString.h"

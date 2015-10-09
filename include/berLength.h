@@ -30,6 +30,7 @@
 
 #include "asn1_global.h"
 #include "berByteArrayOutputStream.h"
+#include "berByteArrayInputStream.h"
 
 class ASN1_SHAREDEXPORT CBerLength: public QObject
 {
@@ -44,7 +45,7 @@ public:
 
 	CBerLength(): m_ValLength(0) {}
 
-	qint32 decode(QDataStream& iStream);
+	qint32 decode(CBerByteArrayInputStream& iStream);
 
 	quint32 getVal();
 

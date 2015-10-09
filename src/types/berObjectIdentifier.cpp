@@ -76,7 +76,7 @@ quint32 CBerObjectIdentifier::serialize(CBerByteArrayOutputStream& berOStream)
 	return codeLength;
 }
 
-quint32 CBerObjectIdentifier::deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength)
+quint32 CBerObjectIdentifier::deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength)
 {
 	qint32 lenval = length.getVal();
 
@@ -85,8 +85,8 @@ quint32 CBerObjectIdentifier::deserialize(QDataStream& iStream, CBerLength& leng
 		return codeLength;
 	}
 
-	char byteCode[lenval];
-	if (iStream.readRawData(byteCode, lenval) == -1) {
+	QByteArray byteCode(lenval, Qt::Initialization::Uninitialized);
+	if (iStream.read(byteCode, 0, lenval) == -1) {
 		runtimeError("CBerObjectIdentifier::deserialize: Read wrong");
 		return codeLength;
 	}
@@ -154,7 +154,7 @@ quint32 CBerObjectIdentifier::encode(CBerByteArrayOutputStream& berOStream, bool
 	return codeLength;
 }
 
-quint32 CBerObjectIdentifier::decode(QDataStream& iStream, bool explct)
+quint32 CBerObjectIdentifier::decode(CBerByteArrayInputStream& iStream, bool explct)
 {
 	int codeLength =  CBerBase::decode(iStream, explct);
 

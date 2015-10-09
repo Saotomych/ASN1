@@ -22,15 +22,15 @@ quint32 CBerOctetString::serialize(CBerByteArrayOutputStream& berOStream)
 	return codeLength;
 }
 
-quint32 CBerOctetString::deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength)
+quint32 CBerOctetString::deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength)
 {
 
 	qint32 lenval = length.getVal();
 
 	if (lenval != 0)
 	{
-		char data[lenval];
-		if (iStream.readRawData(data, lenval) < lenval)
+		QByteArray data(lenval, Qt::Initialization::Uninitialized);
+		if (iStream.read(data, 0, lenval) < lenval)
 		{
 			runtimeError("CBerOctetString::deserialize: error reading");
 			return codeLength;
@@ -52,7 +52,7 @@ quint32 CBerOctetString::encode(CBerByteArrayOutputStream& berOStream, bool expl
 	return codeLength;
 }
 
-quint32 CBerOctetString::decode(QDataStream& iStream, bool explct)
+quint32 CBerOctetString::decode(CBerByteArrayInputStream& iStream, bool explct)
 {
 	int codeLength =  CBerBase::decode(iStream, explct);
 

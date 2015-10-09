@@ -1,4 +1,4 @@
-#include <include/berByteArrayOutputStream.h>
+#include "berByteArrayOutputStream.h"
 
 void CBerByteArrayOutputStream::resize()
 {
@@ -12,7 +12,7 @@ CBerByteArrayOutputStream::CBerByteArrayOutputStream(int bufferSize)
 	QByteArray newBuffer(bufferSize, Qt::Initialization::Uninitialized);
 	m_Buffer.push_front(newBuffer);
 	m_Index = bufferSize-1;
-	m_AutoResize = false;
+	m_AutoResize = true;
 }
 
 CBerByteArrayOutputStream::CBerByteArrayOutputStream(quint32 bufferSize, bool automaticResize)
@@ -26,7 +26,7 @@ CBerByteArrayOutputStream::CBerByteArrayOutputStream(quint32 bufferSize, bool au
 CBerByteArrayOutputStream::CBerByteArrayOutputStream(QByteArray& buffer, quint32 startingIndex) {
 	m_Buffer.push_front(buffer);
 	m_Index = startingIndex;
-	m_AutoResize = false;
+	m_AutoResize = true;
 }
 
 CBerByteArrayOutputStream::CBerByteArrayOutputStream(QByteArray& buffer, quint32 startingIndex, bool automaticResize) {
@@ -44,7 +44,7 @@ bool CBerByteArrayOutputStream::write(quint8 arg0)
 {
 	if (m_Index < 0)
 	{
-		emit signalByteArrayIndexIsOutOfBound(QString("CBerByteArrayOutputStream::write: Maximum array size = %1 exceed").arg(m_Buffer.begin()->size()));
+		emit signalOutputStreamWarning(QString("CBerByteArrayOutputStream::write: Maximum array size = %1 exceed").arg(m_Buffer.begin()->size()));
 		return false;
 	}
 
@@ -77,16 +77,14 @@ QByteArray CBerByteArrayOutputStream::getByteArray()
 {
 	QByteArray tempBuffer;
 
-	for (QByteArray& byteArray: m_Buffer)
+	QByteArray& last = m_Buffer.front();
+	if (m_Index < last.size()-1)
+		tempBuffer += last.mid(m_Index+1, last.size()-1);
+
+	QList<QByteArray>::iterator listIt = ++m_Buffer.begin();
+	for (; listIt != m_Buffer.end(); ++listIt)
 	{
-		if (m_Index == -1)
-		{
-			tempBuffer += byteArray;
-		}
-		else
-		{
-			tempBuffer = byteArray.mid(m_Index+1, byteArray.size()-1);
-		}
+		tempBuffer += *listIt;
 	}
 
 	return tempBuffer;

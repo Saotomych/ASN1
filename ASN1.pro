@@ -19,6 +19,7 @@ CONFIG += c++11
 DEFINES += ASN1_LIBRARY
 
 SOURCES += src/berByteArrayOutputStream.cpp \
+	src/berByteArrayInputStream.cpp \
     src/InitIdentifiers.cpp \
 	src/berIdentifier.cpp \
     src/berLength.cpp \
@@ -34,6 +35,7 @@ SOURCES += src/berByteArrayOutputStream.cpp \
 
 HEADERS += include/asn1_global.h \
     include/berByteArrayOutputStream.h \
+    include/berByteArrayInputStream.h \
 	include/berIdentifier.h \
     include/berLength.h \
     include/berBase.h \

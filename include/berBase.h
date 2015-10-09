@@ -25,6 +25,7 @@
 
 #include "asn1_global.h"
 #include "berByteArrayOutputStream.h"
+#include "berByteArrayInputStream.h"
 #include "berIdentifier.h"
 #include "berLength.h"
 
@@ -37,10 +38,10 @@ protected:
 	QByteArray m_Code;
 
 	quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	quint32 decode(QDataStream& iStream, bool explct);
+	quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
 
 	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream) = 0;
-	virtual quint32 deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength) = 0;
+	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength) = 0;
 
 	virtual bool argumentWrong(QString strErr);
 	virtual bool runtimeError(QString strErr);

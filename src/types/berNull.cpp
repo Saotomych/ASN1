@@ -12,7 +12,7 @@ quint32 CBerNull::serialize(CBerByteArrayOutputStream& berOStream)
 	return codeLength;
 }
 
-quint32 CBerNull::deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength)
+quint32 CBerNull::deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength)
 {
 	return codeLength;
 }
@@ -24,7 +24,7 @@ quint32 CBerNull::encode(CBerByteArrayOutputStream& berOStream, bool explct)
 	return codeLength;
 }
 
-quint32 CBerNull::decode(QDataStream& iStream, bool explct)
+quint32 CBerNull::decode(CBerByteArrayInputStream& iStream, bool explct)
 {
 	int codeLength =  CBerBase::decode(iStream, explct);
 

@@ -30,6 +30,7 @@
 #define BER_BMPSTRING
 
 #include "berByteArrayOutputStream.h"
+#include "berByteArrayInputStream.h"
 #include "berIdentifier.h"
 #include "berLength.h"
 #include "berOctetString.h"

@@ -114,7 +114,7 @@ quint32 CBerReal::serialize(CBerByteArrayOutputStream& berOStream)
 	return codeLength;
 }
 
-quint32 CBerReal::deserialize(QDataStream& iStream, CBerLength& length, quint32 codeLength)
+quint32 CBerReal::deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength)
 {
 	qint32 lenval = length.getVal();
 
@@ -124,9 +124,8 @@ quint32 CBerReal::deserialize(QDataStream& iStream, CBerLength& length, quint32 
 	}
 
 	if (lenval == 1) {
-		char myByte;
-		quint32 len = 1;
-		if (iStream.readRawData(&myByte, len) < 1)
+		qint8 myByte = iStream.read();
+		if (myByte == -1)
 		{
 			runtimeError("CBerReal::deserialize: length read wrong");
 			return codeLength;
@@ -144,8 +143,8 @@ quint32 CBerReal::deserialize(QDataStream& iStream, CBerLength& length, quint32 
 		return codeLength + 1;
 	}
 
-	char byteCode[lenval];
-	if (iStream.readRawData(byteCode, lenval) < lenval)
+	QByteArray byteCode(lenval, Qt::Initialization::Uninitialized);
+	if (iStream.read(byteCode, 0, lenval) < lenval)
 	{
 		runtimeError("CBerReal::deserialize: data read wrong");
 		return codeLength;
@@ -189,7 +188,7 @@ quint32 CBerReal::encode(CBerByteArrayOutputStream& berOStream, bool explct)
 	return codeLength;
 }
 
-quint32 CBerReal::decode(QDataStream& iStream, bool explct)
+quint32 CBerReal::decode(CBerByteArrayInputStream& iStream, bool explct)
 {
 	int codeLength =  CBerBase::decode(iStream, explct);
 

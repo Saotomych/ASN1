@@ -9,7 +9,6 @@
 #include <QLinkedList>
 #include <QVector>
 #include <QDebug>
-#include <QDataStream>
 #include <QScopedPointer>
 #include <QSharedPointer>
 #include <QByteArray>
