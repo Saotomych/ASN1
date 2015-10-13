@@ -29,13 +29,11 @@
 #ifdef  BER_OCTETSTRING
 #define BER_BMPSTRING
 
-#include "berByteArrayOutputStream.h"
-#include "berByteArrayInputStream.h"
 #include "berIdentifier.h"
 #include "berLength.h"
-#include "berOctetString.h"
+#include "berBaseOctetString.h"
 
-class ASN1_SHAREDEXPORT CBerBMPString: public CBerOctetString
+class ASN1_SHAREDEXPORT CBerBMPString: public CBerBaseOctetString
 {
 
 public:

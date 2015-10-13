@@ -25,38 +25,34 @@
  *
  */
 
-#ifndef BER_BOOLEAN
-#define BER_BOOLEAN
+#ifndef INCLUDE_BERBASEOCTETSTRING_H_
+#define INCLUDE_BERBASEOCTETSTRING_H_
 
-#include "berBase.h"
-#include "berByteArrayOutputStream.h"
-#include "berByteArrayInputStream.h"
 #include "berIdentifier.h"
+#include "berBase.h"
 #include "berLength.h"
 
-class ASN1_SHAREDEXPORT CBerBoolean: public CBerBase
+class ASN1_SHAREDEXPORT CBerBaseOctetString: public CBerBase
 {
 
 protected:
-	bool m_Val;
+
+	QByteArray m_OctetString;
+
+	CBerBaseOctetString();
+	CBerBaseOctetString(QByteArray& octetString);
 
 public:
-
-	static CBerIdentifier s_Identifier;
-
-	CBerBoolean();
-	CBerBoolean(bool val);
-	CBerBoolean(QByteArray code);
-
-	virtual ~CBerBoolean() {}
+	virtual ~CBerBaseOctetString() {}
 
 	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
 	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength);
 
 	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
 	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
-	void encodeAndSave(qint32 encodeSizeGuess);
+
+	virtual QString toString();
 
 };
 
-#endif
+#endif /* INCLUDE_BERBASEOCTETSTRING_H_ */

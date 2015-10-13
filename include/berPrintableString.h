@@ -31,9 +31,9 @@
 
 #include "berIdentifier.h"
 #include "berLength.h"
-#include "berOctetString.h"
+#include "berBaseOctetString.h"
 
-class ASN1_SHAREDEXPORT CBerPrintableString: public CBerOctetString
+class ASN1_SHAREDEXPORT CBerPrintableString: public CBerBaseOctetString
 {
 
 public:

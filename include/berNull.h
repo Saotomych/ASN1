@@ -46,8 +46,8 @@ public:
 	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
 	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength);
 
-	quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
+	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
+	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
 
 };
 

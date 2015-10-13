@@ -30,8 +30,9 @@
 #define BER_GENERALIZED_TIME
 
 #include "berIdentifier.h"
+#include "berBaseOctetString.h"
 
-class ASN1_SHAREDEXPORT CBerGeneralizedTime: public CBerOctetString
+class ASN1_SHAREDEXPORT CBerGeneralizedTime: public CBerBaseOctetString
 {
 
 public:

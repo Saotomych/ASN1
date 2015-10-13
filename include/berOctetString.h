@@ -31,8 +31,9 @@
 #include "berIdentifier.h"
 #include "berBase.h"
 #include "berLength.h"
+#include "berBaseOctetString.h"
 
-class ASN1_SHAREDEXPORT CBerOctetString: public CBerBase
+class ASN1_SHAREDEXPORT CBerOctetString: public CBerBaseOctetString
 {
 
 protected:
@@ -42,18 +43,18 @@ protected:
 public:
 	static CBerIdentifier s_Identifier;
 
-	CBerOctetString();
-	CBerOctetString(QByteArray& octetString);
+	CBerOctetString()
+	{
+		m_Identifier = s_Identifier;
+	}
+
+	CBerOctetString(QByteArray& octetString)
+	{
+		m_Identifier = s_Identifier;
+		m_OctetString = octetString;
+	}
 
 	virtual ~CBerOctetString() {}
-
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
-	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength);
-
-	quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
-
-	virtual QString toString();
 
 };
 

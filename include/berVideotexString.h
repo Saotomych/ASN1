@@ -32,9 +32,9 @@
 #include "berByteArrayOutputStream.h"
 #include "berIdentifier.h"
 #include "berLength.h"
-#include "berOctetString.h"
+#include "berBaseOctetString.h"
 
-class ASN1_SHAREDEXPORT CBerVideotexString: public CBerOctetString
+class ASN1_SHAREDEXPORT CBerVideotexString: public CBerBaseOctetString
 {
 
 public:

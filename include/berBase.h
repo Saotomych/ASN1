@@ -37,8 +37,8 @@ protected:
 	CBerIdentifier m_Identifier;
 	QByteArray m_Code;
 
-	quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
+	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
+	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
 
 	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream) = 0;
 	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength) = 0;
