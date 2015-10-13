@@ -5,7 +5,7 @@ CBerInteger::CBerInteger(): m_Val(0)
 	m_Identifier = s_Identifier;
 }
 
-CBerInteger::CBerInteger(quint64 val)
+CBerInteger::CBerInteger(qint64 val)
 {
 	m_Identifier = s_Identifier;
 	m_Val = val;
@@ -30,6 +30,8 @@ quint32 CBerInteger::serialize(CBerByteArrayOutputStream& berOStream)
 		berOStream.write( (quint8) (val & 0xFF) );
 		val >>= 8;
 	}
+
+	codeLength += CBerLength::encodeLength(berOStream, codeLength);
 
 	return codeLength;
 }

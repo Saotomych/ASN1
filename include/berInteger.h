@@ -36,13 +36,13 @@ class ASN1_SHAREDEXPORT CBerInteger: public CBerBase
 {
 
 protected:
-	quint64 m_Val;
+	qint64 m_Val;
 
 public:
 	static CBerIdentifier s_Identifier;
 
 	CBerInteger();
-	CBerInteger(quint64 val);
+	CBerInteger(qint64 val);
 	CBerInteger(QByteArray& code);
 
 	virtual ~CBerInteger() {}
