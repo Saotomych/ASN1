@@ -36,10 +36,6 @@
 class ASN1_SHAREDEXPORT CBerOctetString: public CBerBaseOctetString
 {
 
-protected:
-
-	QByteArray m_OctetString;
-
 public:
 	static CBerIdentifier s_Identifier;
 

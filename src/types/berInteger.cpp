@@ -40,14 +40,14 @@ quint32 CBerInteger::deserialize(CBerByteArrayInputStream& iStream, CBerLength& 
 {
 
 	qint32 lenval = length.getVal();
-	if ( lenval < 1 || lenval > 8)
+	if ( lenval < 1 || lenval > 8 )
 	{
 		runtimeError("CBerInteger::deserialize: decoded length");
 		return codeLength;
 	}
 
 	QByteArray data(lenval, Qt::Initialization::Uninitialized);
-	if ( iStream.read(data, 0, lenval) < lenval)
+	if ( iStream.read(data, 0, lenval) < lenval )
 	{
 		runtimeError("CBerInteger::deserialize: read wrong");
 		return codeLength;
@@ -55,13 +55,13 @@ quint32 CBerInteger::deserialize(CBerByteArrayInputStream& iStream, CBerLength& 
 
 	codeLength += lenval;
 
-	if ( (data[0] & 0x80) == 0x80)
+	if ( (data[0] & 0x80) == 0x80 )
 	{
 		m_Val = -1;
 		for (qint32 i = 0; i < lenval; ++i)
 		{
 			qint32 numShiftBits = 8 * (lenval - i -1);
-			m_Val &= (quint64) ( ( (quint64)(data[i]) << numShiftBits) | ~( (quint64)(0xFF) << numShiftBits) );
+			m_Val &= (qint64) ( ( ((qint64) (data[i]) & 0xFF) << numShiftBits) | ~( (qint64)(0xFF) << numShiftBits) );
 		}
 	}
 	else
@@ -69,7 +69,7 @@ quint32 CBerInteger::deserialize(CBerByteArrayInputStream& iStream, CBerLength& 
 		m_Val = 0;
 		for (qint32 i = 0; i < lenval; ++i)
 		{
-			m_Val |= ( (quint64)(data[i]) << (8 * (lenval - i - 1)) );
+			m_Val |= ( ((qint64)(data[i]) & 0xFF) << (8 * (lenval - i - 1)) );
 		}
 	}
 
