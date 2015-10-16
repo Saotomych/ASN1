@@ -65,22 +65,25 @@ HEADERS += include/asn1_global.h \
 unix {
     CONFIG (debug, debug|release) {
         TARGET = $$qtLibraryTarget(asn1d)
+	    OBJECTS_DIR = build/debug
+	    DEFINES += DEBUG
+		LIBS += -lgcov
+
+	    QMAKE_CXXFLAGS_RELEASE -= -O
+		QMAKE_CXXFLAGS_RELEASE -= -O1
+		QMAKE_CXXFLAGS_RELEASE -= -O2
+		QMAKE_CXXFLAGS += -O0 -fprofile-arcs -ftest-coverage
     }else{
         TARGET = $$qtLibraryTarget(asn1)
+	    OBJECTS_DIR = build/release
     }
     target.path = /usr/lib
     INSTALLS += target
+   
 }else{
     TARGET = $$qtLibraryTarget(asn1)
 }
 
 CONFIG += debug_and_release build_all
 INCLUDEPATH += src include
-
-CONFIG (debug, debug|release){
-    OBJECTS_DIR = build/debug
-    DEFINES += DEBUG
-} else {
-    OBJECTS_DIR = build/release
-}
 

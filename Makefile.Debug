@@ -13,7 +13,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DASN1_LIBRARY -DDEBUG -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -m64 -pipe -g -fPIC -Wall -W -D_REENTRANT $(DEFINES)
-CXXFLAGS      = -m64 -pipe -g -fPIC -std=c++0x -Wall -W -D_REENTRANT $(DEFINES)
+CXXFLAGS      = -m64 -pipe -O0 -fprofile-arcs -ftest-coverage -g -fPIC -std=c++0x -Wall -W -D_REENTRANT $(DEFINES)
 INCPATH       = -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I. -Isrc -Iinclude -I/usr/include/qt5 -I/usr/include/qt5/QtNetwork -I/usr/include/qt5/QtCore -Idebug
 AR            = ar cqs
 RANLIB        = 
@@ -986,6 +986,7 @@ build/debug/InitIdentifiers.o: src/InitIdentifiers.cpp include/berOctetString.h 
 		include/berByteArrayInputStream.h \
 		include/berBase.h \
 		include/berLength.h \
+		include/berBaseOctetString.h \
 		include/berReal.h \
 		include/berObjectIdentifier.h \
 		include/berInteger.h \
@@ -996,7 +997,6 @@ build/debug/InitIdentifiers.o: src/InitIdentifiers.cpp include/berOctetString.h 
 		include/berBitString.h \
 		include/berGeneralizedTime.h \
 		include/berBMPString.h \
-		include/berBaseOctetString.h \
 		include/berGeneralString.h \
 		include/berGraphicString.h \
 		include/berIA5String.h \

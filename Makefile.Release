@@ -986,6 +986,7 @@ build/release/InitIdentifiers.o: src/InitIdentifiers.cpp include/berOctetString.
 		include/berByteArrayInputStream.h \
 		include/berBase.h \
 		include/berLength.h \
+		include/berBaseOctetString.h \
 		include/berReal.h \
 		include/berObjectIdentifier.h \
 		include/berInteger.h \
@@ -996,7 +997,6 @@ build/release/InitIdentifiers.o: src/InitIdentifiers.cpp include/berOctetString.
 		include/berBitString.h \
 		include/berGeneralizedTime.h \
 		include/berBMPString.h \
-		include/berBaseOctetString.h \
 		include/berGeneralString.h \
 		include/berGraphicString.h \
 		include/berIA5String.h \
