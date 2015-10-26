@@ -28,7 +28,7 @@
 #ifndef BER_ANY
 #define BER_ANY
 
-#include "../../include/berByteArrayOutputStream.h"
+#include "berByteArrayOutputStream.h"
 
 class  ASN1_SHAREDEXPORT CBerAnyNoDecode
 {

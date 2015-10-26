@@ -81,7 +81,7 @@ unix {
     INSTALLS += target
    
 }else{
-    TARGET = $$qtLibraryTarget(asn1)
+    TARGET = $$qtLibraryTarget(asn1-notunix)
 }
 
 CONFIG += debug_and_release build_all
