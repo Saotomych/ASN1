@@ -37,11 +37,8 @@ protected:
 	CBerIdentifier m_Identifier;
 	QByteArray m_Code;
 
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
-
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream) = 0;
-	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength) = 0;
+	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream)=0;
+	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength)=0;
 
 	virtual bool argumentWrong(QString strErr);
 	virtual bool runtimeError(QString strErr);
@@ -49,6 +46,9 @@ protected:
 public:
 
 	virtual ~CBerBase() {}
+
+	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
+	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
 
 signals:
 	void signalDecodeError(QString strErr);

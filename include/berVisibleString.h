@@ -42,10 +42,13 @@ protected:
 
 public:
 	static CBerIdentifier s_Identifier;
+	static quint32 s_metaTypeId;
 
 	CBerVisibleString();
 	CBerVisibleString(QByteArray& octetString);
 	CBerVisibleString(QString& octetString);
+	CBerVisibleString(const CBerVisibleString& rhs);
+	CBerVisibleString& operator=(const CBerVisibleString& rhs);
 
 	virtual ~CBerVisibleString() {}
 
@@ -58,5 +61,7 @@ public:
 	virtual QString toString();
 
 };
+
+Q_DECLARE_METATYPE(CBerVisibleString)
 
 #endif

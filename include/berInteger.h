@@ -40,10 +40,13 @@ protected:
 
 public:
 	static CBerIdentifier s_Identifier;
+	static quint32 s_metaTypeId;
 
 	CBerInteger();
 	CBerInteger(qint64 val);
 	CBerInteger(QByteArray& code);
+	CBerInteger(const CBerInteger& rhs);
+	CBerInteger& operator=(const CBerInteger& rhs);
 
 	virtual ~CBerInteger() {}
 
@@ -56,5 +59,7 @@ public:
 	void encodeAndSave(int encodingSizeGuess);
 
 };
+
+Q_DECLARE_METATYPE(CBerInteger)
 
 #endif

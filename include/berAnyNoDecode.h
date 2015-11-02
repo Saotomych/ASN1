@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef BER_ANY
-#define BER_ANY
+#ifndef BER_ANY_NODECODE
+#define BER_ANY_NODECODE
 
 #include "berByteArrayOutputStream.h"
 
@@ -60,4 +60,4 @@ public:
 
 };
 
-#endif BER_ANY
+#endif BER_ANY_NODECODE

@@ -41,10 +41,13 @@ protected:
 
 public:
 	static CBerIdentifier s_Identifier;
+	static quint32 s_metaTypeId;
 
 	CBerBitString();
 	CBerBitString(QBitArray& bitString);
 	CBerBitString(QByteArray& code);
+	CBerBitString(const CBerBitString& rhs);
+	CBerBitString& operator=(const CBerBitString& rhs);
 
 	virtual ~CBerBitString() {}
 
@@ -55,5 +58,7 @@ public:
 	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
 
 };
+
+Q_DECLARE_METATYPE(CBerBitString)
 
 #endif

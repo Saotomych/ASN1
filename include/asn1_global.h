@@ -14,6 +14,8 @@
 #include <QByteArray>
 #include <QBitArray>
 #include <QtCore/qmath.h>
+#include <QMetaObject>
+#include <QMetaProperty>
 
 #include <exception>
 #include <stdexcept>

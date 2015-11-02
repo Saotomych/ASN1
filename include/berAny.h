@@ -47,6 +47,11 @@ public:
 		return m_Length;
 	}
 
+	qint32 decode(CBerByteArrayInputStream& iStream, bool explct)
+	{
+		return m_Length;
+	}
+
 };
 
 #endif BER_ANY

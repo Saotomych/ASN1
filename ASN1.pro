@@ -24,6 +24,7 @@ SOURCES += src/berByteArrayOutputStream.cpp \
     src/berIdentifier.cpp \
     src/berLength.cpp \
     src/berBase.cpp \
+    src/compositeSerializer.cpp \
     src/types/berBaseOctetString.cpp \
     src/types/berBitString.cpp \
     src/types/berBoolean.cpp \
@@ -60,7 +61,9 @@ HEADERS += include/asn1_global.h \
     include/berUniversalString.h \
     include/berUTF8String.h \
     include/berVideotexString.h \
-    include/berVisibleString.h
+    include/berVisibleString.h \
+    include/compositeSerializer.h \
+    include/compositeValue.h
     
 unix {
     CONFIG (debug, debug|release) {

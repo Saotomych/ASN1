@@ -17,6 +17,24 @@ CBerVisibleString::CBerVisibleString(QString& octetString)
 	m_OctetString = octetString.toUtf8();
 }
 
+CBerVisibleString::CBerVisibleString(const CBerVisibleString& rhs)
+{
+	m_Identifier = rhs.m_Identifier;
+	m_OctetString = rhs.m_OctetString;
+	m_Code = rhs.m_Code;
+}
+
+CBerVisibleString& CBerVisibleString::operator=(const CBerVisibleString& rhs)
+{
+	if (this == &rhs) return *this;
+
+	m_Identifier = rhs.m_Identifier;
+	m_OctetString = rhs.m_OctetString;
+	m_Code = rhs.m_Code;
+
+	return *this;
+}
+
 quint32 CBerVisibleString::serialize(CBerByteArrayOutputStream& berOStream)
 {
 	berOStream.write(m_OctetString);

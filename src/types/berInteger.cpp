@@ -17,6 +17,23 @@ CBerInteger::CBerInteger(QByteArray& code): m_Val(0)
 	m_Code = code;
 }
 
+CBerInteger::CBerInteger(const CBerInteger& rhs)
+{
+	m_Identifier = rhs.m_Identifier;
+	m_Val = rhs.m_Val;
+	m_Code = rhs.m_Code;
+}
+
+CBerInteger& CBerInteger::operator=(const CBerInteger& rhs)
+{
+	if (this == &rhs) return *this;
+
+	m_Identifier = rhs.m_Identifier;
+	m_Val = rhs.m_Val;
+	m_Code = rhs.m_Code;
+	return *this;
+}
+
 quint32 CBerInteger::serialize(CBerByteArrayOutputStream& berOStream)
 {
 	quint32 codeLength = 1;

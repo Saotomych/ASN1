@@ -78,32 +78,13 @@ public:
 	qint32 m_Primitive;
 	qint32 m_TagNumber;
 
-	CBerIdentifier(): m_IdentifierClass(0), m_Primitive(0), m_TagNumber(0)
-	{
-		code();
-	}
+	CBerIdentifier();
 
-	CBerIdentifier(qint32 identifierClass, qint32 primitive, qint32 tagNumber):
-	m_IdentifierClass(identifierClass),
-	m_Primitive(primitive),
-	m_TagNumber(tagNumber)
-	{
-		code();
-	}
+	CBerIdentifier(qint32 identifierClass, qint32 primitive, qint32 tagNumber);
 
-	CBerIdentifier& operator=(const CBerIdentifier& that)
-	{
-		if (this == &that) {
-			return *this;
-		}
+	CBerIdentifier(const CBerIdentifier& rhs);
 
-		m_Identifier = that.m_Identifier;
-		m_IdentifierClass = that.m_IdentifierClass;
-		m_Primitive = that.m_Primitive;
-		m_TagNumber = that.m_TagNumber;
-
-		return *this;
-	}
+	CBerIdentifier& operator=(const CBerIdentifier& that);
 
 	qint32 encode(CBerByteArrayOutputStream& berOStream);
 

@@ -44,3 +44,7 @@ CBerIdentifier CBerTeletexString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, 
 CBerIdentifier CBerUniversalString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::UNIVERSAL_STRING_TAG);
 CBerIdentifier CBerUTF8String::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::UTF8_STRING_TAG);
 CBerIdentifier CBerVideotexString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::VIDEOTEX_STRING_TAG);
+
+quint32 CBerVisibleString::s_metaTypeId = qRegisterMetaType<CBerVisibleString>();
+quint32 CBerInteger::s_metaTypeId = qRegisterMetaType<CBerInteger>();
+quint32 CBerBitString::s_metaTypeId = qRegisterMetaType<CBerBitString>();
