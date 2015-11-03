@@ -28,19 +28,25 @@
 #ifndef BER_OBJECTIDENTIFIER
 #define BER_OBJECTIDENTIFIER
 
-#include "berBase.h"
 #include "berIdentifier.h"
 #include "berLength.h"
+#include "storages/berObjectIdentifierStorage.h"
 
-class ASN1_SHAREDEXPORT CBerObjectIdentifier: public CBerBase
+class ASN1_SHAREDEXPORT CBerObjectIdentifier: public QObject, public CBerObjectIdentifierStorage
 {
+	Q_OBJECT
+	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
+	Q_PROPERTY(QByteArray Code MEMBER m_Code)
+	Q_PROPERTY(QVector<qint32> ObjectIdentifier MEMBER m_ObjectIdentifier)
 
 protected:
-
-	QVector<qint32> m_ObjectIdentifierComponents;
+	CBerIdentifier m_Identifier;
+	QByteArray m_Code;
+	QVector<qint32> m_ObjectIdentifier;
 
 public:
 	static CBerIdentifier s_Identifier;
+	static quint32 s_metaTypeId;
 
 	CBerObjectIdentifier();
 	CBerObjectIdentifier(QVector<qint32>& bitString);
@@ -48,13 +54,8 @@ public:
 
 	virtual ~CBerObjectIdentifier() {}
 
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
-	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength);
-
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
-
-	virtual QString toString();
 };
+
+Q_DECLARE_METATYPE(CBerObjectIdentifier)
 
 #endif

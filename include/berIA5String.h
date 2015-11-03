@@ -26,18 +26,27 @@
  */
 
 #ifndef BER_IA5STRING
-#ifdef  BER_OCTETSTRING
 #define BER_IA5STRING
 
 #include "berIdentifier.h"
 #include "berLength.h"
-#include "berBaseOctetString.h"
+#include "storages/berOctetStringStorage.h"
 
-class ASN1_SHAREDEXPORT CBerIA5String: public CBerBaseOctetString
+class ASN1_SHAREDEXPORT CBerIA5String: public QObject, public CBerOctetStringStorage
 {
+	Q_OBJECT
+	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
+	Q_PROPERTY(QByteArray Code MEMBER m_Code)
+	Q_PROPERTY(QByteArray OctetString MEMBER m_OctetString)
+
+protected:
+	CBerIdentifier m_Identifier;
+	QByteArray m_Code;
+	QByteArray m_OctetString;
 
 public:
 	static CBerIdentifier s_Identifier;
+	static quint32 s_metaTypeId;
 
 	CBerIA5String()
 	{
@@ -53,5 +62,6 @@ public:
 	virtual ~CBerIA5String() {}
 };
 
-#endif
+Q_DECLARE_METATYPE(CBerIA5String)
+
 #endif

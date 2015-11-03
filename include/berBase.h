@@ -29,31 +29,23 @@
 #include "berIdentifier.h"
 #include "berLength.h"
 
-class ASN1_SHAREDEXPORT CBerBase: public QObject
+class CBerBaseStorage
 {
-	Q_OBJECT
-
 protected:
-	CBerIdentifier m_Identifier;
-	QByteArray m_Code;
+	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
+	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct);
 
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream)=0;
-	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength)=0;
-
-	virtual bool argumentWrong(QString strErr);
-	virtual bool runtimeError(QString strErr);
+	void runtimeError(QString strErr);
+	void argumentWrong(QString strErr);
 
 public:
 
-	virtual ~CBerBase() {}
+	virtual ~CBerBaseStorage() {}
 
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
+	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
+	virtual quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct);
 
-signals:
-	void signalDecodeError(QString strErr);
-	void signalParameterWrong(QString strErr);
-
+	virtual void encodeAndSave(QObject* obj, qint32 encodingSizeGuess) { }
 };
 
 #endif

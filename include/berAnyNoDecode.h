@@ -29,12 +29,23 @@
 #define BER_ANY_NODECODE
 
 #include "berByteArrayOutputStream.h"
+#include "berBase.h"
 
-class  ASN1_SHAREDEXPORT CBerAnyNoDecode
+class  ASN1_SHAREDEXPORT CBerAnyNoDecode: public QObject, public CBerBaseStorage
 {
-	quint32 m_Length;
+	Q_OBJECT
+	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
+	Q_PROPERTY(QByteArray Code MEMBER m_Code)
+	Q_PROPERTY(qint64 Length MEMBER m_Length)
+
+protected:
+	CBerIdentifier m_Identifier;
+	QByteArray m_Code;
+	qint64 m_Length;
 
 public:
+	static CBerIdentifier s_Identifier;
+	static quint32 s_metaTypeId;
 
 	CBerAnyNoDecode(): m_Length(0)
 	{}
@@ -42,12 +53,14 @@ public:
 	CBerAnyNoDecode(quint32 length): m_Length(length)
 	{}
 
-	qint32 encode(CBerByteArrayOutputStream berOStream, bool expl)
+	virtual ~CBerAnyNoDecode() {}
+
+	virtual qint32 encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
 	{
 		return m_Length;
 	}
 
-	qint32 decode(CBerByteArrayInputStream& iStream, bool explct)
+	virtual qint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct)
 	{
 		CBerLength length;
 
@@ -59,5 +72,7 @@ public:
 	}
 
 };
+
+Q_DECLARE_METATYPE(CBerAnyNoDecode)
 
 #endif BER_ANY_NODECODE

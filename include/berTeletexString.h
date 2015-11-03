@@ -26,19 +26,27 @@
  */
 
 #ifndef BER_TELETEXSTRING
-#ifdef  BER_OCTETSTRING
 #define BER_TELETEXSTRING
 
-#include "berByteArrayOutputStream.h"
 #include "berIdentifier.h"
 #include "berLength.h"
-#include "berBaseOctetString.h"
+#include "storages/berOctetStringStorage.h"
 
-class ASN1_SHAREDEXPORT CBerTeletexString: public CBerBaseOctetString
+class ASN1_SHAREDEXPORT CBerTeletexString: public QObject, public CBerOctetStringStorage
 {
+	Q_OBJECT
+	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
+	Q_PROPERTY(QByteArray Code MEMBER m_Code)
+	Q_PROPERTY(QByteArray OctetString MEMBER m_OctetString)
+
+protected:
+	CBerIdentifier m_Identifier;
+	QByteArray m_Code;
+	QByteArray m_OctetString;
 
 public:
 	static CBerIdentifier s_Identifier;
+	static quint32 s_metaTypeId;
 
 	CBerTeletexString()
 	{
@@ -54,5 +62,6 @@ public:
 	virtual ~CBerTeletexString() {}
 };
 
-#endif
+Q_DECLARE_METATYPE(CBerTeletexString)
+
 #endif

@@ -28,15 +28,20 @@
 #ifndef BER_BITSTRING
 #define BER_BITSTRING
 
-#include "berBase.h"
-#include "berByteArrayOutputStream.h"
 #include "berIdentifier.h"
 #include "berLength.h"
+#include "storages/berBitStringStorage.h"
 
-class ASN1_SHAREDEXPORT CBerBitString: public CBerBase
+class ASN1_SHAREDEXPORT CBerBitString: public QObject, public CBerBitStringStorage
 {
+	Q_OBJECT
+	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
+	Q_PROPERTY(QByteArray Code MEMBER m_Code)
+	Q_PROPERTY(QBitArray BitString MEMBER m_BitString)
 
 protected:
+	CBerIdentifier m_Identifier;
+	QByteArray m_Code;
 	QBitArray m_BitString;
 
 public:
@@ -48,15 +53,6 @@ public:
 	CBerBitString(QByteArray& code);
 	CBerBitString(const CBerBitString& rhs);
 	CBerBitString& operator=(const CBerBitString& rhs);
-
-	virtual ~CBerBitString() {}
-
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
-	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength);
-
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
-
 };
 
 Q_DECLARE_METATYPE(CBerBitString)

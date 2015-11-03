@@ -26,18 +26,27 @@
  */
 
 #ifndef BER_GENERALSTRING
-#ifdef  BER_OCTETSTRING
 #define BER_GENERALSTRING
 
 #include "berIdentifier.h"
 #include "berLength.h"
-#include "berBaseOctetString.h"
+#include "storages/berOctetStringStorage.h"
 
-class ASN1_SHAREDEXPORT CBerGeneralString: public CBerBaseOctetString
+class ASN1_SHAREDEXPORT CBerGeneralString: public QObject, public CBerOctetStringStorage
 {
+	Q_OBJECT
+	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
+	Q_PROPERTY(QByteArray Code MEMBER m_Code)
+	Q_PROPERTY(QByteArray OctetString MEMBER m_OctetString)
+
+protected:
+	CBerIdentifier m_Identifier;
+	QByteArray m_Code;
+	QByteArray m_OctetString;
 
 public:
 	static CBerIdentifier s_Identifier;
+	static quint32 s_metaTypeId;
 
 	CBerGeneralString()
 	{
@@ -53,5 +62,6 @@ public:
 	virtual ~CBerGeneralString() {}
 };
 
-#endif
+Q_DECLARE_METATYPE(CBerGeneralString)
+
 #endif

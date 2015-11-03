@@ -45,6 +45,8 @@ public:
 
 	CBerLength(): m_ValLength(0) {}
 
+	virtual ~CBerLength() {}
+
 	qint32 decode(CBerByteArrayInputStream& iStream);
 
 	quint32 getVal();

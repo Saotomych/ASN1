@@ -28,35 +28,33 @@
 #ifndef BER_REAL
 #define BER_REAL
 
-#include "berBase.h"
-#include "berByteArrayOutputStream.h"
-#include "berByteArrayInputStream.h"
 #include "berIdentifier.h"
 #include "berLength.h"
+#include "storages/berRealStorage.h"
 
-class ASN1_SHAREDEXPORT CBerReal: public CBerBase
+class ASN1_SHAREDEXPORT CBerReal: public QObject, public CBerRealStorage
 {
+	Q_OBJECT
+	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
+	Q_PROPERTY(QByteArray Code MEMBER m_Code)
+	Q_PROPERTY(double Real MEMBER m_Real)
 
 protected:
+	CBerIdentifier m_Identifier;
+	QByteArray m_Code;
 	double m_Real;
 
 public:
 	static CBerIdentifier s_Identifier;
+	static quint32 s_metaTypeId;
 
 	CBerReal();
 	CBerReal(double real);
 	CBerReal(QByteArray& code);
 
 	virtual ~CBerReal() {}
-
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
-	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength);
-
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
-
-	void encodeAndSave(qint32 encodingSizeGuess);
-
 };
+
+Q_DECLARE_METATYPE(CBerReal)
 
 #endif

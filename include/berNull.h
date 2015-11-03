@@ -31,24 +31,27 @@
 #include "berIdentifier.h"
 #include "berBase.h"
 #include "berLength.h"
+#include "storages/berNullStorage.h"
 
-class ASN1_SHAREDEXPORT CBerNull: public CBerBase
+class ASN1_SHAREDEXPORT CBerNull: public QObject, public CBerNullStorage
 {
+	Q_OBJECT
+	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
+	Q_PROPERTY(QByteArray Code MEMBER m_Code)
+
+protected:
+	CBerIdentifier m_Identifier;
+	QByteArray m_Code;
 
 public:
-
 	static CBerIdentifier s_Identifier;
+	static quint32 s_metaTypeId;
 
 	CBerNull();
 
 	virtual ~CBerNull() {}
-
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
-	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength);
-
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
-
 };
+
+Q_DECLARE_METATYPE(CBerNull)
 
 #endif

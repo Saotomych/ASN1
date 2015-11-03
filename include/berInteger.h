@@ -29,13 +29,19 @@
 #define BER_INTEGER
 
 #include "berIdentifier.h"
-#include "berBase.h"
 #include "berLength.h"
+#include "berIntegerStorage.h"
 
-class ASN1_SHAREDEXPORT CBerInteger: public CBerBase
+class ASN1_SHAREDEXPORT CBerInteger: public QObject, public CBerIntegerStorage
 {
+	Q_OBJECT
+	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
+	Q_PROPERTY(QByteArray Code MEMBER m_Code)
+	Q_PROPERTY(qint64 Val MEMBER m_Val)
 
 protected:
+	CBerIdentifier m_Identifier;
+	QByteArray m_Code;
 	qint64 m_Val;
 
 public:
@@ -49,14 +55,6 @@ public:
 	CBerInteger& operator=(const CBerInteger& rhs);
 
 	virtual ~CBerInteger() {}
-
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
-	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength);
-
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
-
-	void encodeAndSave(int encodingSizeGuess);
 
 };
 

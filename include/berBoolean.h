@@ -28,35 +28,33 @@
 #ifndef BER_BOOLEAN
 #define BER_BOOLEAN
 
-#include "berBase.h"
-#include "berByteArrayOutputStream.h"
-#include "berByteArrayInputStream.h"
 #include "berIdentifier.h"
 #include "berLength.h"
+#include "storages/berBooleanStorage.h"
 
-class ASN1_SHAREDEXPORT CBerBoolean: public CBerBase
+class ASN1_SHAREDEXPORT CBerBoolean: public QObject, public CBerBooleanStorage
 {
+	Q_OBJECT
+	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
+	Q_PROPERTY(QByteArray Code MEMBER m_Code)
+	Q_PROPERTY(bool Val MEMBER m_Val)
 
 protected:
+	CBerIdentifier m_Identifier;
+	QByteArray m_Code;
 	bool m_Val;
 
 public:
-
 	static CBerIdentifier s_Identifier;
+	static quint32 s_metaTypeId;
 
 	CBerBoolean();
 	CBerBoolean(bool val);
 	CBerBoolean(QByteArray code);
 
 	virtual ~CBerBoolean() {}
-
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream);
-	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, CBerLength& length, quint32 codeLength);
-
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct);
-	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct);
-	void encodeAndSave(qint32 encodeSizeGuess);
-
 };
+
+Q_DECLARE_METATYPE(CBerBoolean)
 
 #endif

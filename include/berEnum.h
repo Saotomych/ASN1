@@ -29,18 +29,23 @@
 #define BER_ENUM
 
 #include "berIdentifier.h"
-#include "berInteger.h"
+#include "storages/berIntegerStorage.h"
 
-class ASN1_SHAREDEXPORT CBerEnum: public CBerInteger
+class ASN1_SHAREDEXPORT CBerEnum: public QObject, public CBerIntegerStorage
 {
+	Q_OBJECT
+	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
+	Q_PROPERTY(QByteArray Code MEMBER m_Code)
+	Q_PROPERTY(qint64 Val MEMBER m_Val)
 
+protected:
 	CBerIdentifier m_Identifier;
 	QByteArray m_Code;
 	qint64 m_Val;
 
 public:
-
 	static CBerIdentifier s_Identifier;
+	static quint32 s_metaTypeId;
 
 	CBerEnum(): m_Val(0)
 	{
@@ -60,5 +65,7 @@ public:
 	}
 
 };
+
+Q_DECLARE_METATYPE(CBerEnum)
 
 #endif

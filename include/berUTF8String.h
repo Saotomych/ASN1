@@ -26,19 +26,27 @@
  */
 
 #ifndef BER_UTF8STRING
-#ifdef  BER_OCTETSTRING
 #define BER_UTF8STRING
 
-#include "berByteArrayOutputStream.h"
 #include "berIdentifier.h"
 #include "berLength.h"
-#include "berBaseOctetString.h"
+#include "storages/berOctetStringStorage.h"
 
-class ASN1_SHAREDEXPORT CBerUTF8String: public CBerBaseOctetString
+class ASN1_SHAREDEXPORT CBerUTF8String: public QObject, public CBerOctetStringStorage
 {
+	Q_OBJECT
+	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
+	Q_PROPERTY(QByteArray Code MEMBER m_Code)
+	Q_PROPERTY(QByteArray OctetString MEMBER m_OctetString)
+
+protected:
+	CBerIdentifier m_Identifier;
+	QByteArray m_Code;
+	QByteArray m_OctetString;
 
 public:
 	static CBerIdentifier s_Identifier;
+	static quint32 s_metaTypeId;
 
 	CBerUTF8String()
 	{
@@ -60,5 +68,6 @@ public:
 	virtual ~CBerUTF8String() {}
 };
 
-#endif
+Q_DECLARE_METATYPE(CBerUTF8String)
+
 #endif
