@@ -31,30 +31,44 @@
 #include "berIdentifier.h"
 #include "berLength.h"
 #include "storages/berRealStorage.h"
+#include "storages/berBaseType.h"
+#include "storages/decoder.h"
 
-class ASN1_SHAREDEXPORT CBerReal: public QObject, public CBerRealStorage
+class ASN1_SHAREDEXPORT CBerReal: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
-	Q_PROPERTY(QByteArray Code MEMBER m_Code)
-	Q_PROPERTY(double Real MEMBER m_Real)
+	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(QByteArray* Code READ getCode)
+	Q_PROPERTY(double* Real READ getValue WRITE setValue)
 
 protected:
 	CBerIdentifier m_Identifier;
 	QByteArray m_Code;
 	double m_Real;
 
+	void setValue(double* pVal) { m_Real = *pVal; }
+
 public:
+
+	ASN1_CODEC(CBerRealStorage)
+
 	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
 
 	CBerReal();
 	CBerReal(double real);
 	CBerReal(QByteArray& code);
+	CBerReal(const CBerReal& rhs);
+	CBerReal& operator=(const CBerReal& rhs);
+	bool operator!=(const CBerReal& rhs);
 
 	virtual ~CBerReal() {}
+
+	double* getValue() { return &m_Real; }
+	QByteArray* getCode() { return &m_Code; }
+	CBerIdentifier* getIdentifier() { return &m_Identifier; }
 };
 
-Q_DECLARE_METATYPE(CBerReal)
+Q_DECLARE_METATYPE(CBerReal*)
 
 #endif

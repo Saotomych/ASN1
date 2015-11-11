@@ -11,39 +11,42 @@ QBitArray* CBerBitStringStorage::ptrValue(QObject* obj, quint32 idx)
 {
 	QVariant var = obj->metaObject()->property(idx).read(obj);
 	qDebug() << var.typeName() << "; " << var.userType() << "; ";
-	return const_cast<QBitArray*> (reinterpret_cast<const QBitArray*> (var.constData()));
+	return qvariant_cast<QBitArray*> (var);
 }
 
 quint32 CBerBitStringStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
 {
-	QBitArray* pBA = ptrValue(obj, 3);
+	QBitArray BA = *ptrValue(obj, 3);
 
 	quint32 codeLength = 0;
 
-	for (qint32 i = pBA->size()-1; i >= 0; --i)
+	for (qint32 i = BA.size()-1; i >= 0; --i)
 	{
-		quint8 data = (pBA[i] == false) ? 0 : 0xFF;
+		quint8 data = (BA[i] == false) ? 0 : 0xFF;
 		berOStream.write(data);
 	}
-	berOStream.write( (quint8) (pBA->size()) );
+	berOStream.write( (quint8) (BA.size()) );
 
-	codeLength = pBA->size() + 1;
+	codeLength = BA.size() + 1;
 
 	return codeLength;
 }
 
 quint32 CBerBitStringStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct)
 {
-	QByteArray data(length.getVal(), Qt::Initialization::Uninitialized);
+	qint32 lenVal = length.getVal();
+
+	QByteArray data(lenVal, Qt::Initialization::Uninitialized);
+
 	if (data.size() > 0)
 	{
 		QBitArray val;
 
-		quint32 rdLength = iStream.read(data, 0, (qint32) (length.getVal()) );
-		if (rdLength == length.getVal())
+		qint32 rdLength = iStream.read(data, 0, lenVal);
+		if (rdLength == lenVal)
 		{
 			val.resize(rdLength);
-			for (quint32 i=0; i<rdLength; ++i)
+			for (qint32 i=0; i<rdLength; ++i)
 			{
 				if (data[i]) val.setBit(i);
 				else val.clearBit(i);
@@ -51,28 +54,15 @@ quint32 CBerBitStringStorage::deserialize(CBerByteArrayInputStream& iStream, QOb
 
 			codeLength += rdLength + 1;
 
-			QVariant wrvar(val);
+			QBitArray* pVal = &val;
+			QVariant wrvar(PtrMetaTypes::s_QBitArrayPtrMetaType, &pVal);
 			obj->metaObject()->property(3).write(obj, wrvar);
 		}
-		else
-		{
-			runtimeError("CBerBitStringStorage::deserialize: error decoding");
-		}
+//		else
+//		{
+//			runtimeError("CBerBitStringStorage::deserialize: error decoding");
+//		}
 	}
-
-	return codeLength;
-}
-
-quint32 CBerBitStringStorage::encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
-{
-	quint32 codeLength = CBerBaseStorage::encode(berOStream, obj, explct);
-
-	return codeLength;
-}
-
-quint32 CBerBitStringStorage::decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct)
-{
-	int codeLength =  CBerBaseStorage::decode(iStream, obj, explct);
 
 	return codeLength;
 }

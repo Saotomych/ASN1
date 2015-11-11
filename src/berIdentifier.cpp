@@ -69,6 +69,21 @@ CBerIdentifier& CBerIdentifier::operator=(const CBerIdentifier& that)
 	return *this;
 }
 
+bool CBerIdentifier::operator!=(const CBerIdentifier& that)
+{
+	if (this == &that) return false;
+
+	return m_TagNumber != that.m_TagNumber;
+}
+
+void CBerIdentifier::swap(CBerIdentifier& that)
+{
+	std::swap(m_Identifier, that.m_Identifier);
+	std::swap(m_IdentifierClass, that.m_IdentifierClass);
+	std::swap(m_Primitive, that.m_Primitive);
+	std::swap(m_TagNumber, that.m_TagNumber);
+}
+
 void CBerIdentifier::code()
 {
 	if (m_TagNumber < 31)

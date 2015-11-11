@@ -28,25 +28,28 @@
 #include "berByteArrayInputStream.h"
 #include "berIdentifier.h"
 #include "berLength.h"
+#include "storages/berBaseType.h"
 
 class CBerBaseStorage
 {
-protected:
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
-	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct);
+public:
+	quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
+	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct);
 
 	void runtimeError(QString strErr);
 	void argumentWrong(QString strErr);
 
 public:
 
-	virtual ~CBerBaseStorage() {}
+	static quint32 s_metaTypeId;
 
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
-	virtual quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct);
-
-	virtual void encodeAndSave(QObject* obj, qint32 encodingSizeGuess) { }
+//	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
+//	virtual quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct);
+//
+	void encodeAndSave(QObject* obj, qint32 encodingSizeGuess) { }
 };
+
+Q_DECLARE_METATYPE(CBerBaseStorage*)
 
 #endif
 

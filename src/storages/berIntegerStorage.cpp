@@ -5,25 +5,26 @@
  *      Author: alexey
  */
 
-#include "berIntegerStorage.h"
+#include "storages/berIntegerStorage.h"
+#include "berInteger.h"
 
-qint32* CBerIntegerStorage::ptrValue(QObject* obj, quint32 idx)
+qint64* CBerIntegerStorage::ptrValue(QObject* obj, quint32 idx)
 {
 	QVariant var = obj->metaObject()->property(idx).read(obj);
 	qDebug() << var.typeName() << "; " << var.userType() << "; ";
-	return const_cast<qint32*> (reinterpret_cast<const qint32*> (var.constData()));
+	return qvariant_cast<qint64*> (var);
 }
 
 quint32 CBerIntegerStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
 {
 	quint32 codeLength = 1;
 
-	qint32* pInteger = ptrValue(obj, 3);
+	qint64 Integer = *ptrValue(obj, 3);
 
-	while ( ( (*pInteger > (pow(2, 8 * codeLength - 1) - 1)) || (*pInteger < pow(-2, 8 * codeLength - 1)) ) && (codeLength < 8) )
+	while ( ( (Integer > (pow(2, 8 * codeLength - 1) - 1)) || (Integer < pow(-2, 8 * codeLength - 1)) ) && (codeLength < 8) )
 		codeLength++;
 
-	quint64 val = *pInteger;
+	qint64 val = Integer;
 	for (quint32 i = 0; i < codeLength; ++i)
 	{
 		berOStream.write( (quint8) (val & 0xFF) );
@@ -40,14 +41,14 @@ quint32 CBerIntegerStorage::deserialize(CBerByteArrayInputStream& iStream, QObje
 	qint32 lenval = length.getVal();
 	if ( lenval < 1 || lenval > 8 )
 	{
-		runtimeError("CBerInteger::deserialize: decoded length");
+//		runtimeError("CBerInteger::deserialize: decoded length");
 		return codeLength;
 	}
 
 	QByteArray data(lenval, Qt::Initialization::Uninitialized);
 	if ( iStream.read(data, 0, lenval) < lenval )
 	{
-		runtimeError("CBerInteger::deserialize: read wrong");
+//		runtimeError("CBerInteger::deserialize: read wrong");
 		return codeLength;
 	}
 
@@ -73,25 +74,12 @@ quint32 CBerIntegerStorage::deserialize(CBerByteArrayInputStream& iStream, QObje
 		}
 	}
 
-	QVariant wrvar(val);
+	qint64* pVal = &val;
+	QVariant wrvar(PtrMetaTypes::s_qint64PtrMetaType, &pVal);
 	obj->metaObject()->property(3).write(obj, wrvar);
 
 	return codeLength;
 
-}
-
-quint32 CBerIntegerStorage::encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
-{
-	quint32 codeLength = CBerBaseStorage::encode(berOStream, obj, explct);
-
-	return codeLength;
-}
-
-quint32 CBerIntegerStorage::decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct)
-{
-	int codeLength =  CBerBaseStorage::decode(iStream, obj, explct);
-
-	return codeLength;
 }
 
 void CBerIntegerStorage::encodeAndSave(QObject* obj, qint32 encodingSizeGuess)
@@ -100,7 +88,7 @@ void CBerIntegerStorage::encodeAndSave(QObject* obj, qint32 encodingSizeGuess)
 
 	CBerByteArrayOutputStream berOStream(encodingSizeGuess);
 
-	pBerInteger->encode(berOStream, obj, false);
+	pBerInteger->encode(berOStream, false);
 	QByteArray Code = berOStream.getByteArray();
 
 	QVariant wrvar(Code);

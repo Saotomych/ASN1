@@ -12,19 +12,19 @@ CBerObjectIdentifier::CBerObjectIdentifier(QVector<qint32>& objectIdentifierComp
 	m_Identifier = s_Identifier;
 
 	if ( objectIdentifierComponents.size() < 2 )
-		argumentValid = argumentWrong("CBerObjectIdentifier::parameterWrong in constructor");
+		qDebug() << QString("CBerObjectIdentifier::parameterWrong in constructor");
 
 	if ( ( objectIdentifierComponents[0] == 0 || objectIdentifierComponents[1] == 1) && ( objectIdentifierComponents[1] > 39) )
-		argumentValid = argumentWrong("CBerObjectIdentifier::parameterWrong in constructor");
+		qDebug() << QString("CBerObjectIdentifier::parameterWrong in constructor");
 
 	if ( objectIdentifierComponents[0] > 2 )
-		argumentValid = argumentWrong("CBerObjectIdentifier::parameterWrong in constructor");
+		qDebug() << QString("CBerObjectIdentifier::parameterWrong in constructor");
 
 	for (auto objectIdentifierComponent: objectIdentifierComponents)
 	{
 		if (objectIdentifierComponent < 0)
 		{
-			argumentValid = argumentWrong("CBerObjectIdentifier::parameterWrong in constructor");
+			qDebug() << QString("CBerObjectIdentifier::parameterWrong in constructor");
 			break;
 		}
 	}
@@ -39,3 +39,27 @@ CBerObjectIdentifier::CBerObjectIdentifier(QByteArray& code)
 	m_Code = code;
 }
 
+CBerObjectIdentifier::CBerObjectIdentifier(const CBerObjectIdentifier& rhs): QObject()
+{
+	m_Identifier = rhs.m_Identifier;
+	m_Code = rhs.m_Code;
+	m_ObjectIdentifier = rhs.m_ObjectIdentifier;
+}
+
+CBerObjectIdentifier& CBerObjectIdentifier::operator=(const CBerObjectIdentifier& rhs)
+{
+	if (this == &rhs) return *this;
+
+	m_Identifier = rhs.m_Identifier;
+	m_Code = rhs.m_Code;
+	m_ObjectIdentifier = rhs.m_ObjectIdentifier;
+
+	return *this;
+}
+
+bool CBerObjectIdentifier::operator!=(const CBerObjectIdentifier& rhs)
+{
+	if (this == &rhs) return false;
+
+	return m_ObjectIdentifier != rhs.m_ObjectIdentifier;
+}

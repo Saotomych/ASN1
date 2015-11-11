@@ -73,6 +73,8 @@ public:
 
 public:
 
+	static quint32 s_metaTypeId;
+
 	QByteArray m_Identifier;
 	qint32 m_IdentifierClass;
 	qint32 m_Primitive;
@@ -85,6 +87,11 @@ public:
 	CBerIdentifier(const CBerIdentifier& rhs);
 
 	CBerIdentifier& operator=(const CBerIdentifier& that);
+	bool operator!=(const CBerIdentifier& that);
+
+	void swap(CBerIdentifier& that);
+
+	~CBerIdentifier() {}
 
 	qint32 encode(CBerByteArrayOutputStream& berOStream);
 
@@ -109,5 +116,7 @@ signals:
 	void signalBERError(QString strErr);
 
 };
+
+Q_DECLARE_METATYPE(CBerIdentifier*)
 
 #endif

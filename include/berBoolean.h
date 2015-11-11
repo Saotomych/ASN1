@@ -31,30 +31,44 @@
 #include "berIdentifier.h"
 #include "berLength.h"
 #include "storages/berBooleanStorage.h"
+#include "storages/berBaseType.h"
+#include "storages/decoder.h"
 
-class ASN1_SHAREDEXPORT CBerBoolean: public QObject, public CBerBooleanStorage
+class ASN1_SHAREDEXPORT CBerBoolean: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
-	Q_PROPERTY(QByteArray Code MEMBER m_Code)
-	Q_PROPERTY(bool Val MEMBER m_Val)
+	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(QByteArray* Code READ getCode)
+	Q_PROPERTY(bool* Value READ getValue WRITE setValue)
 
 protected:
 	CBerIdentifier m_Identifier;
 	QByteArray m_Code;
 	bool m_Val;
 
+	void setValue(bool* val) { m_Val = *val; }
+
 public:
+
+	ASN1_CODEC(CBerBooleanStorage)
+
 	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
 
 	CBerBoolean();
 	CBerBoolean(bool val);
 	CBerBoolean(QByteArray code);
-
+	CBerBoolean(const CBerBoolean& rhs);
 	virtual ~CBerBoolean() {}
+
+	CBerBoolean& operator=(const CBerBoolean& rhs);
+	bool operator!=(const CBerBoolean& rhs);
+
+	CBerIdentifier* getIdentifier() { return &m_Identifier; }
+	QByteArray* getCode() { return &m_Code; }
+	bool* getValue() {return &m_Val;}
 };
 
-Q_DECLARE_METATYPE(CBerBoolean)
+Q_DECLARE_METATYPE(CBerBoolean*)
 
 #endif

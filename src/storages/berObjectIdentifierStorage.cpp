@@ -6,31 +6,32 @@
  */
 
 #include "storages/berObjectIdentifierStorage.h"
+#include "berObjectIdentifier.h"
 
 QVector<qint32>* CBerObjectIdentifierStorage::ptrValue(QObject* obj, quint32 idx)
 {
 	QVariant var = obj->metaObject()->property(idx).read(obj);
 	qDebug() << var.typeName() << "; " << var.userType() << "; ";
-	return const_cast<QVector<qint32>*> (reinterpret_cast<const QVector<qint32>*> (var.constData()));
+	return qvariant_cast<QVector<qint32>* > (var);
 }
 
 quint32 CBerObjectIdentifierStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
 {
-	QVector<qint32>* pOIC = ptrValue(obj, 3);
+	QVector<qint32> OIC = *(ptrValue(obj, 3));
 
-	quint32 firstSubidentifier = 40 * pOIC[0] + pOIC[1];
+	quint32 firstSubidentifier = 40 * OIC[0] + OIC[1];
 
 	quint32 subidentifier;
 
 	quint32 codeLength = 0;
 
-	for (int i = (pOIC->size() - 1); i > 0; i--) {
+	for (int i = (OIC.size() - 1); i > 0; i--) {
 
 		if (i == 1) {
 			subidentifier = firstSubidentifier;
 		}
 		else {
-			subidentifier = pOIC[i];
+			subidentifier = OIC[i];
 		}
 
 		// get length of subidentifier
@@ -60,14 +61,14 @@ quint32 CBerObjectIdentifierStorage::deserialize(CBerByteArrayInputStream& iStre
 	QVector<qint32> objectIdentifierComponents;
 
 	if (lenval == 0) {
-		QVariant wrvar(objectIdentifierComponents);
+		QVariant wrvar(PtrMetaTypes::s_QVectorQint32PtrMetaType, (const void*) &objectIdentifierComponents);
 		obj->metaObject()->property(3).write(obj, wrvar);
 		return codeLength;
 	}
 
 	QByteArray byteCode(lenval, Qt::Initialization::Uninitialized);
 	if (iStream.read(byteCode, 0, lenval) == -1) {
-		runtimeError("CBerObjectIdentifierStorage::deserialize: Read wrong");
+//		runtimeError("CBerObjectIdentifierStorage::deserialize: Read wrong");
 		return codeLength;
 	}
 
@@ -76,7 +77,7 @@ quint32 CBerObjectIdentifierStorage::deserialize(CBerByteArrayInputStream& iStre
 	int subIDEndIndex = 0;
 	while ((byteCode[subIDEndIndex] & 0x80) == 0x80) {
 		if (subIDEndIndex >= (lenval - 1)) {
-			runtimeError("CBerObjectIdentifierStorage::deserialize: Invalid Object Identifier");
+//			runtimeError("CBerObjectIdentifierStorage::deserialize: Invalid Object Identifier");
 			return codeLength;
 		}
 		subIDEndIndex++;
@@ -107,7 +108,7 @@ quint32 CBerObjectIdentifierStorage::deserialize(CBerByteArrayInputStream& iStre
 
 		while ((byteCode[subIDEndIndex] & 0x80) == 0x80) {
 			if (subIDEndIndex == (lenval - 1)) {
-				runtimeError("Invalid Object Identifier");
+//				runtimeError("Invalid Object Identifier");
 				return codeLength;
 			}
 			subIDEndIndex++;
@@ -120,22 +121,9 @@ quint32 CBerObjectIdentifierStorage::deserialize(CBerByteArrayInputStream& iStre
 		subIDEndIndex++;
 	}
 
-	QVariant wrvar(objectIdentifierComponents);
+	QVector<qint32>* pOIC = &objectIdentifierComponents;
+	QVariant wrvar(PtrMetaTypes::s_QVectorQint32PtrMetaType, &pOIC );
 	obj->metaObject()->property(3).write(obj, wrvar);
-
-	return codeLength;
-}
-
-quint32 CBerObjectIdentifierStorage::encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
-{
-	quint32 codeLength = CBerBaseStorage::encode(berOStream, obj, explct);
-
-	return codeLength;
-}
-
-quint32 CBerObjectIdentifierStorage::decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct)
-{
-	int codeLength =  CBerBaseStorage::decode(iStream, obj, explct);
 
 	return codeLength;
 }

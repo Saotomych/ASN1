@@ -32,26 +32,53 @@
 #include "berBase.h"
 #include "berLength.h"
 #include "storages/berNullStorage.h"
+#include "storages/berBaseType.h"
+#include "storages/decoder.h"
 
-class ASN1_SHAREDEXPORT CBerNull: public QObject, public CBerNullStorage
+class ASN1_SHAREDEXPORT CBerNull: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
-	Q_PROPERTY(QByteArray Code MEMBER m_Code)
+	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(QByteArray* Code READ getCode)
 
 protected:
 	CBerIdentifier m_Identifier;
 	QByteArray m_Code;
 
 public:
+
+	ASN1_CODEC(CBerNullStorage)
+
 	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
 
-	CBerNull();
+	CBerNull()
+	{
+		m_Identifier = s_Identifier;
+	}
 
 	virtual ~CBerNull() {}
+
+	CBerNull(const CBerNull& rhs): QObject()
+	{
+		m_Identifier = rhs.m_Identifier;
+		m_Code = rhs.m_Code;
+	}
+
+	CBerNull& operator=(const CBerNull& rhs)
+	{
+		if (this == &rhs) return *this;
+
+		m_Identifier = rhs.m_Identifier;
+		m_Code = rhs.m_Code;
+
+		return *this;
+	}
+
+	QByteArray* getCode() { return &m_Code; }
+	CBerIdentifier* getIdentifier() { return &m_Identifier; }
 };
 
-Q_DECLARE_METATYPE(CBerNull)
+Q_DECLARE_METATYPE(CBerNull*)
 
 #endif

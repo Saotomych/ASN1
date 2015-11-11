@@ -28,24 +28,30 @@
 #ifndef BER_VISIBLESTRING
 #define BER_VISIBLESTRING
 
-#include "berBase.h"
 #include "berIdentifier.h"
 #include "berLength.h"
 #include "storages/berOctetStringStorage.h"
+#include "storages/berBaseType.h"
+#include "storages/decoder.h"
 
-class ASN1_SHAREDEXPORT CBerVisibleString: public QObject, public CBerOctetStringStorage
+class ASN1_SHAREDEXPORT CBerVisibleString: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
-	Q_PROPERTY(QByteArray Code MEMBER m_Code)
-	Q_PROPERTY(QByteArray OctetString MEMBER m_OctetString)
+	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(QByteArray* Code READ getCode)
+	Q_PROPERTY(QByteArray* OctetString READ getValue WRITE setValue)
 
 protected:
 	CBerIdentifier m_Identifier;
 	QByteArray m_Code;
 	QByteArray m_OctetString;
 
+	void setValue(QByteArray* pVal) { m_OctetString = *pVal; }
+
 public:
+
+	ASN1_CODEC(CBerOctetStringStorage)
+
 	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
 
@@ -54,10 +60,16 @@ public:
 	CBerVisibleString(QString& octetString);
 	CBerVisibleString(const CBerVisibleString& rhs);
 	CBerVisibleString& operator=(const CBerVisibleString& rhs);
+	bool operator!=(const CBerVisibleString& rhs);
 
 	virtual ~CBerVisibleString() {}
+
+	QByteArray* getValue() { return &m_OctetString; }
+	QByteArray* getCode() { return &m_Code; }
+	CBerIdentifier* getIdentifier() { return &m_Identifier; }
+
 };
 
-Q_DECLARE_METATYPE(CBerVisibleString)
+Q_DECLARE_METATYPE(CBerVisibleString*)
 
 #endif

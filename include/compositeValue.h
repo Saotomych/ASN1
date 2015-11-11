@@ -8,50 +8,58 @@
 #ifndef INCLUDE_COMPOSITEVALUE_H_
 #define INCLUDE_COMPOSITEVALUE_H_
 
-#include "compositeSerializer.h"
 #include "berByteArrayOutputStream.h"
 #include "berIdentifier.h"
 #include "berLength.h"
 #include "berBitString.h"
 #include "berVisibleString.h"
 #include "berInteger.h"
+#include "storages/berBaseType.h"
+#include "storages/decoder.h"
 
-class ASN1_SHAREDEXPORT CCompositeValue: public QObject
+class ASN1_SHAREDEXPORT CCompositeValue: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
-	Q_PROPERTY(QByteArray Code MEMBER m_Code)
-	Q_PROPERTY(CBerInteger Integer MEMBER m_integer)
-	Q_PROPERTY(CBerBitString BitString MEMBER m_bitString)
-	Q_PROPERTY(CBerVisibleString VisibleString MEMBER m_visibleString)
+	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(QByteArray* Code READ getCode)
+	Q_PROPERTY(CBerInteger* Integer READ getValueName1)
+	Q_PROPERTY(CBerBitString* BitString READ getValueName2)
+	Q_PROPERTY(CBerVisibleString* VisibleString READ getValueName3)
 
 protected:
 
 	CBerIdentifier m_Identifier;
 	QByteArray m_Code;
+
 	CBerInteger m_integer;
 	CBerBitString m_bitString;
 	CBerVisibleString m_visibleString;
 
 public:
 
+	ASN1_CODEC(CBerBaseStorage)
+
 	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeIdentifier;
 
 	CCompositeValue():
-		QObject(),
+		m_Identifier(s_Identifier),
 		m_integer(0)
-	{}
+	{
+	}
 
-	CCompositeValue(CBerInteger& berInt, CBerBitString berBitStr, CBerVisibleString berVisStr):
-		QObject(),
+	CCompositeValue(CBerInteger& berInt, CBerBitString& berBitStr, CBerVisibleString& berVisStr):
+		m_Identifier(s_Identifier),
 		m_integer(berInt),
 		m_bitString(berBitStr),
 		m_visibleString(berVisStr)
-	{}
+	{
+	}
 
 	CCompositeValue(const CCompositeValue& rhs): QObject()
 	{
+		m_Identifier = rhs.m_Identifier;
+		m_Code = rhs.m_Code;
 		m_integer = rhs.m_integer;
 		m_bitString = rhs.m_bitString;
 		m_visibleString = rhs.m_visibleString;
@@ -60,6 +68,9 @@ public:
 	CCompositeValue& operator=(const CCompositeValue& rhs)
 	{
 		if (this == &rhs) return *this;
+
+		m_Identifier = rhs.m_Identifier;
+		m_Code = rhs.m_Code;
 		m_integer = rhs.m_integer;
 		m_bitString = rhs.m_bitString;
 		m_visibleString = rhs.m_visibleString;
@@ -68,8 +79,14 @@ public:
 	}
 
 	virtual ~CCompositeValue() {}
+
+	QByteArray* getCode() { return &m_Code; }
+	CBerIdentifier* getIdentifier() { return &m_Identifier; }
+	CBerInteger* getValueName1() { return &m_integer; }
+	CBerBitString* getValueName2() { return &m_bitString; }
+	CBerVisibleString* getValueName3() { return &m_visibleString; }
 };
 
-Q_DECLARE_METATYPE(CCompositeValue)
+Q_DECLARE_METATYPE(CCompositeValue*)
 
 #endif /* INCLUDE_COMPOSITEVALUE_H_ */

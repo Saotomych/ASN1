@@ -19,24 +19,3 @@ quint32 CBerNullStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 	return codeLength;
 }
 
-quint32 CBerNullStorage::encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
-{
-	quint32 codeLength = CBerBaseStorage::encode(berOStream, obj, explct);
-
-	return codeLength;
-}
-
-quint32 CBerNullStorage::decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct)
-{
-	int codeLength =  CBerBaseStorage::decode(iStream, obj, explct);
-
-	if (codeLength != 0)
-	{
-		runtimeError("CBerNullStorage::decode: decode wrong");
-	}
-
-	return codeLength;
-}
-
-
-

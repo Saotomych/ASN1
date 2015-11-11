@@ -8,23 +8,20 @@
 #ifndef INCLUDE_STORAGES_BERBOOLEANSTORAGE_H_
 #define INCLUDE_STORAGES_BERBOOLEANSTORAGE_H_
 
-#include "berBase.h"
+#include "asn1_global.h"
+#include "berByteArrayOutputStream.h"
+#include "berByteArrayInputStream.h"
+#include "berLength.h"
 
-class CBerBooleanStorage: public CBerBaseStorage
+class CBerBooleanStorage
 {
 private:
 	bool* ptrValue(QObject* obj, quint32 idx);
 
-protected:
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
-	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct);
-
 public:
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
-	virtual quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct);
-
-	virtual void encodeAndSave(QObject* obj, qint32 encodingSizeGuess);
-
+	quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
+	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct);
+	void encodeAndSave(QObject* obj, qint32 encodingSizeGuess);
 };
 
 

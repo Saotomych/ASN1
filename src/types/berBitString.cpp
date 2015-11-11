@@ -17,7 +17,7 @@ CBerBitString::CBerBitString(QByteArray& code)
 	m_Code = code;
 }
 
-CBerBitString::CBerBitString(const CBerBitString& rhs)
+CBerBitString::CBerBitString(const CBerBitString& rhs): QObject()
 {
 	m_Identifier = rhs.m_Identifier;
 	m_BitString = rhs.m_BitString;
@@ -33,4 +33,11 @@ CBerBitString& CBerBitString::operator=(const CBerBitString& rhs)
 	m_Code = rhs.m_Code;
 
 	return *this;
+}
+
+bool CBerBitString::operator!=(const CBerBitString& rhs)
+{
+	if (this == &rhs) return false;
+
+	return m_BitString != rhs.m_BitString;
 }

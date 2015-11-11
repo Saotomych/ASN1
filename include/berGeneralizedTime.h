@@ -29,21 +29,29 @@
 #define BER_GENERALIZED_TIME
 
 #include "berIdentifier.h"
+#include "berLength.h"
 #include "storages/berOctetStringStorage.h"
+#include "storages/berBaseType.h"
+#include "storages/decoder.h"
 
-class ASN1_SHAREDEXPORT CBerGeneralizedTime: public QObject, public CBerOctetStringStorage
+class ASN1_SHAREDEXPORT CBerGeneralizedTime: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
-	Q_PROPERTY(QByteArray Code MEMBER m_Code)
-	Q_PROPERTY(QByteArray OctetString MEMBER m_OctetString)
+	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(QByteArray* Code READ getCode)
+	Q_PROPERTY(QByteArray* OctetString READ getValue WRITE setValue)
 
 protected:
 	CBerIdentifier m_Identifier;
 	QByteArray m_Code;
 	QByteArray m_OctetString;
 
+	void setValue(QByteArray* pVal) { m_OctetString = *pVal; }
+
 public:
+
+	ASN1_CODEC(CBerOctetStringStorage)
+
 	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
 
@@ -58,10 +66,38 @@ public:
 		m_OctetString = octetString;
 	}
 
+	CBerGeneralizedTime(const CBerGeneralizedTime& rhs): QObject()
+	{
+		m_Identifier = rhs.m_Identifier;
+		m_Code = rhs.m_Code;
+		m_OctetString = rhs.m_OctetString;
+	}
+
 	virtual ~CBerGeneralizedTime() {}
 
+	CBerGeneralizedTime& operator=(const CBerGeneralizedTime& rhs)
+	{
+		if (this == &rhs) return *this;
+
+		m_Identifier = rhs.m_Identifier;
+		m_Code = rhs.m_Code;
+		m_OctetString = rhs.m_OctetString;
+
+		return *this;
+	}
+
+	bool operator!=(const CBerGeneralizedTime& rhs)
+	{
+		if (this == &rhs) return false;
+
+		return m_OctetString != rhs.m_OctetString;
+	}
+
+	QByteArray* getValue() { return &m_OctetString; }
+	QByteArray* getCode() { return &m_Code; }
+	CBerIdentifier* getIdentifier() { return &m_Identifier; }
 };
 
-Q_DECLARE_METATYPE(CBerGeneralizedTime)
+Q_DECLARE_METATYPE(CBerGeneralizedTime*)
 
 #endif

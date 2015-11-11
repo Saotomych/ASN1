@@ -31,13 +31,15 @@
 #include "berIdentifier.h"
 #include "berLength.h"
 #include "storages/berOctetStringStorage.h"
+#include "storages/berBaseType.h"
+#include "storages/decoder.h"
 
-class ASN1_SHAREDEXPORT CBerGraphicString: public QObject, public CBerOctetStringStorage
+class ASN1_SHAREDEXPORT CBerGraphicString: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
-	Q_PROPERTY(QByteArray Code MEMBER m_Code)
-	Q_PROPERTY(QByteArray OctetString MEMBER m_OctetString)
+	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(QByteArray* Code READ getCode)
+	Q_PROPERTY(QByteArray* OctetString READ getValue)
 
 protected:
 	CBerIdentifier m_Identifier;
@@ -45,6 +47,9 @@ protected:
 	QByteArray m_OctetString;
 
 public:
+
+	ASN1_CODEC(CBerOctetStringStorage)
+
 	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
 
@@ -59,9 +64,39 @@ public:
 		m_OctetString = octetString;
 	}
 
+	CBerGraphicString(const CBerGraphicString& rhs): QObject()
+	{
+		m_Identifier = rhs.m_Identifier;
+		m_Code = rhs.m_Code;
+		m_OctetString = rhs.m_OctetString;
+	}
+
 	virtual ~CBerGraphicString() {}
+
+	CBerGraphicString& operator=(const CBerGraphicString& rhs)
+	{
+		if (this == &rhs) return *this;
+
+		m_Identifier = rhs.m_Identifier;
+		m_Code = rhs.m_Code;
+		m_OctetString = rhs.m_OctetString;
+
+		return *this;
+	}
+
+	bool operator!=(const CBerGraphicString& rhs)
+	{
+		if (this == &rhs) return false;
+
+		return m_OctetString != rhs.m_OctetString;
+	}
+
+	QByteArray* getValue() { return &m_OctetString; }
+	QByteArray* getCode() { return &m_Code; }
+	CBerIdentifier* getIdentifier() { return &m_Identifier; }
+
 };
 
-Q_DECLARE_METATYPE(CBerGraphicString)
+Q_DECLARE_METATYPE(CBerGraphicString*)
 
 #endif

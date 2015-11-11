@@ -10,21 +10,15 @@
 
 #include "berBase.h"
 
-class CBerRealStorage: public CBerBaseStorage
+class CBerRealStorage
 {
 private:
 	double* ptrValue(QObject* obj, quint32 idx);
 
-protected:
-	virtual quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
-	virtual quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct);
-
 public:
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
-	virtual quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct);
-
-	virtual void encodeAndSave(QObject* obj, qint32 encodingSizeGuess);
-
+	quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
+	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct);
+	void encodeAndSave(QObject* obj, qint32 encodingSizeGuess);
 };
 
 

@@ -6,21 +6,22 @@
  */
 
 #include "storages/berBooleanStorage.h"
+#include "berBoolean.h"
 
 bool* CBerBooleanStorage::ptrValue(QObject* obj, quint32 idx)
 {
 	QVariant var = obj->metaObject()->property(idx).read(obj);
 	qDebug() << var.typeName() << "; " << var.userType() << "; ";
-	return const_cast<bool*> (reinterpret_cast<const bool*> (var.constData()));
+	return qvariant_cast <bool*> (var);
 }
 
 quint32 CBerBooleanStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
 {
-	bool* pBool = ptrValue(obj, 3);
+	bool Bool = *ptrValue(obj, 3);
 
 	quint32 codeLength = 1;
 
-	quint8 data = (*pBool == false) ? 0 : 0xFF;
+	quint8 data = (Bool == false) ? 0 : 0xFF;
 	berOStream.write(data);
 
 	return codeLength;
@@ -33,35 +34,21 @@ quint32 CBerBooleanStorage::deserialize(CBerByteArrayInputStream& iStream, QObje
 		qint32 data = iStream.read();
 		if (data == -1)
 		{
-			runtimeError("CBerBooleanStorage::deserialize: error reading");
+//			runtimeError("CBerBooleanStorage::deserialize: error reading");
 			return codeLength;
 		}
 
 		codeLength++;
 
 		bool val = (data == 0) ? false : true;
-
-		QVariant wrvar(val);
+		bool* pVal = &val;
+		QVariant wrvar(PtrMetaTypes::s_boolPtrMetaType, &pVal);
 		obj->metaObject()->property(3).write(obj, wrvar);
 	}
 	else
 	{
-		runtimeError("CBerBooleanStorage::deserialize: length read wrong");
+//		runtimeError("CBerBooleanStorage::deserialize: length read wrong");
 	}
-
-	return codeLength;
-}
-
-quint32 CBerBooleanStorage::encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
-{
-	quint32 codeLength = CBerBaseStorage::encode(berOStream, obj, explct);
-
-	return codeLength;
-}
-
-quint32 CBerBooleanStorage::decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct)
-{
-	int codeLength =  CBerBaseStorage::decode(iStream, obj, explct);
 
 	return codeLength;
 }
@@ -72,7 +59,7 @@ void CBerBooleanStorage::encodeAndSave(QObject* obj, qint32 encodingSizeGuess)
 
 	CBerByteArrayOutputStream berOStream(encodingSizeGuess);
 
-	pBerBoolean->encode(berOStream, obj, false);
+	pBerBoolean->encode(berOStream, false);
 	QByteArray Code = berOStream.getByteArray();
 
 	QVariant wrvar(Code);

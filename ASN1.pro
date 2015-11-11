@@ -24,34 +24,38 @@ SOURCES += src/berByteArrayOutputStream.cpp \
     src/berIdentifier.cpp \
     src/berLength.cpp \
     src/berBase.cpp \
-    src/compositeSerializer.cpp \
-    src/types/berBaseOctetString.cpp \
     src/types/berBitString.cpp \
     src/types/berBoolean.cpp \
     src/types/berInteger.cpp \
-    src/types/berNull.cpp \
     src/types/berObjectIdentifier.cpp \
     src/types/berReal.cpp \
-    src/types/berVisibleString.cpp
-
+    src/types/berVisibleString.cpp \
+	src/storages/berBitStringStorage.cpp \
+	src/storages/berBooleanStorage.cpp \
+	src/storages/berIntegerStorage.cpp \
+	src/storages/berNullStorage.cpp \
+	src/storages/berObjectIdentifierStorage.cpp \
+	src/storages/berOctetStringStorage.cpp \
+	src/storages/berRealStorage.cpp 
+	
 HEADERS += include/asn1_global.h \
     include/berByteArrayOutputStream.h \
     include/berByteArrayInputStream.h \
 	include/berIdentifier.h \
     include/berLength.h \
     include/berBase.h \
-    include/berBaseOctetString.h \
     include/berAny.h \
+    include/berAnyNoDecode.h \
     include/berBitString.h \
     include/berBoolean.h \
     include/berEnum.h \
-    include/berGeneralizedTime.h \
     include/berInteger.h \
     include/berNull.h \
     include/berObjectIdentifier.h \
     include/berOctetString.h \
     include/berReal.h \
     include/berBMPString.h \
+    include/berGeneralizedTime.h \
     include/berGeneralString.h \
     include/berGraphicString.h \
     include/berIA5String.h \
@@ -62,8 +66,16 @@ HEADERS += include/asn1_global.h \
     include/berUTF8String.h \
     include/berVideotexString.h \
     include/berVisibleString.h \
-    include/compositeSerializer.h \
-    include/compositeValue.h
+    include/compositeValue.h \
+    include/storages/berBitStringStorage.h \
+    include/storages/berBooleanStorage.h \
+    include/storages/berIntegerStorage.h \
+    include/storages/berNullStorage.h \
+    include/storages/berObjectIdentifier.h \
+    include/storages/berOctetStringStorage.h \
+    include/storages/berRealStorage.h \
+    include/storages/berBaseType.h \
+	include/storages/decoder.h
     
 unix {
     CONFIG (debug, debug|release) {
@@ -72,9 +84,9 @@ unix {
 	    DEFINES += DEBUG
 		LIBS += -lgcov
 
-	    QMAKE_CXXFLAGS_RELEASE -= -O
-		QMAKE_CXXFLAGS_RELEASE -= -O1
-		QMAKE_CXXFLAGS_RELEASE -= -O2
+	    QMAKE_CXXFLAGS -= -O
+		QMAKE_CXXFLAGS -= -O1
+		QMAKE_CXXFLAGS -= -O2
 		QMAKE_CXXFLAGS += -O0 -fprofile-arcs -ftest-coverage
     }else{
         TARGET = $$qtLibraryTarget(asn1)
@@ -82,7 +94,8 @@ unix {
     }
     target.path = /usr/lib
     INSTALLS += target
-   
+
+   	QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
 }else{
     TARGET = $$qtLibraryTarget(asn1-notunix)
 }

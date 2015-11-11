@@ -30,13 +30,15 @@
 
 #include "berByteArrayOutputStream.h"
 #include "berBase.h"
+#include "storages/berBaseType.h"
+#include "storages/decoder.h"
 
-class  ASN1_SHAREDEXPORT CBerAny: public QObject, public CBerBaseStorage
+class  ASN1_SHAREDEXPORT CBerAny: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
-	Q_PROPERTY(QByteArray Code MEMBER m_Code)
-	Q_PROPERTY(qint64 Length MEMBER m_Length)
+	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(QByteArray* Code READ getCode)
+	Q_PROPERTY(qint64* Length READ getValue)
 
 protected:
 	CBerIdentifier m_Identifier;
@@ -53,20 +55,49 @@ public:
 	CBerAny(quint32 length): m_Length(length)
 	{}
 
+	CBerAny(const CBerAny& rhs): QObject()
+	{
+		m_Identifier = rhs.m_Identifier;
+		m_Code = rhs.m_Code;
+		m_Length = rhs.m_Length;
+	}
+
+	CBerAny& operator=(const CBerAny& rhs)
+	{
+		if (this == &rhs) return *this;
+
+		m_Identifier = rhs.m_Identifier;
+		m_Code = rhs.m_Code;
+		m_Length = rhs.m_Length;
+
+		return *this;
+	}
+
+	bool operator!=(const CBerAny& rhs)
+	{
+		if (this == &rhs) return false;
+
+		return m_Length != rhs.m_Length;
+	}
+
 	virtual ~CBerAny() {}
 
-	virtual qint32 encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
+	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
 	{
 		return m_Length;
 	}
 
-	virtual qint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct)
+	virtual quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct)
 	{
 		return m_Length;
 	}
+
+	CBerIdentifier* getIdentifier() { return &m_Identifier; }
+	QByteArray* getCode() { return &m_Code; }
+	qint64* getValue() { return &m_Length; }
 
 };
 
-Q_DECLARE_METATYPE(CBerAny)
+Q_DECLARE_METATYPE(CBerAny*)
 
-#endif BER_ANY
+#endif // BER_ANY

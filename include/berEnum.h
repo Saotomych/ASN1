@@ -29,21 +29,29 @@
 #define BER_ENUM
 
 #include "berIdentifier.h"
+#include "berLength.h"
 #include "storages/berIntegerStorage.h"
+#include "storages/berBaseType.h"
+#include "storages/decoder.h"
 
-class ASN1_SHAREDEXPORT CBerEnum: public QObject, public CBerIntegerStorage
+class ASN1_SHAREDEXPORT CBerEnum: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
-	Q_PROPERTY(QByteArray Code MEMBER m_Code)
-	Q_PROPERTY(qint64 Val MEMBER m_Val)
+	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(QByteArray* Code READ getCode)
+	Q_PROPERTY(qint64* Val READ getValue WRITE setValue)
 
 protected:
 	CBerIdentifier m_Identifier;
 	QByteArray m_Code;
 	qint64 m_Val;
 
+	void setValue(qint64* pVal) { m_Val = *pVal; }
+
 public:
+
+	ASN1_CODEC(CBerIntegerStorage)
+
 	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
 
@@ -64,8 +72,32 @@ public:
 		m_Val = val;
 	}
 
+	CBerEnum(const CBerEnum& rhs): QObject()
+	{
+		m_Identifier = rhs.m_Identifier;
+		m_Code = rhs.m_Code;
+		m_Val = rhs.m_Val;
+	}
+
+	virtual ~CBerEnum() {}
+
+	CBerEnum& operator=(const CBerEnum& rhs)
+	{
+		if (this == &rhs) return *this;
+
+		m_Identifier = rhs.m_Identifier;
+		m_Code = rhs.m_Code;
+		m_Val = rhs.m_Val;
+
+		return *this;
+	}
+
+	CBerIdentifier* getIdentifier() { return &m_Identifier; }
+	QByteArray* getCode() { return &m_Code; }
+	qint64* getValue() { return &m_Val; }
+
 };
 
-Q_DECLARE_METATYPE(CBerEnum)
+Q_DECLARE_METATYPE(CBerEnum*)
 
 #endif

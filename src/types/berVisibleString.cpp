@@ -17,7 +17,7 @@ CBerVisibleString::CBerVisibleString(QString& octetString)
 	m_OctetString = octetString.toUtf8();
 }
 
-CBerVisibleString::CBerVisibleString(const CBerVisibleString& rhs)
+CBerVisibleString::CBerVisibleString(const CBerVisibleString& rhs): QObject()
 {
 	m_Identifier = rhs.m_Identifier;
 	m_OctetString = rhs.m_OctetString;
@@ -35,5 +35,11 @@ CBerVisibleString& CBerVisibleString::operator=(const CBerVisibleString& rhs)
 	return *this;
 }
 
+bool CBerVisibleString::operator!=(const CBerVisibleString& rhs)
+{
+	if (this == &rhs) return false;
+
+	return m_OctetString != rhs.m_OctetString;
+}
 
 

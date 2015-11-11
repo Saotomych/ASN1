@@ -31,20 +31,27 @@
 #include "berIdentifier.h"
 #include "berLength.h"
 #include "storages/berBitStringStorage.h"
+#include "storages/berBaseType.h"
+#include "storages/decoder.h"
 
-class ASN1_SHAREDEXPORT CBerBitString: public QObject, public CBerBitStringStorage
+class ASN1_SHAREDEXPORT CBerBitString: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier Identifier MEMBER m_Identifier)
-	Q_PROPERTY(QByteArray Code MEMBER m_Code)
-	Q_PROPERTY(QBitArray BitString MEMBER m_BitString)
+	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(QByteArray* Code READ getCode)
+	Q_PROPERTY(QBitArray* BitString READ getValue WRITE setValue)
 
 protected:
 	CBerIdentifier m_Identifier;
 	QByteArray m_Code;
 	QBitArray m_BitString;
 
+	void setValue(QBitArray* pVal) { m_BitString = *pVal; }
+
 public:
+
+	ASN1_CODEC(CBerBitStringStorage)
+
 	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
 
@@ -52,9 +59,16 @@ public:
 	CBerBitString(QBitArray& bitString);
 	CBerBitString(QByteArray& code);
 	CBerBitString(const CBerBitString& rhs);
+	virtual ~CBerBitString() {}
+
 	CBerBitString& operator=(const CBerBitString& rhs);
+	bool operator!=(const CBerBitString& rhs);
+
+	CBerIdentifier* getIdentifier() { return &m_Identifier; }
+	QByteArray* getCode() { return &m_Code; }
+	QBitArray* getValue() { return &m_BitString; }
 };
 
-Q_DECLARE_METATYPE(CBerBitString)
+Q_DECLARE_METATYPE(CBerBitString*)
 
 #endif

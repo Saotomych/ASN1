@@ -32,13 +32,13 @@ qint32 CBerLength::decode(CBerByteArrayInputStream& iStream)
 {
 	if (iStream.available() == 0) return 0;
 
-	m_ValLength = iStream.read();
+	m_ValLength = (quint8) iStream.read();
 
-	qint32 length = 1;
+	quint32 length = 1;
 
 	if ((m_ValLength & 0x80) != 0)
 	{
-		qint32 lengthLength = m_ValLength & 0x7f;
+		quint32 lengthLength = m_ValLength & 0x7f;
 
 		if (lengthLength == 0) {
 			m_ValLength = -1;
@@ -60,7 +60,7 @@ qint32 CBerLength::decode(CBerByteArrayInputStream& iStream)
 
 		length += lengthLength;
 
-		for (int i = 0; i < lengthLength; i++)
+		for (quint8 i = 0; i < lengthLength; i++)
 		{
 			m_ValLength |= (byteCode[i] & 0xff) << (8 * (lengthLength - i - 1));
 		}

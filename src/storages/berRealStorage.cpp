@@ -6,17 +6,18 @@
  */
 
 #include "storages/berRealStorage.h"
+#include "berReal.h"
 
 double* CBerRealStorage::ptrValue(QObject* obj, quint32 idx)
 {
 	QVariant var = obj->metaObject()->property(idx).read(obj);
 	qDebug() << var.typeName() << "; " << var.userType() << "; ";
-	return const_cast<double*> (reinterpret_cast<const double*> (var.constData()));
+	return qvariant_cast<double*>(var);
 }
 
 quint32 CBerRealStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
 {
-	double* pReal = ptrValue(obj, 3);
+	double Real = *ptrValue(obj, 3);
 
 	quint32 codeLength = 0;
 
@@ -31,11 +32,11 @@ quint32 CBerRealStorage::serialize(CBerByteArrayOutputStream& berOStream, QObjec
 		quint64 intVal;
 	} reinterpret;
 
-	reinterpret.dblVal = *pReal;
+	reinterpret.dblVal = Real;
 	quint64 longVal = reinterpret.intVal;
 
 	quint8 sign = 0;
-	if (*pReal < 0) {
+	if (Real < 0) {
 		sign = 0x40;
 	}
 	quint8 exponentFormat = 0;
@@ -54,7 +55,7 @@ quint32 CBerRealStorage::serialize(CBerByteArrayOutputStream& berOStream, QObjec
 			codeLength++;
 		}
 		else {
-			argumentWrong("CBerRealStorage::serialize: NAN not supported");
+//			argumentWrong("CBerRealStorage::serialize: NAN not supported");
 			return 0;
 		}
 	}
@@ -128,7 +129,7 @@ quint32 CBerRealStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 		qint8 myByte = iStream.read();
 		if (myByte == -1)
 		{
-			runtimeError("CBerRealStorage::deserialize: length read wrong");
+//			runtimeError("CBerRealStorage::deserialize: length read wrong");
 			return codeLength;
 		}
 
@@ -138,7 +139,7 @@ quint32 CBerRealStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 		}
 		else
 		{
-			runtimeError("CBerRealStorage::deserialize: invalid real encoding");
+//			runtimeError("CBerRealStorage::deserialize: invalid real encoding");
 			return codeLength;
 		}
 		return codeLength + 1;
@@ -147,7 +148,7 @@ quint32 CBerRealStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 	QByteArray byteCode(lenval, Qt::Initialization::Uninitialized);
 	if (iStream.read(byteCode, 0, lenval) < lenval)
 	{
-		runtimeError("CBerRealStorage::deserialize: data read wrong");
+//		runtimeError("CBerRealStorage::deserialize: data read wrong");
 		return codeLength;
 	}
 
@@ -179,22 +180,9 @@ quint32 CBerRealStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 
 	real = sign * mantissa * pow(2, exponent);
 
-	QVariant wrvar(real);
+	double* pVal = &real;
+	QVariant wrvar(PtrMetaTypes::s_doublePtrMetaType, &pVal);
 	obj->metaObject()->property(3).write(obj, wrvar);
-
-	return codeLength;
-}
-
-quint32 CBerRealStorage::encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
-{
-	quint32 codeLength = CBerBaseStorage::encode(berOStream, obj, explct);
-
-	return codeLength;
-}
-
-quint32 CBerRealStorage::decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct)
-{
-	int codeLength =  CBerBaseStorage::decode(iStream, obj, explct);
 
 	return codeLength;
 }
@@ -204,7 +192,7 @@ void CBerRealStorage::encodeAndSave(QObject* obj, qint32 encodingSizeGuess)
 	CBerByteArrayOutputStream berOStream(encodingSizeGuess);
 	CBerReal* pBerReal = reinterpret_cast<CBerReal*>(obj);
 
-	pBerReal->encode(berOStream, obj, false);
+	pBerReal->encode(berOStream, false);
 	QByteArray Code = berOStream.getByteArray();
 
 	QVariant wrvar(Code);
