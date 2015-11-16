@@ -89,8 +89,6 @@ public:
 	CBerIdentifier& operator=(const CBerIdentifier& that);
 	bool operator!=(const CBerIdentifier& that);
 
-	void swap(CBerIdentifier& that);
-
 	~CBerIdentifier() {}
 
 	qint32 encode(CBerByteArrayOutputStream& berOStream);
