@@ -11,8 +11,7 @@ quint32 CBerBaseStorage::serialize(CBerByteArrayOutputStream& berOStream, QObjec
 		{
 			QVariant var = obj->metaObject()->property(i).read(obj);
 			qDebug() << var.typeName() << "; " << var.userType() << "; ";
-			QObject* temp_qobject = qvariant_cast<QObject*> (var);
-			IBerBaseType* temp_berobject = dynamic_cast<IBerBaseType*> (temp_qobject);
+			IBerBaseType* temp_berobject = var.value<IBerBaseType*>();
 
 			if (temp_berobject != nullptr)
 			{
@@ -36,8 +35,7 @@ quint32 CBerBaseStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 		{
 			QVariant var = obj->metaObject()->property(i).read(obj);
 			qDebug() << var.typeName() << "; " << var.userType() << "; ";
-			QObject* temp_qobject = qvariant_cast<QObject*> (var);
-			IBerBaseType* temp_berobject = dynamic_cast<IBerBaseType*> (temp_qobject);
+			IBerBaseType* temp_berobject = var.value<IBerBaseType*>();
 
 			if (temp_berobject != nullptr)
 			{
