@@ -63,3 +63,11 @@ bool CBerObjectIdentifier::operator!=(const CBerObjectIdentifier& rhs)
 
 	return m_ObjectIdentifier != rhs.m_ObjectIdentifier;
 }
+
+bool CBerObjectIdentifier::operator==(const CBerObjectIdentifier& rhs)
+{
+	if (this == &rhs) return true;
+
+	return m_ObjectIdentifier == rhs.m_ObjectIdentifier;
+}
+

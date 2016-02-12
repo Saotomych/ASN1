@@ -71,10 +71,11 @@ HEADERS += include/asn1_global.h \
     include/storages/berBooleanStorage.h \
     include/storages/berIntegerStorage.h \
     include/storages/berNullStorage.h \
-    include/storages/berObjectIdentifier.h \
+    include/storages/berObjectIdentifierStorage.h \
     include/storages/berOctetStringStorage.h \
     include/storages/berRealStorage.h \
     include/storages/berBaseType.h \
+    include/storages/containerStorage.h \
 	include/storages/decoder.h
     
 unix {

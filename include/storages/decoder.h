@@ -17,12 +17,12 @@
 #define ASN1_CODEC(Storage) \
 	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct) \
 	{ \
-		CDecoder<Storage> codec; \
+		CDecoder< Storage > codec; \
 		return codec.encode(berOStream, this, explct); \
 	} \
 	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct) \
 	{ \
-		CDecoder<Storage> codec; \
+		CDecoder< Storage > codec; \
 		return codec.decode(iStream, this, explct); \
 	} \
 

@@ -10,7 +10,7 @@
 
 #include "berBase.h"
 
-template<class Type>
+template<class ContainerType, class DataType>
 class CContainerStorage
 {
 public:
@@ -27,11 +27,11 @@ public:
 			{
 				QVariant var = obj->metaObject()->property(3).read(obj);
 				qDebug() << var.typeName() << "; " << var.userType() << "; ";
-				Type* temp_berobject = var.value<Type*>();
+				ContainerType* temp_berobject = var.value<ContainerType*>();
 
 				if (temp_berobject != nullptr)
 				{
-					for (auto val: *temp_berobject)
+					for (DataType val: *temp_berobject)
 						codeLength += val.encode(berOStream, explct);
 				}
 			}
@@ -50,11 +50,11 @@ public:
 			{
 				QVariant var = obj->metaObject()->property(3).read(obj);
 				qDebug() << var.typeName() << "; " << var.userType() << "; ";
-				Type* temp_berobject = var.value<Type*>();
+				ContainerType* temp_berobject = var.value<ContainerType*>();
 
 				if (temp_berobject != nullptr)
 				{
-					for (auto val: *temp_berobject)
+					for (DataType val: *temp_berobject)
 						codeLength += val.decode(iStream, explct);
 				}
 			}

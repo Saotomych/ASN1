@@ -37,6 +37,8 @@ CBerBitString& CBerBitString::operator=(const CBerBitString& rhs)
 
 bool CBerBitString::operator!=(const CBerBitString& rhs)
 {
+	Q_ASSERT(false);
+
 	if (this == &rhs) return false;
 
 	return m_BitString != rhs.m_BitString;

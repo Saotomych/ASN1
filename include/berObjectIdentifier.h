@@ -63,6 +63,7 @@ public:
 
 	CBerObjectIdentifier& operator=(const CBerObjectIdentifier& rhs);
 	bool operator!=(const CBerObjectIdentifier& rhs);
+	bool operator==(const CBerObjectIdentifier& rhs);
 
 	QVector<qint32>* getValue() { return &m_ObjectIdentifier; }
 	QByteArray* getCode() { return &m_Code; }
