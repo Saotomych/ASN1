@@ -33,7 +33,7 @@ CBerObjectIdentifier::CBerObjectIdentifier(QVector<qint32>& objectIdentifierComp
 		m_ObjectIdentifier = objectIdentifierComponents;
 }
 
-CBerObjectIdentifier::CBerObjectIdentifier(QByteArray& code)
+CBerObjectIdentifier::CBerObjectIdentifier(QByteArray code)
 {
 	m_Identifier = s_Identifier;
 	m_Code = code;

@@ -57,7 +57,7 @@ public:
 
 	CBerInteger();
 	CBerInteger(qint64 val);
-	CBerInteger(QByteArray& code);
+	CBerInteger(QByteArray code);
 	CBerInteger(const CBerInteger& rhs);
 	CBerInteger& operator=(const CBerInteger& rhs);
 	bool operator!=(const CBerInteger& rhs);

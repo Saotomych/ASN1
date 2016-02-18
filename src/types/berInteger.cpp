@@ -11,7 +11,7 @@ CBerInteger::CBerInteger(qint64 val)
 	m_Val = val;
 }
 
-CBerInteger::CBerInteger(QByteArray& code): m_Val(0)
+CBerInteger::CBerInteger(QByteArray code): m_Val(0)
 {
 	m_Identifier = s_Identifier;
 	m_Code = code;

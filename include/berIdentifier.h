@@ -102,6 +102,11 @@ public:
 	 */
 	qint32 decodeAndCheck(CBerByteArrayInputStream& iStream);
 
+	bool equals(CBerIdentifier& obj)
+	{
+		return equals(obj.m_IdentifierClass, m_Primitive, m_TagNumber);
+	}
+
 	bool equals(int identifierClass, int primitive, int tagNumber);
 
 	QString toString();

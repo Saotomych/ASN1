@@ -57,7 +57,7 @@ public:
 
 	CBerObjectIdentifier();
 	CBerObjectIdentifier(QVector<qint32>& bitString);
-	CBerObjectIdentifier(QByteArray& code);
+	CBerObjectIdentifier(QByteArray code);
 	CBerObjectIdentifier(const CBerObjectIdentifier& rhs);
 	virtual ~CBerObjectIdentifier() {}
 
