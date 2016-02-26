@@ -17,6 +17,8 @@ public:
 	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct)=0;
 public:
 
+	virtual ~IBerBaseType(){}
+
 	static quint32 s_metaTypeId;
 };
 

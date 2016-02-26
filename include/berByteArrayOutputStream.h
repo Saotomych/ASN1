@@ -65,6 +65,19 @@ public:
 
 	QByteArray getByteArray();
 
+	quint32 size() {
+
+		quint32 size = 0;
+
+		for (auto v: m_Buffer)
+			size += v.size();
+
+		return size;
+	}
+
+	// TODO: index can work incorrectly
+	quint32 index() { return m_Index; }
+
 signals:
 	void signalOutputStreamWarning(QString strErr);
 
