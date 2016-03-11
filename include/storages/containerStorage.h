@@ -40,7 +40,7 @@ public:
 		return codeLength;
 	}
 
-	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct)
+	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength&, quint32 codeLength, bool explct)
 	{
 		qint32 idx = obj->metaObject()->propertyCount();
 

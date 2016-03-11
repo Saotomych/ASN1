@@ -82,12 +82,12 @@ public:
 
 	virtual ~CBerAny() {}
 
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct)
+	virtual quint32 encode(CBerByteArrayOutputStream&, bool)
 	{
 		return m_Length;
 	}
 
-	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct)
+	virtual quint32 decode(CBerByteArrayInputStream&, bool)
 	{
 		return m_Length;
 	}

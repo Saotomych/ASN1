@@ -46,7 +46,7 @@ public:
 //	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
 //	virtual quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct);
 //
-	void encodeAndSave(QObject* obj, qint32 encodingSizeGuess) { }
+	void encodeAndSave(QObject*, qint32) { }
 };
 
 Q_DECLARE_METATYPE(CBerBaseStorage*)
