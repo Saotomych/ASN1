@@ -12,25 +12,50 @@ CBerObjectIdentifier::CBerObjectIdentifier(QVector<qint32>& objectIdentifierComp
 	m_Identifier = s_Identifier;
 
 	if ( objectIdentifierComponents.size() < 2 )
+	{
 		qDebug() << QString("CBerObjectIdentifier::parameterWrong in constructor");
+		argumentValid = false;
+
+		qDebug() << QString("ERROR: CBerObjectIdentifier has error in objectIdentifierComponents with length=")
+				<< objectIdentifierComponents.size();
+		return;
+	}
 
 	if ( ( objectIdentifierComponents[0] == 0 || objectIdentifierComponents[1] == 1) && ( objectIdentifierComponents[1] > 39) )
+	{
 		qDebug() << QString("CBerObjectIdentifier::parameterWrong in constructor");
+		argumentValid = false;
+	}
 
 	if ( objectIdentifierComponents[0] > 2 )
+	{
 		qDebug() << QString("CBerObjectIdentifier::parameterWrong in constructor");
+		argumentValid = false;
+	}
 
 	for (auto objectIdentifierComponent: objectIdentifierComponents)
 	{
 		if (objectIdentifierComponent < 0)
 		{
 			qDebug() << QString("CBerObjectIdentifier::parameterWrong in constructor");
+			argumentValid = false;
 			break;
 		}
 	}
 
-	if (argumentValid == true)
+	if (argumentValid)
+	{
 		m_ObjectIdentifier = objectIdentifierComponents;
+	}
+	else
+	{
+		qDebug() << QString("ERROR: CBerObjectIdentifier has error in objectIdentifierComponents with length=")
+				<< objectIdentifierComponents.size();
+		for (auto objectIdentifierComponent: objectIdentifierComponents)
+		{
+			qDebug() << objectIdentifierComponent;
+		}
+	}
 }
 
 CBerObjectIdentifier::CBerObjectIdentifier(QByteArray code)
