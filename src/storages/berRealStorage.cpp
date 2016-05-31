@@ -120,8 +120,8 @@ quint32 CBerRealStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 
 	double real;
 
-	if (lenval == 0) {
-		real = 0;
+	if (lenval < 2) {
+		qDebug() << "CBerRealStorage::deserialize: lenval < 2";
 		return codeLength;
 	}
 
@@ -129,7 +129,7 @@ quint32 CBerRealStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 		qint8 myByte = iStream.read();
 		if (myByte == -1)
 		{
-//			runtimeError("CBerRealStorage::deserialize: length read wrong");
+			qDebug() << "CBerRealStorage::deserialize: length read wrong";
 			return codeLength;
 		}
 
@@ -139,7 +139,7 @@ quint32 CBerRealStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 		}
 		else
 		{
-//			runtimeError("CBerRealStorage::deserialize: invalid real encoding");
+			qDebug() << "CBerRealStorage::deserialize: invalid real encoding";
 			return codeLength;
 		}
 		return codeLength + 1;
@@ -148,7 +148,7 @@ quint32 CBerRealStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 	QByteArray byteCode(lenval, Qt::Initialization::Uninitialized);
 	if (iStream.read(byteCode, 0, lenval) < lenval)
 	{
-//		runtimeError("CBerRealStorage::deserialize: data read wrong");
+		qDebug() << "CBerRealStorage::deserialize: data read wrong";
 		return codeLength;
 	}
 

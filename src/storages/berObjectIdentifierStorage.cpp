@@ -19,6 +19,12 @@ quint32 CBerObjectIdentifierStorage::serialize(CBerByteArrayOutputStream& berOSt
 {
 	QVector<qint32> OIC = *(ptrValue(obj, 3));
 
+	if ( OIC.size() < 2)
+	{
+		qDebug() << "ERROR! CBerObjectIdentifierStorage::serialize: Object identifier size < 2";
+		return 0;
+	}
+
 	quint32 firstSubidentifier = 40 * OIC[0] + OIC[1];
 
 	quint32 subidentifier;

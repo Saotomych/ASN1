@@ -39,6 +39,17 @@ CBerByteArrayInputStream::CBerByteArrayInputStream(QByteArray& buffer): m_Pos(0)
 	m_Buffer = buffer;
 }
 
+CBerByteArrayInputStream::CBerByteArrayInputStream(QDataStream& buffer): m_Pos(0), m_Mark(0)
+{
+	quint8 data;
+	m_Buffer.reserve(8192);
+	while (buffer.atEnd() == false)
+	{
+		buffer >> data;
+		m_Buffer.push_back(data);
+	}
+}
+
 CBerByteArrayInputStream::CBerByteArrayInputStream(QByteArray& buffer, qint32 startingIndex): m_Pos(startingIndex), m_Mark(0)
 {
 	m_Buffer = buffer;

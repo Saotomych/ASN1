@@ -65,6 +65,13 @@ public:
 	 */
 	CBerByteArrayInputStream(QByteArray& buffer);
 
+	/**
+	 * Creates a <code>CBerByteArrayInputStream</code>
+	 * so that it uses <code>buffer</code> as it's buffer array.
+	 *
+	 * @param buffer the input buffer
+	 */
+	CBerByteArrayInputStream(QDataStream& buffer);
 
 	/**
 	 * Creates a <code>CBerByteArrayInputStream</code>
