@@ -11,13 +11,34 @@ quint32 CBerBaseStorage::serialize(CBerByteArrayOutputStream& berOStream, QObjec
 		{
 			QVariant var = obj->metaObject()->property(i).read(obj);
 			qDebug() << var.typeName() << "; " << var.userType() << "; ";
-			IBerBaseType* temp_berobject = var.value<IBerBaseType*>();
 
-			if (temp_berobject != nullptr)
+			if (var.canConvert(IBerBaseType::s_metaTypeId))
 			{
-				codeLength += temp_berobject->encode(berOStream, explct);
+				IBerBaseType* temp_berobject = var.value<IBerBaseType*>();
+				if (temp_berobject != nullptr)
+				{
+					if (obj->metaObject()->property(i-1).isReadable())
+					{
+						QVariant idvar = obj->metaObject()->property(i-1).read(obj);
+						if (idvar.canConvert(CBerIdentifier::s_metaTypeId))
+						{
+							codeLength += temp_berobject->encode(berOStream, false);
+
+							CBerIdentifier idobject = idvar.value<CBerIdentifier>();
+							codeLength += idobject.encode(berOStream);
+						}
+						else
+						{
+							codeLength += temp_berobject->encode(berOStream, true);
+						}
+
+						qDebug() << "Base Encoder: " << berOStream.getByteArray().toHex();
+
+					}
+				}
 			}
 		}
+
 	}
 
 	codeLength += CBerLength::encodeLength(berOStream, codeLength);
@@ -31,18 +52,47 @@ quint32 CBerBaseStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 
 	for (qint32 i=3; i < size; ++i)
 	{
-		if (obj->metaObject()->property(i).isReadable())
+		QVariant var = obj->metaObject()->property(i).read(obj);
+		qDebug() << var.typeName() << "; " << var.userType() << "; ";
+
+		if (var.canConvert(IBerBaseType::s_metaTypeId))
 		{
-			QVariant var = obj->metaObject()->property(i).read(obj);
-			qDebug() << var.typeName() << "; " << var.userType() << "; ";
 			IBerBaseType* temp_berobject = var.value<IBerBaseType*>();
 
 			if (temp_berobject != nullptr)
 			{
 				codeLength += temp_berobject->decode(iStream, explct);
 			}
+
+			if (obj->metaObject()->property(i-1).isReadable())
+			{
+				QVariant idvar = obj->metaObject()->property(i-1).read(obj);
+				if (idvar.canConvert(CBerIdentifier::s_metaTypeId))
+				{
+					CBerIdentifier idobjectorig = idvar.value<CBerIdentifier>();
+					CBerIdentifier idobjectrcv;
+					codeLength += idobjectrcv.decode(iStream);
+
+					if ( idobjectorig != idobjectrcv )
+					{
+						codeLength += temp_berobject->decode(iStream, false);
+						qDebug() << "ERROR! Decode error: expected ID = "
+								<< idobjectorig.toString()
+								<< "; received ID = "
+								<< idobjectrcv.toString() << ";";
+					}
+
+					codeLength += temp_berobject->decode(iStream, false);
+
+				}
+				else
+				{
+					codeLength += temp_berobject->decode(iStream, true);
+				}
+			}
 		}
 	}
+
 	return codeLength;
 }
 

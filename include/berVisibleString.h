@@ -37,7 +37,7 @@
 class ASN1_SHAREDEXPORT CBerVisibleString: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(CBerIdentifier Identifier READ getIdentifier)
 	Q_PROPERTY(QByteArray* Code READ getCode)
 	Q_PROPERTY(QByteArray* OctetString READ getValue WRITE setValue)
 
@@ -66,7 +66,7 @@ public:
 
 	QByteArray* getValue() { return &m_OctetString; }
 	QByteArray* getCode() { return &m_Code; }
-	CBerIdentifier* getIdentifier() { return &m_Identifier; }
+	CBerIdentifier getIdentifier() { return m_Identifier; }
 
 };
 

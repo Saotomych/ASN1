@@ -31,10 +31,19 @@
 #include "asn1_global.h"
 #include "berByteArrayOutputStream.h"
 #include "berByteArrayInputStream.h"
+#include "storages/berBaseType.h"
 
 class ASN1_SHAREDEXPORT CBerIdentifier: public QObject
 {
 	Q_OBJECT
+	Q_PROPERTY(QByteArray* Code READ getCode)
+
+	QByteArray m_Identifier;
+	qint32 m_IdentifierClass;
+	qint32 m_Primitive;
+	qint32 m_TagNumber;
+	bool isExisting;
+	bool isMandatory;
 
 public:
 	 static qint32 UNIVERSAL_CLASS;
@@ -75,32 +84,32 @@ public:
 
 	static quint32 s_metaTypeId;
 
-	QByteArray m_Identifier;
-	qint32 m_IdentifierClass;
-	qint32 m_Primitive;
-	qint32 m_TagNumber;
-
 	CBerIdentifier();
 
-	CBerIdentifier(qint32 identifierClass, qint32 primitive, qint32 tagNumber);
+	CBerIdentifier(qint32 identifierClass, qint32 primitive, qint32 tagNumber, bool mandatory = false);
 
 	CBerIdentifier(const CBerIdentifier& rhs);
 
 	CBerIdentifier& operator=(const CBerIdentifier& that);
+
+	bool operator==(const CBerIdentifier& that);
+
 	bool operator!=(const CBerIdentifier& that);
 
 	~CBerIdentifier() {}
 
-	qint32 encode(CBerByteArrayOutputStream& berOStream);
+	quint32 encode(CBerByteArrayOutputStream& berOStream);
 
-	qint32 decode(CBerByteArrayInputStream& iStream);
+	quint32 decode(CBerByteArrayInputStream& iStream);
+
+	QByteArray* getCode() { return &m_Identifier; }
 
 	/**
 	 * Decodes the Identifier from the ByteArrayInputStream and throws an
 	 * Exception if it is not equal to itself. Returns the number of bytes read
 	 * from the InputStream.
 	 */
-	qint32 decodeAndCheck(CBerByteArrayInputStream& iStream);
+	quint32 decodeAndCheck(CBerByteArrayInputStream& iStream);
 
 	bool equals(CBerIdentifier& obj)
 	{
@@ -111,6 +120,10 @@ public:
 
 	QString toString();
 
+	bool IsExisting() { return isExisting; }
+
+	bool IsMandatory() { return isMandatory; }
+
 private:
 
 	void code();
@@ -120,6 +133,6 @@ signals:
 
 };
 
-Q_DECLARE_METATYPE(CBerIdentifier*)
+Q_DECLARE_METATYPE(CBerIdentifier)
 
 #endif

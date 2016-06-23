@@ -20,7 +20,7 @@
 class ASN1_SHAREDEXPORT CCompositeValue: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(CBerIdentifier Identifier READ getIdentifier)
 	Q_PROPERTY(QByteArray* Code READ getCode)
 	Q_PROPERTY(IBerBaseType* Integer READ getValueName1)
 	Q_PROPERTY(IBerBaseType* BitString READ getValueName2)
@@ -85,7 +85,7 @@ public:
 	virtual ~CCompositeValue() {}
 
 	QByteArray* getCode() { return &m_Code; }
-	CBerIdentifier* getIdentifier() { return &m_Identifier; }
+	CBerIdentifier getIdentifier() { return m_Identifier; }
 	CBerInteger* getValueNameInt() { return &m_integer; }
 	CBerBitString* getValueNameBitStr() { return &m_bitString; }
 	CBerVisibleString* getValueNameVisStr() { return &m_visibleString; }

@@ -34,46 +34,75 @@ quint8 CBerIdentifier::IDENTIFIER_CLASS_MASK = 0xC0;
 quint8 CBerIdentifier::PRIMITIVE_MASK = 0x20;
 quint8 CBerIdentifier::TAG_NUMBER_MASK = 0x1F;
 
-CBerIdentifier::CBerIdentifier(): m_IdentifierClass(0), m_Primitive(0), m_TagNumber(0)
+CBerIdentifier::CBerIdentifier(): m_IdentifierClass(0), m_Primitive(0), m_TagNumber(0), isExisting(false), isMandatory(false)
 {
 	code();
 }
 
-CBerIdentifier::CBerIdentifier(qint32 identifierClass, qint32 primitive, qint32 tagNumber):
+CBerIdentifier::CBerIdentifier(qint32 identifierClass, qint32 primitive, qint32 tagNumber, bool mandatory):
 m_IdentifierClass(identifierClass),
 m_Primitive(primitive),
-m_TagNumber(tagNumber)
+m_TagNumber(tagNumber),
+isExisting(true),
+isMandatory(mandatory)
 {
 	code();
 }
 
 CBerIdentifier::CBerIdentifier(const CBerIdentifier& rhs): QObject()
 {
+	isExisting = rhs.isExisting;
+	isMandatory = rhs.isMandatory;
 	m_Identifier = rhs.m_Identifier;
 	m_IdentifierClass = rhs.m_IdentifierClass;
 	m_Primitive = rhs.m_Primitive;
 	m_TagNumber = rhs.m_TagNumber;
 }
 
-CBerIdentifier& CBerIdentifier::operator=(const CBerIdentifier& that)
+CBerIdentifier& CBerIdentifier::operator=(const CBerIdentifier& rhs)
 {
-	if (this == &that) {
+	if (this == &rhs) {
 		return *this;
 	}
 
-	m_Identifier = that.m_Identifier;
-	m_IdentifierClass = that.m_IdentifierClass;
-	m_Primitive = that.m_Primitive;
-	m_TagNumber = that.m_TagNumber;
+	isExisting = rhs.isExisting;
+	isMandatory = rhs.isMandatory;
+	m_Identifier = rhs.m_Identifier;
+	m_IdentifierClass = rhs.m_IdentifierClass;
+	m_Primitive = rhs.m_Primitive;
+	m_TagNumber = rhs.m_TagNumber;
 
 	return *this;
 }
 
-bool CBerIdentifier::operator!=(const CBerIdentifier& that)
+bool CBerIdentifier::operator==(const CBerIdentifier& rhs)
 {
-	if (this == &that) return false;
+	if (isExisting != rhs.isExisting)
+		return false;
 
-	return m_TagNumber != that.m_TagNumber;
+	if (isMandatory != rhs.isMandatory)
+		return false;
+
+	if (m_Identifier != rhs.m_Identifier)
+		return false;
+
+	if (m_IdentifierClass != rhs.m_IdentifierClass)
+		return false;
+
+	if (m_Primitive != rhs.m_Primitive)
+		return false;
+
+	if (m_TagNumber != rhs.m_TagNumber)
+		return false;
+
+	return true;
+}
+
+bool CBerIdentifier::operator!=(const CBerIdentifier& rhs)
+{
+	if (this == &rhs) return false;
+
+	return true;
 }
 
 void CBerIdentifier::code()
@@ -102,7 +131,7 @@ void CBerIdentifier::code()
 	}
 }
 
-qint32 CBerIdentifier::encode(CBerByteArrayOutputStream& berOStream)
+quint32 CBerIdentifier::encode(CBerByteArrayOutputStream& berOStream)
 {
 	for (qint32 i = m_Identifier.size() - 1; i >= 0; i--)
 	{
@@ -112,7 +141,7 @@ qint32 CBerIdentifier::encode(CBerByteArrayOutputStream& berOStream)
 	return m_Identifier.size();
 }
 
-qint32 CBerIdentifier::decode(CBerByteArrayInputStream& iStream)
+quint32 CBerIdentifier::decode(CBerByteArrayInputStream& iStream)
 {
 
 	if (iStream.available() == 0) return 0;
@@ -144,6 +173,8 @@ qint32 CBerIdentifier::decode(CBerByteArrayInputStream& iStream)
 
 	}
 
+	code();
+
 	return codeLength;
 
 }
@@ -153,7 +184,7 @@ qint32 CBerIdentifier::decode(CBerByteArrayInputStream& iStream)
  * Exception if it is not equal to itself. Returns the number of bytes read
  * from the InputStream.
  */
-qint32 CBerIdentifier::decodeAndCheck(CBerByteArrayInputStream& iStream)
+quint32 CBerIdentifier::decodeAndCheck(CBerByteArrayInputStream& iStream)
 {
 
 	quint8 nextByte;

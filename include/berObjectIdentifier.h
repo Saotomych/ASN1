@@ -37,12 +37,12 @@
 class ASN1_SHAREDEXPORT CBerObjectIdentifier: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(CBerIdentifier Identifier READ getIdentifier)
 	Q_PROPERTY(QByteArray* Code READ getCode)
 	Q_PROPERTY(QVector<qint32>* ObjectIdentifier READ getValue WRITE setValue)
 
 protected:
-	CBerIdentifier m_Identifier;
+	const CBerIdentifier c_Identifier;
 	QByteArray m_Code;
 	QVector<qint32> m_ObjectIdentifier;
 
@@ -52,22 +52,21 @@ public:
 
 	ASN1_CODEC(CBerObjectIdentifierStorage)
 
-	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
 
 	CBerObjectIdentifier();
-	CBerObjectIdentifier(QVector<qint32>& bitString);
-	CBerObjectIdentifier(QByteArray code);
+	CBerObjectIdentifier(QVector<qint32>& bitString, bool IdMandatory = false);
+	CBerObjectIdentifier(QByteArray code, bool IdMandatory = false);
 	CBerObjectIdentifier(const CBerObjectIdentifier& rhs);
 	virtual ~CBerObjectIdentifier() {}
 
-	CBerObjectIdentifier& operator=(const CBerObjectIdentifier& rhs);
+//	CBerObjectIdentifier& operator=(const CBerObjectIdentifier& rhs);
 	bool operator!=(const CBerObjectIdentifier& rhs);
 	bool operator==(const CBerObjectIdentifier& rhs);
 
 	QVector<qint32>* getValue() { return &m_ObjectIdentifier; }
 	QByteArray* getCode() { return &m_Code; }
-	CBerIdentifier* getIdentifier() { return &m_Identifier; }
+	CBerIdentifier getIdentifier() { return c_Identifier; }
 
 };
 

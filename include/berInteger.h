@@ -37,14 +37,15 @@
 class ASN1_SHAREDEXPORT CBerInteger: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(CBerIdentifier Identifier READ getIdentifier)
 	Q_PROPERTY(QByteArray* Code READ getCode)
 	Q_PROPERTY(qint64* Value READ getValue WRITE setValue)
 
 protected:
-	CBerIdentifier m_Identifier;
 	QByteArray m_Code;
 	qint64 m_Val;
+
+	const CBerIdentifier c_Identifier;
 
 	void setValue(qint64* pVal) { m_Val = *pVal; }
 
@@ -52,7 +53,6 @@ public:
 
 	ASN1_CODEC(CBerIntegerStorage)
 
-	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
 
 	CBerInteger();
@@ -66,7 +66,9 @@ public:
 
 	qint64* getValue() { return &m_Val; }
 	QByteArray* getCode() { return &m_Code; }
-	CBerIdentifier* getIdentifier() { return &m_Identifier; }
+
+	CBerIdentifier getIdentifier() { return c_Identifier; }
+
 };
 
 Q_DECLARE_METATYPE(CBerInteger*)

@@ -37,7 +37,7 @@
 class ASN1_SHAREDEXPORT CBerBoolean: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(CBerIdentifier Identifier READ getIdentifier)
 	Q_PROPERTY(QByteArray* Code READ getCode)
 	Q_PROPERTY(bool* Value READ getValue WRITE setValue)
 
@@ -64,7 +64,7 @@ public:
 	CBerBoolean& operator=(const CBerBoolean& rhs);
 	bool operator!=(const CBerBoolean& rhs);
 
-	CBerIdentifier* getIdentifier() { return &m_Identifier; }
+	CBerIdentifier getIdentifier() { return m_Identifier; }
 	QByteArray* getCode() { return &m_Code; }
 	bool* getValue() {return &m_Val;}
 };

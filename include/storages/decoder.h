@@ -44,7 +44,7 @@ public:
 
 		QByteArray* pCode = qvariant_cast<QByteArray*> (codeVariant);
 
-		if (pCode->size())
+		if (pCode && pCode->size())
 		{
 			codeLength = pCode->size();
 			for (qint32 i = codeLength-1; i >= 0; --i)
@@ -57,16 +57,17 @@ public:
 			codeLength = m_storage.serialize(berOStream, obj, explct);
 		}
 
-		if (explct)
+		QVariant IdVariant = obj->metaObject()->property(1).read(obj);
+		if ( IdVariant.canConvert( CBerIdentifier::s_metaTypeId) )
 		{
-			CBerIdentifier* pBerId = nullptr;
-
-			QVariant IdVariant = obj->metaObject()->property(1).read(obj);
 			qDebug() << IdVariant.typeName() << "; " << IdVariant.userType() << "; ";
-			pBerId = qvariant_cast<CBerIdentifier*> (IdVariant);
+			CBerIdentifier BerId = qvariant_cast<CBerIdentifier> (IdVariant);
 
-			if (pBerId != nullptr)
-				codeLength += pBerId->encode(berOStream);
+			if (explct && BerId.IsExisting())
+				codeLength += BerId.encode(berOStream);
+
+			if (!explct && BerId.IsMandatory())
+				codeLength += BerId.encode(berOStream);
 		}
 
 		return codeLength;
@@ -78,13 +79,14 @@ public:
 
 		if (explct)
 		{
-			CBerIdentifier* pBerId = nullptr;
 			QVariant var = obj->metaObject()->property(1).read(obj);
-			qDebug() << var.typeName() << "; " << var.userType() << "; ";
-			pBerId = qvariant_cast<CBerIdentifier*> (var);
-
-			if (pBerId != nullptr)
-				codeLength += pBerId->decodeAndCheck(iStream);
+			if ( var.canConvert(CBerIdentifier::s_metaTypeId) )
+			{
+				qDebug() << var.typeName() << "; " << var.userType() << "; ";
+				CBerIdentifier BerId = qvariant_cast<CBerIdentifier> (var);
+				if (BerId.IsExisting())
+					codeLength += BerId.decodeAndCheck(iStream);
+			}
 		}
 
 		CBerLength length;

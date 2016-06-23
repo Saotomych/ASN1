@@ -37,7 +37,7 @@
 class ASN1_SHAREDEXPORT CBerEnum: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(CBerIdentifier Identifier READ getIdentifier)
 	Q_PROPERTY(QByteArray* Code READ getCode)
 	Q_PROPERTY(qint64* Val READ getValue WRITE setValue)
 
@@ -92,7 +92,7 @@ public:
 		return *this;
 	}
 
-	CBerIdentifier* getIdentifier() { return &m_Identifier; }
+	CBerIdentifier getIdentifier() { return m_Identifier; }
 	QByteArray* getCode() { return &m_Code; }
 	qint64* getValue() { return &m_Val; }
 

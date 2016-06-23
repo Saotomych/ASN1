@@ -9,6 +9,8 @@
 #include "berEnum.h"
 #include "berNull.h"
 #include "berBitString.h"
+#include "berAny.h"
+#include "berAnyNoDecode.h"
 
 // Legacy classes
 #include "berGeneralizedTime.h"
@@ -28,12 +30,10 @@
 #include "storages/berBaseType.h"
 
 // Ber Variables
-CBerIdentifier CBerInteger::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::INTEGER_TAG);
 CBerIdentifier CBerBitString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BIT_STRING_TAG);
 CBerIdentifier CBerBoolean::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BOOLEAN_TAG);
 CBerIdentifier CBerNull::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::NULL_TAG);
 CBerIdentifier CBerReal::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::REAL_TAG);
-CBerIdentifier CBerObjectIdentifier::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OBJECT_IDENTIFIER_TAG);
 CBerIdentifier CBerEnum::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::ENUMERATED_TAG);
 
 // Octet Strings
@@ -55,6 +55,8 @@ CBerIdentifier CBerVisibleString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, 
 CBerIdentifier CCompositeValue::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::CONSTRUCTED, CBerIdentifier::PPDU_TAG);
 
 // Ber Variables
+quint32 CBerIdentifier::s_metaTypeId = qRegisterMetaType<CBerIdentifier>();
+
 quint32 CBerInteger::s_metaTypeId = qRegisterMetaType<CBerInteger*>();
 quint32 CBerBitString::s_metaTypeId = qRegisterMetaType<CBerBitString*>();
 quint32 CBerBoolean::s_metaTypeId = qRegisterMetaType<CBerBoolean*>();
@@ -62,6 +64,8 @@ quint32 CBerNull::s_metaTypeId = qRegisterMetaType<CBerNull*>();
 quint32 CBerReal::s_metaTypeId = qRegisterMetaType<CBerReal*>();
 quint32 CBerObjectIdentifier::s_metaTypeId = qRegisterMetaType<CBerObjectIdentifier*>();
 quint32 CBerEnum::s_metaTypeId = qRegisterMetaType<CBerEnum*>();
+quint32 CBerAny::s_metaTypeId = qRegisterMetaType<CBerAny*>();
+quint32 CBerAnyNoDecode::s_metaTypeId = qRegisterMetaType<CBerAnyNoDecode*>();
 
 // Octet Strings
 quint32 CBerOctetString::s_metaTypeId = qRegisterMetaType<CBerOctetString*>();
@@ -77,7 +81,6 @@ quint32 CBerGeneralString::s_metaTypeId = qRegisterMetaType<CBerGeneralString*>(
 quint32 CBerGeneralizedTime::s_metaTypeId = qRegisterMetaType<CBerGeneralizedTime*>();
 quint32 CBerBMPString::s_metaTypeId = qRegisterMetaType<CBerBMPString*>();
 quint32 CBerVisibleString::s_metaTypeId = qRegisterMetaType<CBerVisibleString*>();
-quint32 CBerIdentifier::s_metaTypeId = qRegisterMetaType<CBerIdentifier*>();
 
 quint32 CBerBaseStorage::s_metaTypeId = qRegisterMetaType<CBerBaseStorage*>();
 

@@ -36,28 +36,29 @@
 class  ASN1_SHAREDEXPORT CBerAnyNoDecode: public QObject, public IBerBaseType
 {
 	Q_OBJECT
-	Q_PROPERTY(CBerIdentifier* Identifier READ getIdentifier)
+	Q_PROPERTY(CBerIdentifier Identifier READ getIdentifier)
 	Q_PROPERTY(QByteArray* Code READ getCode)
 	Q_PROPERTY(qint64* Length READ getValue)
 
 protected:
-	CBerIdentifier m_Identifier;
 	QByteArray m_Code;
 	qint64 m_Length;
 
+	CBerIdentifier c_Identifier;
+
 public:
-	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
 
-	CBerAnyNoDecode(): m_Length(0)
+	CBerAnyNoDecode(): m_Length(0),
+		c_Identifier(0,0,0)
 	{}
 
-	CBerAnyNoDecode(quint32 length): m_Length(length)
+	CBerAnyNoDecode(quint32 length): m_Length(length),
+			c_Identifier(0,0,0)
 	{}
 
 	CBerAnyNoDecode(const CBerAnyNoDecode& rhs): QObject()
 	{
-		m_Identifier = rhs.m_Identifier;
 		m_Code = rhs.m_Code;
 		m_Length = rhs.m_Length;
 	}
@@ -66,7 +67,6 @@ public:
 	{
 		if (this == &rhs) return *this;
 
-		m_Identifier = rhs.m_Identifier;
 		m_Code = rhs.m_Code;
 		m_Length = rhs.m_Length;
 
@@ -98,7 +98,7 @@ public:
 		return codeLength + m_Length;
 	}
 
-	CBerIdentifier* getIdentifier() { return &m_Identifier; }
+	CBerIdentifier getIdentifier() { return c_Identifier; }
 	QByteArray* getCode() { return &m_Code; }
 	qint64* getValue() { return &m_Length; }
 
