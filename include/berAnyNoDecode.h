@@ -50,11 +50,11 @@ public:
 	static quint32 s_metaTypeId;
 
 	CBerAnyNoDecode(): m_Length(0),
-		c_Identifier(0,0,0)
+		c_Identifier()
 	{}
 
 	CBerAnyNoDecode(quint32 length): m_Length(length),
-			c_Identifier(0,0,0)
+			c_Identifier()
 	{}
 
 	CBerAnyNoDecode(const CBerAnyNoDecode& rhs): QObject()
@@ -84,6 +84,7 @@ public:
 
 	virtual quint32 encode(CBerByteArrayOutputStream&, bool)
 	{
+
 		return m_Length;
 	}
 
