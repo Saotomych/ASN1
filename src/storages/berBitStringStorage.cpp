@@ -29,6 +29,8 @@ quint32 CBerBitStringStorage::serialize(CBerByteArrayOutputStream& berOStream, Q
 
 	codeLength = BA.size() + 1;
 
+	CBerLength::encodeLength(berOStream, codeLength);
+
 	return codeLength;
 }
 

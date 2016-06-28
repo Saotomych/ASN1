@@ -25,7 +25,9 @@ quint32 CBerBaseStorage::serialize(CBerByteArrayOutputStream& berOStream, QObjec
 							codeLength += temp_berobject->encode(berOStream, false);
 
 							CBerIdentifier idobject = idvar.value<CBerIdentifier>();
-							codeLength += idobject.encode(berOStream);
+							if (idobject.IsExisting() || idobject.IsMandatory())
+								codeLength += idobject.encode(berOStream);
+
 						}
 						else
 						{
@@ -42,6 +44,7 @@ quint32 CBerBaseStorage::serialize(CBerByteArrayOutputStream& berOStream, QObjec
 	}
 
 	codeLength += CBerLength::encodeLength(berOStream, codeLength);
+	qDebug() << "Base Encoder, length added: " << berOStream.getByteArray().toHex();
 
 	return codeLength;
 }

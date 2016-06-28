@@ -72,7 +72,7 @@ public:
 		for (auto v: m_Buffer)
 			size += v.size();
 
-		return size;
+		return size - m_Index - 1;
 	}
 
 	// TODO: index can work incorrectly

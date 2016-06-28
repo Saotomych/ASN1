@@ -24,6 +24,8 @@ quint32 CBerBooleanStorage::serialize(CBerByteArrayOutputStream& berOStream, QOb
 	quint8 data = (Bool == false) ? 0 : 0xFF;
 	berOStream.write(data);
 
+	CBerLength::encodeLength(berOStream, codeLength);
+
 	return codeLength;
 }
 

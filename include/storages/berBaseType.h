@@ -12,12 +12,17 @@
 
 class ASN1_SHAREDEXPORT IBerBaseType
 {
+
 public:
 	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct)=0;
 	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct)=0;
-public:
 
 	virtual ~IBerBaseType(){}
+
+	virtual bool hasLength()
+	{
+		return true;
+	}
 
 	static quint32 s_metaTypeId;
 };

@@ -25,13 +25,13 @@ CBerByteArrayOutputStream::CBerByteArrayOutputStream(quint32 bufferSize, bool au
 
 CBerByteArrayOutputStream::CBerByteArrayOutputStream(QByteArray& buffer, quint32 startingIndex) {
 	m_Buffer.push_front(buffer);
-	m_Index = startingIndex;
+	m_Index = startingIndex-1;
 	m_AutoResize = true;
 }
 
 CBerByteArrayOutputStream::CBerByteArrayOutputStream(QByteArray& buffer, quint32 startingIndex, bool automaticResize) {
 	m_Buffer.push_front(buffer);
-	m_Index = startingIndex;
+	m_Index = startingIndex-1;
 	m_AutoResize = automaticResize;
 }
 
@@ -79,7 +79,7 @@ QByteArray CBerByteArrayOutputStream::getByteArray()
 
 	QByteArray& last = m_Buffer.front();
 	if (m_Index < last.size()-1)
-		tempBuffer += last.mid(m_Index+1, last.size()-1);
+		tempBuffer += last.mid(m_Index+1, last.size());
 
 	QList<QByteArray>::iterator listIt = ++m_Buffer.begin();
 	for (; listIt != m_Buffer.end(); ++listIt)

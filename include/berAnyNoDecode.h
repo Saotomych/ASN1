@@ -84,7 +84,6 @@ public:
 
 	virtual quint32 encode(CBerByteArrayOutputStream&, bool)
 	{
-
 		return m_Length;
 	}
 

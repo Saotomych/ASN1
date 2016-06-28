@@ -56,6 +56,7 @@ public:
 		}
 
 		codeLength += CBerLength::encodeLength(berOStream, codeLength);
+		qDebug() << "Container Encoder, length added: " << berOStream.getByteArray().toHex();
 
 		return codeLength;
 	}
