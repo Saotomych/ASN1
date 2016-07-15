@@ -77,16 +77,17 @@ public:
 	{
 		qint32 codeLength = 0;
 
-		if (explct)
+		QVariant IdVariant = obj->metaObject()->property(1).read(obj);
+		if ( IdVariant.canConvert( CBerIdentifier::s_metaTypeId) )
 		{
-			QVariant var = obj->metaObject()->property(1).read(obj);
-			if ( var.canConvert(CBerIdentifier::s_metaTypeId) )
-			{
-				qDebug() << var.typeName() << "; " << var.userType() << "; ";
-				CBerIdentifier BerId = qvariant_cast<CBerIdentifier> (var);
-				if (BerId.IsExisting())
-					codeLength += BerId.decodeAndCheck(iStream);
-			}
+			qDebug() << IdVariant.typeName() << "; " << IdVariant.userType() << "; ";
+			CBerIdentifier BerId = qvariant_cast<CBerIdentifier> (IdVariant);
+
+			if (explct && BerId.IsExisting())
+				codeLength += BerId.decode(iStream);
+
+			if (!explct && BerId.IsMandatory())
+				codeLength += BerId.decode(iStream);
 		}
 
 		CBerLength length;
