@@ -77,12 +77,6 @@ CBerIdentifier& CBerIdentifier::operator=(const CBerIdentifier& rhs)
 
 bool CBerIdentifier::operator==(const CBerIdentifier& rhs)
 {
-	if (isExisting != rhs.isExisting)
-		return false;
-
-	if (isMandatory != rhs.isMandatory)
-		return false;
-
 	if (m_Identifier != rhs.m_Identifier)
 		return false;
 
@@ -102,7 +96,7 @@ bool CBerIdentifier::operator!=(const CBerIdentifier& rhs)
 {
 	if (this == &rhs) return false;
 
-	return true;
+	return !(*this == rhs);
 }
 
 void CBerIdentifier::code()

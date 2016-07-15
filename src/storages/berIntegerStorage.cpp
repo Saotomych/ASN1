@@ -38,7 +38,11 @@ quint32 CBerIntegerStorage::serialize(CBerByteArrayOutputStream& berOStream, QOb
 
 quint32 CBerIntegerStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct)
 {
+	length.decode(iStream);
+	qDebug() << "CBerIntegerStorage::deserialize, length extracted: " << length.getVal();
+
 	qint32 lenval = length.getVal();
+
 	if ( lenval < 1 || lenval > 8 )
 	{
 //		runtimeError("CBerInteger::deserialize: decoded length");

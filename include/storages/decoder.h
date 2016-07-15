@@ -90,9 +90,11 @@ public:
 		}
 
 		CBerLength length;
-		codeLength += length.decode(iStream);
 
 		codeLength += m_storage.deserialize(iStream, obj, length, codeLength, explct);
+
+		QByteArray out = iStream.get();
+		qDebug() << "CDecoder::decode class: " << out.toHex();
 
 		return codeLength;
 

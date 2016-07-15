@@ -113,3 +113,8 @@ void CBerByteArrayInputStream::reset()
 	m_Pos = m_Mark;
 }
 
+QByteArray CBerByteArrayInputStream::get()
+{
+	QByteArray ba(m_Buffer.data() + m_Pos, m_Buffer.size() - m_Pos);
+	return ba;
+}

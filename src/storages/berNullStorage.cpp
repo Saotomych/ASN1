@@ -16,6 +16,9 @@ quint32 CBerNullStorage::serialize(CBerByteArrayOutputStream& berOStream, QObjec
 
 quint32 CBerNullStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct)
 {
+	length.decode(iStream);
+	qDebug() << "CBerNullStorage::deserialize, length extracted: " << length.getVal();
+
 	return codeLength;
 }
 

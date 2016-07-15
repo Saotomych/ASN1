@@ -62,6 +62,9 @@ quint32 CBerObjectIdentifierStorage::serialize(CBerByteArrayOutputStream& berOSt
 
 quint32 CBerObjectIdentifierStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct)
 {
+	length.decode(iStream);
+	qDebug() << "CBerObjectIdentifierStorage::deserialize, length extracted: " << length.getVal();
+
 	qint32 lenval = length.getVal();
 
 	QVector<qint32> objectIdentifierComponents;

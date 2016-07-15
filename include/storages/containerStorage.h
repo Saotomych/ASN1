@@ -61,22 +61,87 @@ public:
 		return codeLength;
 	}
 
-	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength&, quint32 codeLength, bool explct)
+	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool)
 	{
-		qint32 idx = obj->metaObject()->propertyCount();
+//		length.decode(iStream);
+//		qDebug() << "CContainerStorage::deserialize, length extracted: " << length.getVal();
 
-		if (idx == 3)
+		qint32 size = obj->metaObject()->propertyCount();
+
+		for (qint32 i=3; i < size; ++i)
 		{
-			if (obj->metaObject()->property(3).isReadable())
+			if (obj->metaObject()->property(i).isReadable())
 			{
-				QVariant var = obj->metaObject()->property(3).read(obj);
-				qDebug() << var.typeName() << "; " << var.userType() << "; ";
-				ContainerType* temp_berobject = var.value<ContainerType*>();
+				QVariant idvar = obj->metaObject()->property(i).read(obj);
 
-				if (temp_berobject != nullptr)
+				if (idvar.canConvert(CBerIdentifier::s_metaTypeId))
 				{
-					for (DataType val: *temp_berobject)
-						codeLength += val.decode(iStream, explct);
+					// 1 & 2 variants with dedicated ID
+					CBerIdentifier idobjectorig = idvar.value<CBerIdentifier>();
+
+					if (++i == size)
+					{
+						qDebug() << "ERROR! Decode error: not found ContainerType for id "
+								<< idobjectorig.toString();
+						break;
+					}
+
+					QVariant var = obj->metaObject()->property(i).read(obj);
+
+					qDebug() << var.typeName() << "; " << var.userType() << "; ";
+
+					ContainerType* temp_berobject = var.value<ContainerType*>();
+					if (temp_berobject != nullptr)
+					{
+						if (obj->metaObject()->property(i).isReadable())
+						{
+							if (idvar.canConvert(CBerIdentifier::s_metaTypeId))
+							{
+								CBerIdentifier idobject = idvar.value<CBerIdentifier>();
+								for (DataType& val: *temp_berobject)
+								{
+									codeLength += idobject.decode(iStream);
+									codeLength += val.decode(iStream, false);
+								}
+
+								QByteArray out = iStream.get();
+								qDebug() << "ContainerStorage::deserialize ID+data[" << i << "]: " << out.toHex();
+							}
+							else
+							{
+								for (DataType& val: *temp_berobject)
+									codeLength += val.decode(iStream, true);
+
+								QByteArray out = iStream.get();
+								qDebug() << "ContainerStorage::deserialize data[" << i << "]: " << out.toHex();
+							}
+						}
+					}
+					else
+					{
+						qDebug() << "Decode ContainerType: ERROR! Decode error: can't convert to ContainerType or nullptr found";
+					}
+				}
+				else
+				{
+					// 3 & 4 variants with
+					QVariant var = obj->metaObject()->property(i).read(obj);
+					qDebug() << var.typeName() << "; " << var.userType() << "; ";
+
+					// 3
+					ContainerType* temp_berobject = var.value<ContainerType*>();
+					if (temp_berobject != nullptr)
+					{
+						for (DataType& val: *temp_berobject)
+							codeLength += val.decode(iStream, true);
+
+						QByteArray out = iStream.get();
+						qDebug() << "ContainerStorage::deserialize data[" << i << "]: " << out.toHex();
+					}
+					else
+					{
+						qDebug() << "Decode ContainerType: ERROR! Decode error: can't convert to ContainerType or nullptr found";
+					}
 				}
 			}
 		}

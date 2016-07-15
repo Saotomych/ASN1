@@ -23,6 +23,7 @@
 #ifndef BER_BASE
 #define BER_BASE
 
+#include <stdexcept>
 #include "asn1_global.h"
 #include "berByteArrayOutputStream.h"
 #include "berByteArrayInputStream.h"

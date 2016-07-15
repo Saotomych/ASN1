@@ -31,6 +31,9 @@ quint32 CBerBooleanStorage::serialize(CBerByteArrayOutputStream& berOStream, QOb
 
 quint32 CBerBooleanStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct)
 {
+	length.decode(iStream);
+	qDebug() << "CBerBooleanStorage::deserialize, length extracted: " << length.getVal();
+
 	if (length.getVal() == 1)
 	{
 		qint32 data = iStream.read();

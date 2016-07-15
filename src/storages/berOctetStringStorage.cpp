@@ -28,6 +28,9 @@ quint32 CBerOctetStringStorage::serialize(CBerByteArrayOutputStream& berOStream,
 
 quint32 CBerOctetStringStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct)
 {
+	length.decode(iStream);
+	qDebug() << "CBerOctetStringStorage deserialize, length extracted: " << length.getVal();
+
 	qint32 lenval = length.getVal();
 
 	if (lenval != 0)

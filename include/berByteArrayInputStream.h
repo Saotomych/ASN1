@@ -136,6 +136,11 @@ public:
 	 */
 	void reset();
 
+	/*
+	 * Return actual buffer
+	 */
+	QByteArray get();
+
 signals:
 	void signalInputStreamWarning(QString strErr);
 
