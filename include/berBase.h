@@ -31,6 +31,8 @@
 #include "berLength.h"
 #include "storages/berBaseType.h"
 
+#define START_PROPERTY_INDEX 3
+
 class CBerBaseStorage
 {
 public:
@@ -48,6 +50,12 @@ public:
 //	virtual quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct);
 //
 	void encodeAndSave(QObject*, qint32) { }
+
+private:
+
+	enum { ORIGINAL_IDENTIFIER, PARENT_IDENTIFIER, ORIGINAL_IDENTIFIER_WITH_LENGTH, PARENT_IDENTIFIER_WITH_LENGTH, NOT_IDENTIFIED_MODE };
+
+	QVariant getVariantAndCheck(QObject* obj, qint32 index);
 };
 
 Q_DECLARE_METATYPE(CBerBaseStorage*)

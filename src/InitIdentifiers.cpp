@@ -88,3 +88,4 @@ quint32 CBerBaseStorage::s_metaTypeId = qRegisterMetaType<CBerBaseStorage*>();
 quint32 CCompositeValue::s_metaTypeIdentifier = qRegisterMetaType<CCompositeValue*>();
 
 quint32 IBerBaseType::s_metaTypeId = qRegisterMetaType<IBerBaseType*>();
+quint32 CBerLength::s_metaTypeId = qRegisterMetaType<CBerLength>();

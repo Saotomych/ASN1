@@ -41,9 +41,22 @@ class ASN1_SHAREDEXPORT CBerLength: public QObject
 
 public:
 
+	static quint32 s_metaTypeId;
+
 	static qint32 encodeLength(CBerByteArrayOutputStream& berOStream, quint8 length);
 
 	CBerLength(): m_ValLength(0) {}
+
+	CBerLength(const CBerLength& rhs): QObject(0),
+			m_ValLength(rhs.m_ValLength) {}
+
+	CBerLength& operator=(const CBerLength& rhs)
+	{
+		if (this == &rhs) return *this;
+
+		m_ValLength = rhs.m_ValLength;
+		return *this;
+	}
 
 	virtual ~CBerLength() {}
 
@@ -55,5 +68,7 @@ signals:
 	void signalIOError(QString strErr);
 
 };
+
+Q_DECLARE_METATYPE(CBerLength)
 
 #endif
