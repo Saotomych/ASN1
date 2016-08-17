@@ -55,7 +55,8 @@ private:
 
 	enum { ORIGINAL_IDENTIFIER, PARENT_IDENTIFIER, ORIGINAL_IDENTIFIER_WITH_LENGTH, PARENT_IDENTIFIER_WITH_LENGTH, NOT_IDENTIFIED_MODE };
 
-	QVariant getVariantAndCheck(QObject* obj, qint32 index);
+	quint32 getType(QObject* obj, QVariant& varpos0, QVariant& varpos1, QVariant& varpos2);
+	QVariant getNextVariant(QObject* obj, QVariant& varposprev, quint32 index);
 };
 
 Q_DECLARE_METATYPE(CBerBaseStorage*)
