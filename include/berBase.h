@@ -33,6 +33,8 @@
 
 #define START_PROPERTY_INDEX 3
 
+enum class WorkType { ORIGINAL_IDENTIFIER, PARENT_IDENTIFIER, ORIGINAL_IDENTIFIER_WITH_LENGTH, PARENT_IDENTIFIER_WITH_LENGTH, NOT_IDENTIFIED_MODE };
+
 class CBerBaseStorage
 {
 public:
@@ -53,9 +55,8 @@ public:
 
 private:
 
-	enum { ORIGINAL_IDENTIFIER, PARENT_IDENTIFIER, ORIGINAL_IDENTIFIER_WITH_LENGTH, PARENT_IDENTIFIER_WITH_LENGTH, NOT_IDENTIFIED_MODE };
-
-	quint32 getType(QObject* obj, QVariant& varpos0, QVariant& varpos1, QVariant& varpos2);
+public:
+	WorkType getWorkType(QObject* obj, QVariant& varpos0, QVariant& varpos1, QVariant& varpos2);
 	QVariant getNextVariant(QObject* obj, QVariant& varposprev, quint32 index);
 };
 

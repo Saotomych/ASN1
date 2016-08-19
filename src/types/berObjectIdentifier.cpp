@@ -1,6 +1,7 @@
 #include "berObjectIdentifier.h"
 
-CBerObjectIdentifier::CBerObjectIdentifier()
+CBerObjectIdentifier::CBerObjectIdentifier():
+	c_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OBJECT_IDENTIFIER_TAG)
 {
 }
 

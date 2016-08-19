@@ -37,6 +37,9 @@ public:
 
 	quint32 encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
 	{
+
+		qDebug() << "Start encode new type";
+
 		quint32 codeLength = 0;
 
 		QVariant codeVariant = obj->metaObject()->property(2).read(obj);
@@ -75,6 +78,9 @@ public:
 
 	quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct)
 	{
+
+		qDebug() << "Start decode new type";
+
 		qint32 codeLength = 0;
 
 		QVariant IdVariant = obj->metaObject()->property(1).read(obj);
@@ -94,14 +100,15 @@ public:
 				codeLength += BerId.decode(iStream);
 				qDebug() << "Decode mandatory Id: " << BerId.toString();
 			}
+
 		}
 
 		CBerLength length;
-
 		codeLength += m_storage.deserialize(iStream, obj, length, codeLength, explct);
 
 		QByteArray out = iStream.get();
 		qDebug() << "CDecoder::decode class: " << out.toHex();
+		qDebug() << "CDecoder::extracted length = " << length.getVal();
 
 		return codeLength;
 
