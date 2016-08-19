@@ -63,8 +63,8 @@ public:
 
 	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool)
 	{
-//		length.decode(iStream);
-//		qDebug() << "CContainerStorage::deserialize, length extracted: " << length.getVal();
+		length.decode(iStream);
+		qDebug() << "CContainerStorage::deserialize, length extracted: " << length.getVal();
 
 		qint32 size = obj->metaObject()->propertyCount();
 

@@ -132,9 +132,9 @@ quint32 CBerBaseStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 			varpos1 = varpos2;
 
 		quint32 type = getType(obj, varpos0, varpos1, varpos2);
-		qDebug() << "CBerBaseStorage::deserialize: types: " << varpos0.typeName() << "; "
+		qDebug() << "CBerBaseStorage::deserialize: types: " << varpos2.typeName() << "; "
 				<< varpos1.typeName() << "; "
-				<< varpos2.typeName() << "; ";
+				<< varpos0.typeName() << "; ";
 
 		qDebug() << "CBerBaseStorage::deserialize: type = " << type;
 

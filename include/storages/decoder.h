@@ -84,10 +84,16 @@ public:
 			CBerIdentifier BerId = qvariant_cast<CBerIdentifier> (IdVariant);
 
 			if (explct && BerId.IsExisting())
+			{
 				codeLength += BerId.decode(iStream);
+				qDebug() << "Decode explicit Id: " << BerId.toString();
+			}
 
 			if (!explct && BerId.IsMandatory())
+			{
 				codeLength += BerId.decode(iStream);
+				qDebug() << "Decode mandatory Id: " << BerId.toString();
+			}
 		}
 
 		CBerLength length;
