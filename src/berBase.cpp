@@ -234,8 +234,6 @@ quint32 CBerBaseStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 			default:
 				break;
 			}
-
-			qDebug() << "Base Decoder: nullptr found";
 		}
 	}
 

@@ -14,7 +14,7 @@ template<class BaseClassType, class ContainerType, class DataType>
 class CContainerStorage
 {
 
-	WorkType getWorkType(QObject* obj, QVariant& varpos0, QVariant& varpos1, QVariant& varpos2)
+	WorkType getWorkType(QObject*, QVariant& varpos0, QVariant& varpos1, QVariant& varpos2)
 	{
 		WorkType type = WorkType::NOT_IDENTIFIED_MODE;
 
@@ -86,7 +86,7 @@ public:
 								codeLength += val.encode(berOStream, true);
 						}
 
-						qDebug() << "Container Encoder: " << berOStream.getByteArray().toHex();
+						qDebug() << "CContainerStorage::serialize: " << berOStream.getByteArray().toHex();
 
 					}
 				}
@@ -94,7 +94,7 @@ public:
 		}
 
 		codeLength += CBerLength::encodeLength(berOStream, codeLength);
-		qDebug() << "Container Encoder, length added: " << berOStream.getByteArray().toHex();
+		qDebug() << "CContainerStorage::serialize, length added: " << berOStream.getByteArray().toHex();
 
 		return codeLength;
 	}
@@ -144,7 +144,7 @@ public:
 
 						if (subCodeLength != length.getVal())
 						{
-							qDebug() << "ERROR! Decode container is wrong for type: " << varpos0.typeName()
+							qDebug() << "ERROR! CContainerStorage::deserialize container is wrong for type: " << varpos0.typeName()
 									<< "; length original = " << length.getVal()
 									<< "; length received = " << subCodeLength;
 							throw std::runtime_error("Decode error");
@@ -164,7 +164,7 @@ public:
 
 						if ( idobjectOriginal != idobjectReceive )
 						{
-							qDebug() << "ERROR! Decode error: expected ID = "
+							qDebug() << "ERROR! CContainerStorage::deserialize error: expected ID = "
 									<< idobjectOriginal.toString()
 									<< "; received ID = "
 									<< idobjectReceive.toString() << ";";
@@ -187,7 +187,7 @@ public:
 
 						if ( idobjectOriginal != idobjectReceive )
 						{
-							qDebug() << "ERROR! Decode error: expected ID = "
+							qDebug() << "ERROR! CContainerStorage::deserialize error: expected ID = "
 									<< idobjectOriginal.toString()
 									<< "; received ID = "
 									<< idobjectReceive.toString() << ";";
@@ -203,7 +203,7 @@ public:
 
 						if (subCodeLength != length.getVal())
 						{
-							qDebug() << "ERROR! Decode container is wrong for type: " << varpos0.typeName()
+							qDebug() << "ERROR! CContainerStorage::deserialize: container is wrong for type: " << varpos0.typeName()
 									<< "; length original = " << length.getVal()
 									<< "; length received = " << subCodeLength;
 							throw std::runtime_error("Decode error");
@@ -215,7 +215,7 @@ public:
 					break;
 
 				default:
-					QString str = QString("ERROR! Deserialize type %1 isn't identified")
+					QString str = QString("ERROR! CContainerStorage::deserialize type %1 isn't identified")
 							.arg( (quint32) type);
 					Q_ASSERT_X(false, "CContainerStorage::deserialize", str.toStdString().c_str());
 					break;
@@ -243,8 +243,6 @@ public:
 				default:
 					break;
 				}
-
-				qDebug() << "Base Decoder: nullptr found";
 			}
 		}
 

@@ -48,9 +48,6 @@ public:
 
 	static quint32 s_metaTypeId;
 
-//	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
-//	virtual quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct);
-//
 	void encodeAndSave(QObject*, qint32) { }
 
 private:

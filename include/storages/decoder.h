@@ -73,6 +73,8 @@ public:
 				codeLength += BerId.encode(berOStream);
 		}
 
+		qDebug() << "Encode Result: " << berOStream.getByteArray().toHex();
+
 		return codeLength;
 	}
 
@@ -106,9 +108,10 @@ public:
 		CBerLength length;
 		codeLength += m_storage.deserialize(iStream, obj, length, codeLength, explct);
 
-		QByteArray out = iStream.get();
-		qDebug() << "CDecoder::decode class: " << out.toHex();
 		qDebug() << "CDecoder::extracted length = " << length.getVal();
+
+		QByteArray out = iStream.get();
+		qDebug() << "CDecoder::decode Result: " << out.toHex();
 
 		return codeLength;
 

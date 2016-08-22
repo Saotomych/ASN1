@@ -82,8 +82,10 @@ public:
 
 	virtual ~CBerAnyNoDecode() {}
 
-	virtual quint32 encode(CBerByteArrayOutputStream&, bool)
+	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool)
 	{
+		CBerLength::encodeLength(berOStream, m_Length);
+
 		return m_Length;
 	}
 
@@ -93,9 +95,9 @@ public:
 
 		qint32 codeLength = length.decode(iStream);
 
-		m_Length = length.getVal();
+		m_Length = codeLength + length.getVal();
 
-		return codeLength + m_Length;
+		return m_Length;
 	}
 
 	CBerIdentifier getIdentifier() { return c_Identifier; }
