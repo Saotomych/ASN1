@@ -84,9 +84,7 @@ public:
 
 	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool)
 	{
-		CBerLength::encodeLength(berOStream, m_Length);
-
-		return m_Length;
+		return m_Length + CBerLength::encodeLength(berOStream, m_Length);
 	}
 
 	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool)
