@@ -52,8 +52,12 @@ public:
 
 	ASN1_CODEC(CBerBitStringStorage)
 
-	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
+
+	static CBerIdentifier getBerIdentifier()
+	{
+		return CBerIdentifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BIT_STRING_TAG);
+	}
 
 	CBerBitString();
 	CBerBitString(QBitArray& bitString);

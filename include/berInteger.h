@@ -55,6 +55,11 @@ public:
 
 	static quint32 s_metaTypeId;
 
+	static CBerIdentifier getBerIdentifier()
+	{
+		return CBerIdentifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::INTEGER_TAG);
+	}
+
 	CBerInteger();
 	CBerInteger(qint64 val);
 	CBerInteger(QByteArray code);

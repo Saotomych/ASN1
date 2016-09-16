@@ -2,18 +2,18 @@
 
 CBerVisibleString::CBerVisibleString()
 {
-	m_Identifier = s_Identifier;
+	m_Identifier = getBerIdentifier();
 }
 
 CBerVisibleString::CBerVisibleString(QByteArray& octetString)
 {
-	m_Identifier = s_Identifier;
+	m_Identifier = getBerIdentifier();
 	m_OctetString = octetString;
 }
 
 CBerVisibleString::CBerVisibleString(QString& octetString)
 {
-	m_Identifier = s_Identifier;
+	m_Identifier = getBerIdentifier();
 	m_OctetString = octetString.toUtf8();
 }
 

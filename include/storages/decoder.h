@@ -20,6 +20,7 @@
 		CDecoder< Storage > codec; \
 		return codec.encode(berOStream, this, explct); \
 	} \
+	\
 	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct) \
 	{ \
 		CDecoder< Storage > codec; \

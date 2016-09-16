@@ -52,23 +52,27 @@ public:
 
 	ASN1_CODEC(CBerIntegerStorage)
 
-	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
+
+	static CBerIdentifier getBerIdentifier()
+	{
+		return CBerIdentifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::ENUMERATED_TAG);
+	}
 
 	CBerEnum(): m_Val(0)
 	{
-		m_Identifier = s_Identifier;
+		m_Identifier = getBerIdentifier();
 	}
 
 	CBerEnum(QByteArray& code): m_Val(0)
 	{
-		m_Identifier = s_Identifier;
+		m_Identifier = getBerIdentifier();
 		m_Code = code;
 	}
 
 	CBerEnum(qint64 val)
 	{
-		m_Identifier = s_Identifier;
+		m_Identifier = getBerIdentifier();
 		m_Val = val;
 	}
 

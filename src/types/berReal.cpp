@@ -2,18 +2,18 @@
 
 CBerReal::CBerReal(): m_Real(0.0)
 {
-	m_Identifier = s_Identifier;
+	m_Identifier = getBerIdentifier();
 }
 
 CBerReal::CBerReal(double real)
 {
-	m_Identifier = s_Identifier;
+	m_Identifier = getBerIdentifier();
 	m_Real = real;
 }
 
 CBerReal::CBerReal(QByteArray& code): m_Real(0.0)
 {
-	m_Identifier = s_Identifier;
+	m_Identifier = getBerIdentifier();
 	m_Code = code;
 }
 

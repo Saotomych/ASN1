@@ -30,31 +30,6 @@
 #include "storages/berBaseType.h"
 
 // Ber Variables
-CBerIdentifier CBerBitString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BIT_STRING_TAG);
-CBerIdentifier CBerBoolean::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BOOLEAN_TAG);
-CBerIdentifier CBerNull::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::NULL_TAG);
-CBerIdentifier CBerReal::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::REAL_TAG);
-CBerIdentifier CBerEnum::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::ENUMERATED_TAG);
-
-// Octet Strings
-CBerIdentifier CBerOctetString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OCTET_STRING_TAG);
-CBerIdentifier CBerGeneralizedTime::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::GENERALIZED_TIME_TAG);
-CBerIdentifier CBerBMPString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::BMP_STRING_TAG);
-CBerIdentifier CBerGeneralString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::GENERAL_STRING_TAG);
-CBerIdentifier CBerGraphicString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::GRAPHIC_STRING_TAG);
-CBerIdentifier CBerIA5String::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::IA5_STRING_TAG);
-CBerIdentifier CBerNumericString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::NUMERIC_STRING_TAG);
-CBerIdentifier CBerPrintableString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::PRINTABLE_STRING_TAG);
-CBerIdentifier CBerTeletexString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::TELETEX_STRING_TAG);
-CBerIdentifier CBerUniversalString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::UNIVERSAL_STRING_TAG);
-CBerIdentifier CBerUTF8String::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::UTF8_STRING_TAG);
-CBerIdentifier CBerVideotexString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::VIDEOTEX_STRING_TAG);
-CBerIdentifier CBerVisibleString::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::VISIBLE_STRING_TAG);
-
-// Test Composite Class
-CBerIdentifier CCompositeValue::s_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::CONSTRUCTED, CBerIdentifier::PPDU_TAG);
-
-// Ber Variables
 quint32 CBerIdentifier::s_metaTypeId = qRegisterMetaType<CBerIdentifier>();
 
 quint32 CBerInteger::s_metaTypeId = qRegisterMetaType<CBerInteger*>();

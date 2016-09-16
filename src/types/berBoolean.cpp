@@ -2,12 +2,12 @@
 
 CBerBoolean::CBerBoolean(): m_Val(0)
 {
-	m_Identifier = s_Identifier;
+	m_Identifier = getBerIdentifier();
 }
 
 CBerBoolean::CBerBoolean(bool val)
 {
-	m_Identifier = s_Identifier;
+	m_Identifier = getBerIdentifier();
 	m_Val = val;
 }
 

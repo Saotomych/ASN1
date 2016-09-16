@@ -50,17 +50,21 @@ public:
 
 	ASN1_CODEC(CBerOctetStringStorage)
 
-	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
+
+	static CBerIdentifier getBerIdentifier()
+	{
+		return CBerIdentifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::GRAPHIC_STRING_TAG);
+	}
 
 	CBerGraphicString()
 	{
-		m_Identifier = s_Identifier;
+		m_Identifier = getBerIdentifier();
 	}
 
 	CBerGraphicString(QByteArray& octetString)
 	{
-		m_Identifier = s_Identifier;
+		m_Identifier = getBerIdentifier();
 		m_OctetString = octetString;
 	}
 

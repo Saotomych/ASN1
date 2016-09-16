@@ -52,8 +52,12 @@ public:
 
 	ASN1_CODEC(CBerRealStorage)
 
-	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeId;
+
+	static CBerIdentifier getBerIdentifier()
+	{
+		return CBerIdentifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::REAL_TAG);
+	}
 
 	CBerReal();
 	CBerReal(double real);

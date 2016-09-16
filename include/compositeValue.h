@@ -43,17 +43,21 @@ public:
 
 	ASN1_CODEC(CBerBaseStorage)
 
-	static CBerIdentifier s_Identifier;
 	static quint32 s_metaTypeIdentifier;
 
+	static CBerIdentifier getBerIdentifier()
+	{
+		return CBerIdentifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::CONSTRUCTED, CBerIdentifier::PPDU_TAG);
+	}
+
 	CCompositeValue():
-		m_Identifier(s_Identifier),
+		m_Identifier(getBerIdentifier()),
 		m_integer(0)
 	{
 	}
 
 	CCompositeValue(CBerInteger& berInt, CBerBitString& berBitStr, CBerVisibleString& berVisStr):
-		m_Identifier(s_Identifier),
+		m_Identifier(getBerIdentifier()),
 		m_integer(berInt),
 		m_bitString(berBitStr),
 		m_visibleString(berVisStr)

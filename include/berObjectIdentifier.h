@@ -60,7 +60,6 @@ public:
 	CBerObjectIdentifier(const CBerObjectIdentifier& rhs);
 	virtual ~CBerObjectIdentifier() {}
 
-//	CBerObjectIdentifier& operator=(const CBerObjectIdentifier& rhs);
 	bool operator!=(const CBerObjectIdentifier& rhs);
 	bool operator==(const CBerObjectIdentifier& rhs);
 

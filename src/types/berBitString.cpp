@@ -2,18 +2,18 @@
 
 CBerBitString::CBerBitString()
 {
-	m_Identifier = s_Identifier;
+	m_Identifier = getBerIdentifier();
 }
 
 CBerBitString::CBerBitString(QBitArray& bitString)
 {
-	m_Identifier = s_Identifier;
+	m_Identifier = getBerIdentifier();
 	m_BitString = bitString;
 }
 
 CBerBitString::CBerBitString(QByteArray& code)
 {
-	m_Identifier = s_Identifier;
+	m_Identifier = getBerIdentifier();
 	m_Code = code;
 }
 
