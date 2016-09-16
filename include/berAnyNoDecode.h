@@ -49,12 +49,17 @@ protected:
 public:
 	static quint32 s_metaTypeId;
 
+	static CBerIdentifier getBerIdentifier()
+	{
+		return CBerIdentifier();
+	}
+
 	CBerAnyNoDecode(): m_Length(0),
-		c_Identifier()
+		c_Identifier(getBerIdentifier())
 	{}
 
 	CBerAnyNoDecode(quint32 length): m_Length(length),
-			c_Identifier()
+			c_Identifier(getBerIdentifier())
 	{}
 
 	CBerAnyNoDecode(const CBerAnyNoDecode& rhs): QObject()
