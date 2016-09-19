@@ -97,6 +97,8 @@ public:
 		return m_Length;
 	}
 
+
+
 	CBerIdentifier getIdentifier() { return c_Identifier; }
 
 	QByteArray* getCode() { return &m_Code; }

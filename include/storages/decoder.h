@@ -26,6 +26,11 @@
 		CDecoder< Storage > codec; \
 		return codec.decode(iStream, this, explct); \
 	} \
+	\
+	virtual void createMember(CBerIdentifier& id) \
+	{ \
+		create_object_by_id(id); \
+	} \
 
 template<class TStorage>
 class ASN1_SHAREDEXPORT CDecoder
