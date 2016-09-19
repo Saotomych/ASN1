@@ -29,12 +29,6 @@ class CUnionStorage
 				{
 					if (varpos2.canConvert(CBerIdentifier::s_metaTypeId) )
 						type = WorkType::PARENT_IDENTIFIER_WITH_LENGTH;
-					else
-						type = WorkType::ORIGINAL_IDENTIFIER_WITH_LENGTH;
-				}
-				else
-				{
-					type = WorkType::ORIGINAL_IDENTIFIER;
 				}
 			}
 		}
@@ -72,19 +66,6 @@ public:
 				{
 					switch(type)
 					{
-					case WorkType::ORIGINAL_IDENTIFIER:
-						codeLength += temp_berobject->encode(berOStream, true);
-						break;
-
-					case WorkType::ORIGINAL_IDENTIFIER_WITH_LENGTH:
-						{
-							quint32 subCodeLength = temp_berobject->encode(berOStream, true);
-							codeLength += CBerLength::encodeLength(berOStream, subCodeLength);
-							codeLength += subCodeLength;
-						}
-						--i;
-						break;
-
 					case WorkType::PARENT_IDENTIFIER:
 						{
 							codeLength += temp_berobject->encode(berOStream, false);
@@ -154,19 +135,6 @@ public:
 			{
 				switch(type)
 				{
-				case WorkType::ORIGINAL_IDENTIFIER:
-					codeLength += temp_berobject->decode(iStream, true);
-					break;
-
-				case WorkType::ORIGINAL_IDENTIFIER_WITH_LENGTH:
-					{
-						codeLength += length.decode(iStream);
-						quint32 subCodeLength = temp_berobject->decode(iStream, true);
-						codeLength += subCodeLength;
-					}
-					++i;
-					break;
-
 				case WorkType::PARENT_IDENTIFIER:
 					{
 						CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
@@ -231,7 +199,6 @@ public:
 				qDebug() << "CUnionStorage::deserialize: nullptr found";
 				switch(type)
 				{
-				case WorkType::ORIGINAL_IDENTIFIER_WITH_LENGTH:
 				case WorkType::PARENT_IDENTIFIER:
 					++i;
 					break;
@@ -240,7 +207,6 @@ public:
 					i+=2;
 					break;
 
-				case WorkType::ORIGINAL_IDENTIFIER:
 				case WorkType::NOT_IDENTIFIED_MODE:
 				default:
 					break;

@@ -30,12 +30,6 @@ class CContainerStorage
 				{
 					if (varpos2.canConvert(CBerIdentifier::s_metaTypeId) )
 						type = WorkType::PARENT_IDENTIFIER_WITH_LENGTH;
-					else
-						type = WorkType::ORIGINAL_IDENTIFIER_WITH_LENGTH;
-				}
-				else
-				{
-					type = WorkType::ORIGINAL_IDENTIFIER;
 				}
 			}
 		}
@@ -129,32 +123,6 @@ public:
 			{
 				switch(type)
 				{
-				case WorkType::ORIGINAL_IDENTIFIER:
-					for (DataType& val: *temp_berobject)
-						codeLength += val.decode(iStream, true);
-					break;
-
-				case WorkType::ORIGINAL_IDENTIFIER_WITH_LENGTH:
-					{
-						codeLength += length.decode(iStream);
-
-						quint32 subCodeLength = 0;
-						for (DataType& val: *temp_berobject)
-							subCodeLength += val.decode(iStream, true);
-
-						if (subCodeLength != length.getVal())
-						{
-							qDebug() << "ERROR! CContainerStorage::deserialize container is wrong for type: " << varpos0.typeName()
-									<< "; length original = " << length.getVal()
-									<< "; length received = " << subCodeLength;
-							throw std::runtime_error("Decode error");
-						}
-
-						codeLength += subCodeLength;
-					}
-					++i;
-					break;
-
 				case WorkType::PARENT_IDENTIFIER:
 					{
 						CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
@@ -241,7 +209,6 @@ public:
 				qDebug() << "CContainerStorage::deserialize: nullptr found";
 				switch(type)
 				{
-				case WorkType::ORIGINAL_IDENTIFIER_WITH_LENGTH:
 				case WorkType::PARENT_IDENTIFIER:
 					++i;
 					break;
@@ -250,7 +217,6 @@ public:
 					i+=2;
 					break;
 
-				case WorkType::ORIGINAL_IDENTIFIER:
 				case WorkType::NOT_IDENTIFIED_MODE:
 				default:
 					break;
