@@ -60,8 +60,8 @@ public:
 	}
 
 	CBerObjectIdentifier();
-	CBerObjectIdentifier(QVector<qint32>& bitString, bool IdMandatory = false);
-	CBerObjectIdentifier(QByteArray code, bool IdMandatory = false);
+	CBerObjectIdentifier(QVector<qint32>& bitString);
+	CBerObjectIdentifier(QByteArray code);
 	CBerObjectIdentifier(const CBerObjectIdentifier& rhs);
 	virtual ~CBerObjectIdentifier() {}
 

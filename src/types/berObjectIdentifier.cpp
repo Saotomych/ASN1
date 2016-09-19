@@ -5,8 +5,8 @@ CBerObjectIdentifier::CBerObjectIdentifier():
 {
 }
 
-CBerObjectIdentifier::CBerObjectIdentifier(QVector<qint32>& objectIdentifierComponents, bool IdMandatory):
-	c_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OBJECT_IDENTIFIER_TAG, IdMandatory)
+CBerObjectIdentifier::CBerObjectIdentifier(QVector<qint32>& objectIdentifierComponents):
+	c_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OBJECT_IDENTIFIER_TAG)
 {
 	bool argumentValid = true;
 
@@ -57,8 +57,8 @@ CBerObjectIdentifier::CBerObjectIdentifier(QVector<qint32>& objectIdentifierComp
 	}
 }
 
-CBerObjectIdentifier::CBerObjectIdentifier(QByteArray code, bool IdMandatory):
-	c_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OBJECT_IDENTIFIER_TAG, IdMandatory)
+CBerObjectIdentifier::CBerObjectIdentifier(QByteArray code):
+	c_Identifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OBJECT_IDENTIFIER_TAG)
 {
 	m_Code = code;
 }
@@ -68,16 +68,6 @@ CBerObjectIdentifier::CBerObjectIdentifier(const CBerObjectIdentifier& rhs): QOb
 	m_Code(rhs.m_Code),
 	m_ObjectIdentifier(rhs.m_ObjectIdentifier)
 {}
-
-//CBerObjectIdentifier& CBerObjectIdentifier::operator=(const CBerObjectIdentifier& rhs):
-//{
-//	if (this == &rhs) return *this;
-//
-//	m_Code = rhs.m_Code;
-//	m_ObjectIdentifier = rhs.m_ObjectIdentifier;
-//
-//	return *this;
-//}
 
 bool CBerObjectIdentifier::operator!=(const CBerObjectIdentifier& rhs)
 {

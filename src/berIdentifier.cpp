@@ -34,17 +34,16 @@ quint8 CBerIdentifier::IDENTIFIER_CLASS_MASK = 0xC0;
 quint8 CBerIdentifier::PRIMITIVE_MASK = 0x20;
 quint8 CBerIdentifier::TAG_NUMBER_MASK = 0x1F;
 
-CBerIdentifier::CBerIdentifier(): m_IdentifierClass(0), m_Primitive(0), m_TagNumber(0), isExisting(false), isMandatory(false)
+CBerIdentifier::CBerIdentifier(): m_IdentifierClass(0), m_Primitive(0), m_TagNumber(0), isExisting(false)
 {
 	code();
 }
 
-CBerIdentifier::CBerIdentifier(qint32 identifierClass, qint32 primitive, qint32 tagNumber, bool mandatory):
+CBerIdentifier::CBerIdentifier(qint32 identifierClass, qint32 primitive, qint32 tagNumber):
 m_IdentifierClass(identifierClass),
 m_Primitive(primitive),
 m_TagNumber(tagNumber),
-isExisting(true),
-isMandatory(mandatory)
+isExisting(true)
 {
 	code();
 }
@@ -52,7 +51,6 @@ isMandatory(mandatory)
 CBerIdentifier::CBerIdentifier(const CBerIdentifier& rhs): QObject()
 {
 	isExisting = rhs.isExisting;
-	isMandatory = rhs.isMandatory;
 	m_Identifier = rhs.m_Identifier;
 	m_IdentifierClass = rhs.m_IdentifierClass;
 	m_Primitive = rhs.m_Primitive;
@@ -66,7 +64,6 @@ CBerIdentifier& CBerIdentifier::operator=(const CBerIdentifier& rhs)
 	}
 
 	isExisting = rhs.isExisting;
-	isMandatory = rhs.isMandatory;
 	m_Identifier = rhs.m_Identifier;
 	m_IdentifierClass = rhs.m_IdentifierClass;
 	m_Primitive = rhs.m_Primitive;

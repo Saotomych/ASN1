@@ -160,20 +160,26 @@ public:
 						CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
 						CBerIdentifier idobjectReceive = varpos1.value<CBerIdentifier>();
 
-						codeLength += idobjectReceive.decode(iStream);
-
-						if ( idobjectOriginal != idobjectReceive )
+						for (DataType& val: *temp_berobject)
 						{
-							qDebug() << "ERROR! CContainerStorage::deserialize error: expected ID = "
-									<< idobjectOriginal.toString()
-									<< "; received ID = "
-									<< idobjectReceive.toString() << ";";
+							if ( idobjectOriginal.IsExisting() )
+							{
+								codeLength += idobjectReceive.decode(iStream);
 
-							throw std::runtime_error("Decode error");
+								if ( idobjectOriginal != idobjectReceive )
+								{
+									qDebug() << "ERROR! CContainerStorage::deserialize error: expected ID = "
+											<< idobjectOriginal.toString()
+											<< "; received ID = "
+											<< idobjectReceive.toString() << ";";
+
+									throw std::runtime_error("Decode error");
+								}
+							}
+
+							codeLength += val.decode(iStream, false);
 						}
 
-						for (DataType& val: *temp_berobject)
-							codeLength += val.decode(iStream, true);
 					}
 					++i;
 					break;
@@ -183,23 +189,29 @@ public:
 						CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
 						CBerIdentifier idobjectReceive = varpos1.value<CBerIdentifier>();
 
-						codeLength += idobjectReceive.decode(iStream);
-
-						if ( idobjectOriginal != idobjectReceive )
-						{
-							qDebug() << "ERROR! CContainerStorage::deserialize error: expected ID = "
-									<< idobjectOriginal.toString()
-									<< "; received ID = "
-									<< idobjectReceive.toString() << ";";
-
-							throw std::runtime_error("Decode error");
-						}
-
-						codeLength += length.decode(iStream);
-
 						quint32 subCodeLength = 0;
+
 						for (DataType& val: *temp_berobject)
+						{
+							if ( idobjectOriginal.IsExisting() )
+							{
+								codeLength += idobjectReceive.decode(iStream);
+
+								if ( idobjectOriginal != idobjectReceive )
+								{
+									qDebug() << "ERROR! CContainerStorage::deserialize error: expected ID = "
+											<< idobjectOriginal.toString()
+											<< "; received ID = "
+											<< idobjectReceive.toString() << ";";
+
+									throw std::runtime_error("Decode error");
+								}
+							}
+
+							codeLength += length.decode(iStream);
+
 							subCodeLength += val.decode(iStream, true);
+						}
 
 						if (subCodeLength != length.getVal())
 						{

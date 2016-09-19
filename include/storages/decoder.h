@@ -70,8 +70,8 @@ public:
 			if (explct && BerId.IsExisting())
 				codeLength += BerId.encode(berOStream);
 
-			if (!explct && BerId.IsMandatory())
-				codeLength += BerId.encode(berOStream);
+//			if (!explct && BerId.IsMandatory())
+//				codeLength += BerId.encode(berOStream);
 		}
 
 		qDebug() << "Encode Result: " << berOStream.getByteArray().toHex();
@@ -96,12 +96,6 @@ public:
 			{
 				codeLength += BerId.decode(iStream);
 				qDebug() << "Decode explicit Id: " << BerId.toString();
-			}
-
-			if (!explct && BerId.IsMandatory())
-			{
-				codeLength += BerId.decode(iStream);
-				qDebug() << "Decode mandatory Id: " << BerId.toString();
 			}
 
 		}

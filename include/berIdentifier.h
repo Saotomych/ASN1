@@ -43,7 +43,6 @@ class ASN1_SHAREDEXPORT CBerIdentifier: public QObject
 	qint32 m_Primitive;
 	qint32 m_TagNumber;
 	bool isExisting;
-	bool isMandatory;
 
 public:
 	 static qint32 UNIVERSAL_CLASS;
@@ -86,7 +85,7 @@ public:
 
 	CBerIdentifier();
 
-	CBerIdentifier(qint32 identifierClass, qint32 primitive, qint32 tagNumber, bool mandatory = false);
+	CBerIdentifier(qint32 identifierClass, qint32 primitive, qint32 tagNumber);
 
 	CBerIdentifier(const CBerIdentifier& rhs);
 
@@ -121,8 +120,6 @@ public:
 	QString toString();
 
 	bool IsExisting() { return isExisting; }
-
-	bool IsMandatory() { return isMandatory; }
 
 private:
 

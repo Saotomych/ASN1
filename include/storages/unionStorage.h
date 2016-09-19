@@ -89,7 +89,7 @@ public:
 						{
 							codeLength += temp_berobject->encode(berOStream, false);
 							CBerIdentifier idobject = varpos1.value<CBerIdentifier>();
-							if (idobject.IsExisting() || idobject.IsMandatory())
+							if (idobject.IsExisting())
 								codeLength += idobject.encode(berOStream);
 						}
 						--i;
@@ -102,7 +102,7 @@ public:
 							codeLength += subCodeLength;
 
 							CBerIdentifier idobject = varpos2.value<CBerIdentifier>();
-							if (idobject.IsExisting() || idobject.IsMandatory())
+							if (idobject.IsExisting())
 								codeLength += idobject.encode(berOStream);
 						}
 						i-=2;
