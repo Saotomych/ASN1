@@ -163,16 +163,19 @@ quint32 CBerBaseStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 					CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
 					CBerIdentifier idobjectReceive = varpos1.value<CBerIdentifier>();
 
-					codeLength += idobjectReceive.decode(iStream);
-
-					if ( idobjectOriginal != idobjectReceive )
+					if ( idobjectOriginal.IsExisting() )
 					{
-						qDebug() << "ERROR! Decode error: expected ID = "
-								<< idobjectOriginal.toString()
-								<< "; received ID = "
-								<< idobjectReceive.toString() << ";";
+						codeLength += idobjectReceive.decode(iStream);
 
-						throw std::runtime_error("Decode error");
+						if ( idobjectOriginal != idobjectReceive )
+						{
+							qDebug() << "ERROR! Decode error: expected ID = "
+									<< idobjectOriginal.toString()
+									<< "; received ID = "
+									<< idobjectReceive.toString() << ";";
+
+							throw std::runtime_error("Decode error");
+						}
 					}
 
 					codeLength += temp_berobject->decode(iStream, false);
@@ -185,16 +188,19 @@ quint32 CBerBaseStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 					CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
 					CBerIdentifier idobjectReceive = varpos1.value<CBerIdentifier>();
 
-					codeLength += idobjectReceive.decode(iStream);
-
-					if ( idobjectOriginal != idobjectReceive )
+					if ( idobjectOriginal.IsExisting() )
 					{
-						qDebug() << "ERROR! Decode error: expected ID = "
-								<< idobjectOriginal.toString()
-								<< "; received ID = "
-								<< idobjectReceive.toString() << ";";
+						codeLength += idobjectReceive.decode(iStream);
 
-						throw std::runtime_error("Decode error");
+						if ( idobjectOriginal != idobjectReceive )
+						{
+							qDebug() << "ERROR! Decode error: expected ID = "
+									<< idobjectOriginal.toString()
+									<< "; received ID = "
+									<< idobjectReceive.toString() << ";";
+
+							throw std::runtime_error("Decode error");
+						}
 					}
 
 					quint32 subCodeLength = length.decode(iStream);

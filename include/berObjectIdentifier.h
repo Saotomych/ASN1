@@ -54,6 +54,11 @@ public:
 
 	static quint32 s_metaTypeId;
 
+	static CBerIdentifier getBerIdentifier()
+	{
+		return CBerIdentifier(CBerIdentifier::UNIVERSAL_CLASS, CBerIdentifier::PRIMITIVE, CBerIdentifier::OBJECT_IDENTIFIER_TAG);
+	}
+
 	CBerObjectIdentifier();
 	CBerObjectIdentifier(QVector<qint32>& bitString, bool IdMandatory = false);
 	CBerObjectIdentifier(QByteArray code, bool IdMandatory = false);
