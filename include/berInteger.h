@@ -49,6 +49,12 @@ protected:
 
 	void setValue(qint64* pVal) { m_Val = *pVal; }
 
+	inline IBerBaseType* create_object_by_id(const CBerIdentifier&)
+	{
+		qDebug() << "INFO: CBerInteger has member already.";
+		return nullptr;
+	}
+
 public:
 
 	ASN1_CODEC(CBerIntegerStorage)

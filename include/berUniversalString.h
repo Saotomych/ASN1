@@ -48,6 +48,12 @@ protected:
 
 	void setValue(QByteArray* pVal) { m_OctetString = *pVal; }
 
+	inline IBerBaseType* create_object_by_id(const CBerIdentifier&)
+	{
+		qDebug() << "INFO: CBerUniversalString has member already.";
+		return nullptr;
+	}
+
 public:
 
 	ASN1_CODEC(CBerOctetStringStorage)

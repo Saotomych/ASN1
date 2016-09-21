@@ -45,6 +45,12 @@ protected:
 	CBerIdentifier m_Identifier;
 	QByteArray m_Code;
 
+	inline IBerBaseType* create_object_by_id(const CBerIdentifier&)
+	{
+		qDebug() << "INFO: CBerNull has member already.";
+		return nullptr;
+	}
+
 public:
 
 	ASN1_CODEC(CBerNullStorage)

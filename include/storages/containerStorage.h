@@ -100,8 +100,12 @@ public:
 
 		qint32 size = obj->metaObject()->propertyCount();
 
+		CBerIdentifier idobjectReceive;
+
 		for (qint32 i=START_PROPERTY_INDEX; i < size; ++i)
 		{
+			idobjectReceive = lastBerIdentifier::get(iStream, codeLength);
+
 			// Проверяем режим декодирования
 			QVariant varpos2 = obj->metaObject()->property(i).read(obj);
 			QVariant varpos1 = getNextVariant(obj, varpos2, i+1);
@@ -118,110 +122,80 @@ public:
 
 			Q_ASSERT_X(type < WorkType::NOT_IDENTIFIED_MODE, "CContainerStorage::deserialize:", "type < NOT_IDENTIFIED_MODE");
 
-			ContainerType* temp_berobject = varpos0.value<ContainerType*>();
-			if (temp_berobject != nullptr)
+			CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
+			qDebug() << "CContainerStorage::deserialize, try for idobjectOriginal =  " << idobjectOriginal.toString()
+					<< "; as code = " << idobjectOriginal.getCode()->toHex();
+
+			switch(type)
 			{
-				switch(type)
+			case WorkType::PARENT_IDENTIFIER:
 				{
-				case WorkType::PARENT_IDENTIFIER:
+					ContainerType* temp_berobject = (dynamic_cast<BaseClassType*>(obj))->create_container_by_id(idobjectReceive);
+
+					if (temp_berobject != nullptr)
 					{
-						CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
-						CBerIdentifier idobjectReceive = varpos1.value<CBerIdentifier>();
+						idobjectReceive = lastBerIdentifier::get(iStream, codeLength);
 
-						for (DataType& val: *temp_berobject)
+						while ( idobjectOriginal == idobjectReceive )
 						{
-							if ( idobjectOriginal.IsExisting() )
-							{
-								codeLength += idobjectReceive.decode(iStream);
+							lastBerIdentifier::reset();
 
-								if ( idobjectOriginal != idobjectReceive )
-								{
-									qDebug() << "ERROR! CContainerStorage::deserialize error: expected ID = "
-											<< idobjectOriginal.toString()
-											<< "; received ID = "
-											<< idobjectReceive.toString() << ";";
+							DataType val;
+							temp_berobject->push_back(val);
+							codeLength += temp_berobject->back().decode(iStream, false);
 
-									throw std::runtime_error("Decode error");
-								}
-							}
-
-							codeLength += val.decode(iStream, false);
+							idobjectReceive = lastBerIdentifier::get(iStream, codeLength);
 						}
-
 					}
-					++i;
-					break;
-
-				case WorkType::PARENT_IDENTIFIER_WITH_LENGTH:
+					else
 					{
-						CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
-						CBerIdentifier idobjectReceive = varpos1.value<CBerIdentifier>();
+						std::runtime_error("Received object can't create with Container Storage deserialize.");
+					}
+				}
+				++i;
+				break;
 
-						quint32 subCodeLength = 0;
+			case WorkType::PARENT_IDENTIFIER_WITH_LENGTH:
+				{
+					quint32 subCodeLength = 0;
 
-						for (DataType& val: *temp_berobject)
+					ContainerType* temp_berobject =	(dynamic_cast<BaseClassType*>(obj))->create_container_by_id(idobjectReceive);
+
+					if (temp_berobject != nullptr)
+					{
+						idobjectReceive = lastBerIdentifier::get(iStream, codeLength);
+						while ( idobjectOriginal == idobjectReceive )
 						{
-							if ( idobjectOriginal.IsExisting() )
-							{
-								codeLength += idobjectReceive.decode(iStream);
+							lastBerIdentifier::reset();
 
-								if ( idobjectOriginal != idobjectReceive )
-								{
-									qDebug() << "ERROR! CContainerStorage::deserialize error: expected ID = "
-											<< idobjectOriginal.toString()
-											<< "; received ID = "
-											<< idobjectReceive.toString() << ";";
-
-									throw std::runtime_error("Decode error");
-								}
-							}
-
+							DataType val;
+							temp_berobject->push_back(val);
 							codeLength += length.decode(iStream);
 
-							subCodeLength += val.decode(iStream, true);
-						}
+							subCodeLength += temp_berobject->back().decode(iStream, false);
 
-						if (subCodeLength != length.getVal())
-						{
-							qDebug() << "ERROR! CContainerStorage::deserialize: container is wrong for type: " << varpos0.typeName()
-									<< "; length original = " << length.getVal()
-									<< "; length received = " << subCodeLength;
-							throw std::runtime_error("Decode error");
+							idobjectReceive = lastBerIdentifier::get(iStream, codeLength);
 						}
-
-						codeLength += subCodeLength;
 					}
-					i+=2;
-					break;
+					else
+					{
+						std::runtime_error("Received object can't create with Container Storage deserialize.");
+					}
 
-				default:
-					QString str = QString("ERROR! CContainerStorage::deserialize type %1 isn't identified")
-							.arg( (quint32) type);
-					Q_ASSERT_X(false, "CContainerStorage::deserialize", str.toStdString().c_str());
-					break;
+					codeLength += subCodeLength;
 				}
+				i+=2;
+				break;
 
-				QByteArray out = iStream.get();
-				qDebug() << "CContainerStorage::deserialize: data[" << i << "]: " << out.toHex();
+			default:
+				QString str = QString("ERROR! CContainerStorage::deserialize type %1 isn't identified")
+						.arg( (quint32) type);
+				Q_ASSERT_X(false, "CContainerStorage::deserialize", str.toStdString().c_str());
+				break;
 			}
-			else
-			{
-				qDebug() << "CContainerStorage::deserialize: nullptr found";
-				switch(type)
-				{
-				case WorkType::PARENT_IDENTIFIER:
-					++i;
-					break;
 
-				case WorkType::PARENT_IDENTIFIER_WITH_LENGTH:
-					i+=2;
-					break;
-
-				case WorkType::NOT_IDENTIFIED_MODE:
-				default:
-					break;
-				}
-			}
+			QByteArray out = iStream.get();
+			qDebug() << "CContainerStorage::deserialize: data[" << i << "]: " << out.toHex();
 		}
 
 		return codeLength;

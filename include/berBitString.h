@@ -48,6 +48,12 @@ protected:
 
 	void setValue(QBitArray* pVal) { m_BitString = *pVal; }
 
+	inline IBerBaseType* create_object_by_id(const CBerIdentifier&)
+	{
+		qDebug() << "INFO: CBerBitString has member already.";
+		return nullptr;
+	}
+
 public:
 
 	ASN1_CODEC(CBerBitStringStorage)

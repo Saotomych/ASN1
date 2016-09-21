@@ -72,7 +72,7 @@ CBerIdentifier& CBerIdentifier::operator=(const CBerIdentifier& rhs)
 	return *this;
 }
 
-bool CBerIdentifier::operator==(const CBerIdentifier& rhs)
+bool CBerIdentifier::operator==(const CBerIdentifier& rhs) const
 {
 	if (m_Identifier != rhs.m_Identifier)
 		return false;
@@ -89,7 +89,7 @@ bool CBerIdentifier::operator==(const CBerIdentifier& rhs)
 	return true;
 }
 
-bool CBerIdentifier::operator!=(const CBerIdentifier& rhs)
+bool CBerIdentifier::operator!=(const CBerIdentifier& rhs) const
 {
 	if (this == &rhs) return false;
 

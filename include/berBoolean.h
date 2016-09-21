@@ -48,6 +48,12 @@ protected:
 
 	void setValue(bool* val) { m_Val = *val; }
 
+	inline IBerBaseType* create_object_by_id(const CBerIdentifier&)
+	{
+		qDebug() << "INFO: CBerBoolean has member already.";
+		return nullptr;
+	}
+
 public:
 
 	ASN1_CODEC(CBerBooleanStorage)

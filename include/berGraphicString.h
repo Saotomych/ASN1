@@ -46,6 +46,12 @@ protected:
 	QByteArray m_Code;
 	QByteArray m_OctetString;
 
+	inline IBerBaseType* create_object_by_id(const CBerIdentifier&)
+	{
+		qDebug() << "INFO: CBerGraphicString has member already.";
+		return nullptr;
+	}
+
 public:
 
 	ASN1_CODEC(CBerOctetStringStorage)

@@ -46,6 +46,12 @@ protected:
 
 	CBerIdentifier c_Identifier;
 
+	inline IBerBaseType* create_object_by_id(const CBerIdentifier&)
+	{
+		qDebug() << "INFO: CBerAny has member already.";
+		return nullptr;
+	}
+
 public:
 	static quint32 s_metaTypeId;
 
@@ -97,7 +103,10 @@ public:
 		return m_Length;
 	}
 
-
+	virtual IBerBaseType* createMember(CBerIdentifier& id)
+	{
+		return create_object_by_id(id);
+	}
 
 	CBerIdentifier getIdentifier() { return c_Identifier; }
 

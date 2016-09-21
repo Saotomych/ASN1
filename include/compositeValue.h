@@ -39,6 +39,12 @@ protected:
 	CBerBitString m_bitString;
 	CBerVisibleString m_visibleString;
 
+	inline IBerBaseType* create_object_by_id(const CBerIdentifier&)
+	{
+		qDebug() << "INFO: CCompositeValue has members already.";
+		return nullptr;
+	}
+
 public:
 
 	ASN1_CODEC(CBerBaseStorage)

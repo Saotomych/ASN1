@@ -13,6 +13,17 @@
 #include "berByteArrayInputStream.h"
 #include "berLength.h"
 #include "berIdentifier.h"
+#include "berBaseType.h"
+
+namespace lastBerIdentifier
+{
+	extern CBerIdentifier id;
+	extern bool loaded;
+
+	extern CBerIdentifier get(CBerByteArrayInputStream& iStream, quint32& codeLength);
+
+	extern void reset();
+}
 
 #define ASN1_CODEC(Storage) \
 	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct) \
@@ -27,9 +38,9 @@
 		return codec.decode(iStream, this, explct); \
 	} \
 	\
-	virtual void createMember(CBerIdentifier& id) \
+	virtual IBerBaseType* createMember(CBerIdentifier& id) \
 	{ \
-		create_object_by_id(id); \
+		return create_object_by_id(id); \
 	} \
 
 template<class TStorage>
@@ -74,9 +85,6 @@ public:
 
 			if (explct && BerId.IsExisting())
 				codeLength += BerId.encode(berOStream);
-
-//			if (!explct && BerId.IsMandatory())
-//				codeLength += BerId.encode(berOStream);
 		}
 
 		qDebug() << "Encode Result: " << berOStream.getByteArray().toHex();
@@ -89,7 +97,7 @@ public:
 
 		qDebug() << "Start decode new type";
 
-		qint32 codeLength = 0;
+		quint32 codeLength = 0;
 
 		QVariant IdVariant = obj->metaObject()->property(1).read(obj);
 		if ( IdVariant.canConvert( CBerIdentifier::s_metaTypeId) )
@@ -99,10 +107,12 @@ public:
 
 			if (explct && BerId.IsExisting())
 			{
-				codeLength += BerId.decode(iStream);
-				qDebug() << "Decode explicit Id: " << BerId.toString();
-			}
+				CBerIdentifier id = lastBerIdentifier::get(iStream, codeLength);
+				lastBerIdentifier::reset();
 
+				qDebug() << "Original id: " << BerId.toString() << "; as code = " << BerId.getCode()->toHex();
+				qDebug() << "Decoded id: " << id.toString() << "; as code = " << id.getCode()->toHex();
+			}
 		}
 
 		CBerLength length;

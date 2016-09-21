@@ -31,12 +31,11 @@
 #include "asn1_global.h"
 #include "berByteArrayOutputStream.h"
 #include "berByteArrayInputStream.h"
-#include "storages/berBaseType.h"
 
 class ASN1_SHAREDEXPORT CBerIdentifier: public QObject
 {
 	Q_OBJECT
-	Q_PROPERTY(QByteArray* Code READ getCode)
+	Q_PROPERTY(QByteArray* Code READ getCodeNoConst)
 
 	QByteArray m_Identifier;
 	qint32 m_IdentifierClass;
@@ -91,9 +90,9 @@ public:
 
 	CBerIdentifier& operator=(const CBerIdentifier& that);
 
-	bool operator==(const CBerIdentifier& that);
+	bool operator==(const CBerIdentifier& that) const;
 
-	bool operator!=(const CBerIdentifier& that);
+	bool operator!=(const CBerIdentifier& that) const;
 
 	~CBerIdentifier() {}
 
@@ -101,7 +100,8 @@ public:
 
 	quint32 decode(CBerByteArrayInputStream& iStream);
 
-	QByteArray* getCode() { return &m_Identifier; }
+	const QByteArray* getCode() const { return &m_Identifier; }
+	QByteArray* getCodeNoConst() { return &m_Identifier; }
 
 	/**
 	 * Decodes the Identifier from the ByteArrayInputStream and throws an

@@ -48,6 +48,12 @@ protected:
 
 	void setValue(double* pVal) { m_Real = *pVal; }
 
+	inline IBerBaseType* create_object_by_id(const CBerIdentifier&)
+	{
+		qDebug() << "INFO: CBerReal has member already.";
+		return nullptr;
+	}
+
 public:
 
 	ASN1_CODEC(CBerRealStorage)

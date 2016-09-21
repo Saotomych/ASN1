@@ -112,8 +112,15 @@ public:
 	{
 		qint32 size = obj->metaObject()->propertyCount();
 
+		CBerIdentifier idobjectReceive;
+
 		for (qint32 i=START_PROPERTY_INDEX; i < size; ++i)
 		{
+			idobjectReceive = lastBerIdentifier::get(iStream, codeLength);
+
+			qDebug() << "Union deserialize, idobjectReceive =  " << idobjectReceive.toString()
+					<< "; as code = " << idobjectReceive.getCode()->toHex();
+
 			// Проверяем режим декодирования
 			QVariant varpos2 = obj->metaObject()->property(i).read(obj);
 			QVariant varpos1 = getNextVariant(obj, varpos2, i+1);
@@ -130,87 +137,78 @@ public:
 
 			Q_ASSERT_X(type < WorkType::NOT_IDENTIFIED_MODE, "CUnionStorage::deserialize:", "type < NOT_IDENTIFIED_MODE");
 
-			IBerBaseType* temp_berobject = varpos0.value<IBerBaseType*>();
-			if (temp_berobject != nullptr)
+			CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
+			qDebug() << "CUnionStorage::deserialize, try for idobjectOriginal =  " << idobjectOriginal.toString()
+					<< "; as code = " << idobjectOriginal.getCode()->toHex();
+
+			switch(type)
 			{
-				switch(type)
+			case WorkType::PARENT_IDENTIFIER:
 				{
-				case WorkType::PARENT_IDENTIFIER:
+					if ( idobjectOriginal == idobjectReceive )
 					{
-						CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
-						CBerIdentifier idobjectReceive = varpos1.value<CBerIdentifier>();
+						qDebug() << "Union deserialize, idobjectOriginal = idobjectReceive with identifier only";
 
-						codeLength += idobjectReceive.decode(iStream);
-
-						if ( idobjectOriginal != idobjectReceive )
+						IBerBaseType* temp_berobject = (dynamic_cast<IBerBaseType*>(obj))->createMember(idobjectReceive);
+						if (temp_berobject != nullptr)
 						{
-							qDebug() << "ERROR! CUnionStorage::deserialize error: expected ID = "
-									<< idobjectOriginal.toString()
-									<< "; received ID = "
-									<< idobjectReceive.toString() << ";";
-
-							throw std::runtime_error("Decode error");
+							lastBerIdentifier::reset();
+							codeLength += temp_berobject->decode(iStream, false);
+						}
+						else
+						{
+							std::runtime_error("Union deserialize. Received object can't create.");
 						}
 
-						codeLength += temp_berobject->decode(iStream, false);
+						QByteArray out = iStream.get();
+						qDebug() << "CUnionStorage::deserialize: data[" << i << "]: " << out.toHex();
+
 					}
-					++i;
-					break;
-
-				case WorkType::PARENT_IDENTIFIER_WITH_LENGTH:
+					else
 					{
-						CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
-						CBerIdentifier idobjectReceive = varpos1.value<CBerIdentifier>();
+						qDebug() << "CUnionStorage::deserialize: data[" << i << "]: skipped";
+					}
+				}
+				++i;
+				break;
 
-						codeLength += idobjectReceive.decode(iStream);
+			case WorkType::PARENT_IDENTIFIER_WITH_LENGTH:
+				{
+					if ( idobjectOriginal == idobjectReceive )
+					{
+						qDebug() << "Union deserialize, idobjectOriginal = idobjectReceive with identifier and length";
 
-						if ( idobjectOriginal != idobjectReceive )
+						IBerBaseType* temp_berobject = (dynamic_cast<IBerBaseType*>(obj))->createMember(idobjectReceive);
+						if (temp_berobject != nullptr)
 						{
-							qDebug() << "ERROR! CUnionStorage::deserialize error: expected ID = "
-									<< idobjectOriginal.toString()
-									<< "; received ID = "
-									<< idobjectReceive.toString() << ";";
-
-							throw std::runtime_error("Decode error");
+							lastBerIdentifier::reset();
+							quint32 subCodeLength = length.decode(iStream);
+							subCodeLength += temp_berobject->decode(iStream, false);
+							codeLength += subCodeLength;
+						}
+						else
+						{
+							std::runtime_error("Union deserialize. Received object can't create with Union Storage deserialize.");
 						}
 
-						quint32 subCodeLength = length.decode(iStream);
-						subCodeLength += temp_berobject->decode(iStream, false);
-						codeLength += subCodeLength;
+						QByteArray out = iStream.get();
+						qDebug() << "CUnionStorage::deserialize: data[" << i << "]: " << out.toHex();
+
 					}
-					i+=2;
-					break;
-
-				case WorkType::NOT_IDENTIFIED_MODE:
-				default:
-					QString str = QString("ERROR! CUnionStorage::deserialize type %1 isn't identified")
-							.arg( (quint32) type);
-					Q_ASSERT_X(false, "CUnionStorage::deserialize", str.toStdString().c_str());
-					break;
+					else
+					{
+						qDebug() << "CUnionStorage::deserialize: data[" << i << "]: skipped";
+					}
 				}
+				i+=2;
+				break;
 
-				QByteArray out = iStream.get();
-				qDebug() << "CUnionStorage::deserialize: data[" << i << "]: " << out.toHex();
-
-				return codeLength;
-			}
-			else
-			{
-				qDebug() << "CUnionStorage::deserialize: nullptr found";
-				switch(type)
-				{
-				case WorkType::PARENT_IDENTIFIER:
-					++i;
-					break;
-
-				case WorkType::PARENT_IDENTIFIER_WITH_LENGTH:
-					i+=2;
-					break;
-
-				case WorkType::NOT_IDENTIFIED_MODE:
-				default:
-					break;
-				}
+			case WorkType::NOT_IDENTIFIED_MODE:
+			default:
+				QString str = QString("ERROR! CUnionStorage::deserialize type %1 isn't identified")
+						.arg( (quint32) type);
+				Q_ASSERT_X(false, "CUnionStorage::deserialize", str.toStdString().c_str());
+				break;
 			}
 		}
 

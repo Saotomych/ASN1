@@ -1,4 +1,33 @@
 #include "berBase.h"
+#include "storages/decoder.h"
+
+namespace lastBerIdentifier
+{
+
+	CBerIdentifier id;
+	bool loaded = false;
+
+	CBerIdentifier get(CBerByteArrayInputStream& iStream, quint32& codeLength)
+	{
+		if ( loaded == false )
+		{
+			codeLength += id.decode(iStream);
+
+			qDebug() << "lastBerIdentifier::get, idobjectReceive =  " << id.toString()
+					<< "; as code = " << id.getCode()->toHex();
+
+			loaded = true;
+		}
+
+		return id;
+	}
+
+	void reset()
+	{
+		loaded = false;
+	}
+}
+
 
 WorkType CBerBaseStorage::getWorkType(QObject* obj, QVariant& varpos0, QVariant& varpos1, QVariant& varpos2)
 {
@@ -103,8 +132,12 @@ quint32 CBerBaseStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 
 	qint32 size = obj->metaObject()->propertyCount();
 
+	CBerIdentifier idobjectReceive;
+
 	for (qint32 i=START_PROPERTY_INDEX; i < size; ++i)
 	{
+		idobjectReceive = lastBerIdentifier::get(iStream, codeLength);
+
 		// Проверяем режим декодирования
 		QVariant varpos2 = obj->metaObject()->property(i).read(obj);
 		QVariant varpos1 = getNextVariant(obj, varpos2, i+1);
@@ -113,99 +146,94 @@ quint32 CBerBaseStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 			varpos1 = varpos2;
 
 		auto type = getWorkType(obj, varpos0, varpos1, varpos2);
-		qDebug() << "CBerBaseStorage::deserialize: types: " << varpos2.typeName() << "; "
-				<< varpos1.typeName() << "; "
-				<< varpos0.typeName() << "; ";
 
-		qDebug() << "CBerBaseStorage::deserialize: type = " << (quint32) type;
+		qDebug() << "CBerBaseStorage::deserialize: types 2, 1, 0: " << varpos2.typeName() << "; "
+				<< varpos1.typeName() << "; "
+				<< varpos0.typeName() << ".";
+
+		qDebug() << "CBerBaseStorage::deserialize: type = "
+				<< ((type == WorkType::PARENT_IDENTIFIER) ? "Id without common length" : "Id with common length");
 
 		Q_ASSERT_X(type < WorkType::NOT_IDENTIFIED_MODE, "CBerBaseStorage::deserialize:", "type < NOT_IDENTIFIED_MODE");
 
-		IBerBaseType* temp_berobject = varpos0.value<IBerBaseType*>();
-		if (temp_berobject != nullptr)
+		CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
+
+		qDebug() << "CBerBaseStorage::deserialize, try for idobjectReceive =  " << idobjectReceive.toString()
+						<< "; as code = " << idobjectReceive.getCode()->toHex();
+
+		qDebug() << "CBerBaseStorage::deserialize, try for idobjectOriginal =  " << idobjectOriginal.toString()
+				<< "; as code = " << idobjectOriginal.getCode()->toHex();
+
+		switch(type)
 		{
-			switch(type)
+		case WorkType::PARENT_IDENTIFIER:
 			{
-			case WorkType::PARENT_IDENTIFIER:
+				if ( idobjectOriginal == idobjectReceive || !idobjectOriginal.IsExisting() )
 				{
-					CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
-					CBerIdentifier idobjectReceive = varpos1.value<CBerIdentifier>();
+					qDebug() << "Base deserialize, idobjectOriginal = idobjectReceive with index = " << i;
 
-					if ( idobjectOriginal.IsExisting() )
+					IBerBaseType* temp_berobject = (dynamic_cast<IBerBaseType*>(obj))->createMember(idobjectOriginal);
+					if (temp_berobject != nullptr)
 					{
-						codeLength += idobjectReceive.decode(iStream);
-
-						if ( idobjectOriginal != idobjectReceive )
-						{
-							qDebug() << "ERROR! Decode error: expected ID = "
-									<< idobjectOriginal.toString()
-									<< "; received ID = "
-									<< idobjectReceive.toString() << ";";
-
-							throw std::runtime_error("Decode error");
-						}
+						if (idobjectOriginal.IsExisting())
+							lastBerIdentifier::reset();
+						codeLength += temp_berobject->decode(iStream, false);
+					}
+					else
+					{
+						runtimeError("Base deserialize. Received object can't create by Base Storage deserialize.");
 					}
 
-					codeLength += temp_berobject->decode(iStream, false);
+					QByteArray out = iStream.get();
+					qDebug() << "CBerBaseStorage::deserialize: data[" << i << "]: " << out.toHex();
+
 				}
-				++i;
-				break;
-
-			case WorkType::PARENT_IDENTIFIER_WITH_LENGTH:
+				else
 				{
-					CBerIdentifier idobjectOriginal = varpos2.value<CBerIdentifier>();
-					CBerIdentifier idobjectReceive = varpos1.value<CBerIdentifier>();
+					qDebug() << "CBerBaseStorage::deserialize: data[" << i << "]: skipped";
+				}
+			}
+			++i;
+			break;
 
-					if ( idobjectOriginal.IsExisting() )
+		case WorkType::PARENT_IDENTIFIER_WITH_LENGTH:
+			{
+				if ( idobjectOriginal == idobjectReceive || !idobjectOriginal.IsExisting() )
+				{
+					qDebug() << "Base deserialize, idobjectOriginal = idobjectReceive with index = " << i;
+
+					IBerBaseType* temp_berobject = (dynamic_cast<IBerBaseType*>(obj))->createMember(idobjectOriginal);
+					if (temp_berobject != nullptr)
 					{
-						codeLength += idobjectReceive.decode(iStream);
-
-						if ( idobjectOriginal != idobjectReceive )
-						{
-							qDebug() << "ERROR! Decode error: expected ID = "
-									<< idobjectOriginal.toString()
-									<< "; received ID = "
-									<< idobjectReceive.toString() << ";";
-
-							throw std::runtime_error("Decode error");
-						}
+						if (idobjectOriginal.IsExisting())
+							lastBerIdentifier::reset();
+						quint32 subCodeLength = length.decode(iStream);
+						subCodeLength += temp_berobject->decode(iStream, false);
+						codeLength += subCodeLength;
+					}
+					else
+					{
+						runtimeError("Base deserialize. Received object can't create by Base Storage deserialize.");
 					}
 
-					quint32 subCodeLength = length.decode(iStream);
-					subCodeLength += temp_berobject->decode(iStream, false);
-					codeLength += subCodeLength;
+					QByteArray out = iStream.get();
+					qDebug() << "CBerBaseStorage::deserialize: data[" << i << "]: " << out.toHex();
+
 				}
-				i+=2;
-				break;
-
-			case WorkType::NOT_IDENTIFIED_MODE:
-			default:
-				QString str = QString("ERROR! Deserialize type %1 isn't identified")
-						.arg( (quint32) type);
-				Q_ASSERT_X(false, "CBerBaseStorage::deserialize", str.toStdString().c_str());
-				break;
+				else
+				{
+					qDebug() << "CBerBaseStorage::deserialize: data[" << i << "]: skipped";
+				}
 			}
+			i+=2;
+			break;
 
-			QByteArray out = iStream.get();
-			qDebug() << "CBerBaseStorage::deserialize: data[" << i << "]: " << out.toHex();
-		}
-		else
-		{
-			qDebug() << "CBerBaseStorage::deserialize: nullptr found";
-			switch(type)
-			{
-			case WorkType::PARENT_IDENTIFIER:
-				++i;
-				break;
-
-			case WorkType::PARENT_IDENTIFIER_WITH_LENGTH:
-				i+=2;
-				break;
-
-			case WorkType::NOT_IDENTIFIED_MODE:
-			default:
-				break;
-			}
+		case WorkType::NOT_IDENTIFIED_MODE:
+		default:
+			QString str = QString("ERROR! CBerBaseStorage::deserialize type %1 isn't identified")
+					.arg( (quint32) type);
+			Q_ASSERT_X(false, "CBerBaseStorage::deserialize", str.toStdString().c_str());
+			break;
 		}
 	}
 
@@ -215,16 +243,16 @@ quint32 CBerBaseStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 void CBerBaseStorage::runtimeError(QString strErr)
 {
 	qDebug() << strErr;
-#ifdef DEBUG
+//#ifdef DEBUG
 	throw std::runtime_error(strErr.toStdString());
-#endif
+//#endif
 }
 
 void CBerBaseStorage::argumentWrong(QString strErr)
 {
 	qDebug() << strErr;
 
-#ifdef DEBUG
+//#ifdef DEBUG
 	throw std::invalid_argument(strErr.toStdString());
-#endif
+//#endif
 }
