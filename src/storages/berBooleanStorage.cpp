@@ -29,7 +29,7 @@ quint32 CBerBooleanStorage::serialize(CBerByteArrayOutputStream& berOStream, QOb
 	return codeLength;
 }
 
-quint32 CBerBooleanStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct)
+quint32 CBerBooleanStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength)
 {
 	length.decode(iStream);
 	qDebug() << "CBerBooleanStorage::deserialize, length extracted: " << length.getVal();
@@ -39,7 +39,6 @@ quint32 CBerBooleanStorage::deserialize(CBerByteArrayInputStream& iStream, QObje
 		qint32 data = iStream.read();
 		if (data == -1)
 		{
-//			runtimeError("CBerBooleanStorage::deserialize: error reading");
 			return codeLength;
 		}
 
@@ -49,10 +48,6 @@ quint32 CBerBooleanStorage::deserialize(CBerByteArrayInputStream& iStream, QObje
 		bool* pVal = &val;
 		QVariant wrvar(PtrMetaTypes::s_boolPtrMetaType, &pVal);
 		obj->metaObject()->property(3).write(obj, wrvar);
-	}
-	else
-	{
-//		runtimeError("CBerBooleanStorage::deserialize: length read wrong");
 	}
 
 	return codeLength;

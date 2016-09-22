@@ -124,7 +124,7 @@ quint32 CBerBaseStorage::serialize(CBerByteArrayOutputStream& berOStream, QObjec
 	return codeLength;
 }
 
-quint32 CBerBaseStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct)
+quint32 CBerBaseStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength)
 {
 
 	length.decode(iStream);
@@ -177,7 +177,7 @@ quint32 CBerBaseStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 					{
 						if (idobjectOriginal.IsExisting())
 							lastBerIdentifier::reset();
-						codeLength += temp_berobject->decode(iStream, false);
+						codeLength += temp_berobject->nextDecode(iStream);
 					}
 					else
 					{
@@ -208,7 +208,7 @@ quint32 CBerBaseStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 						if (idobjectOriginal.IsExisting())
 							lastBerIdentifier::reset();
 						quint32 subCodeLength = length.decode(iStream);
-						subCodeLength += temp_berobject->decode(iStream, false);
+						subCodeLength += temp_berobject->nextDecode(iStream);
 						codeLength += subCodeLength;
 					}
 					else

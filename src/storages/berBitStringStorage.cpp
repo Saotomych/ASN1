@@ -34,7 +34,7 @@ quint32 CBerBitStringStorage::serialize(CBerByteArrayOutputStream& berOStream, Q
 	return codeLength;
 }
 
-quint32 CBerBitStringStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct)
+quint32 CBerBitStringStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength)
 {
 	length.decode(iStream);
 	qDebug() << "CBerBitStringStorage::deserialize, length extracted: " << length.getVal();
@@ -63,10 +63,6 @@ quint32 CBerBitStringStorage::deserialize(CBerByteArrayInputStream& iStream, QOb
 			QVariant wrvar(PtrMetaTypes::s_QBitArrayPtrMetaType, &pVal);
 			obj->metaObject()->property(3).write(obj, wrvar);
 		}
-//		else
-//		{
-//			runtimeError("CBerBitStringStorage::deserialize: error decoding");
-//		}
 	}
 
 	return codeLength;

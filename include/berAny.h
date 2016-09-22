@@ -98,7 +98,12 @@ public:
 		return m_Length;
 	}
 
-	virtual quint32 decode(CBerByteArrayInputStream&, bool)
+	virtual quint32 startDecode(CBerByteArrayInputStream&)
+	{
+		return m_Length;
+	}
+
+	virtual quint32 nextDecode(CBerByteArrayInputStream&)
 	{
 		return m_Length;
 	}

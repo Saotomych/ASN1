@@ -17,11 +17,7 @@ private:
 
 public:
 	quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
-	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct);
-
-//public:
-//	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
-//	virtual quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct);
+	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength);
 };
 
 #endif /* INCLUDE_CBEROCTETSTRINGSTORAGE_H_ */

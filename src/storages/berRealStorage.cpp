@@ -114,7 +114,7 @@ quint32 CBerRealStorage::serialize(CBerByteArrayOutputStream& berOStream, QObjec
 	return codeLength;
 }
 
-quint32 CBerRealStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct)
+quint32 CBerRealStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength)
 {
 
 	length.decode(iStream);

@@ -26,7 +26,7 @@ quint32 CBerOctetStringStorage::serialize(CBerByteArrayOutputStream& berOStream,
 	return codeLength;
 }
 
-quint32 CBerOctetStringStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct)
+quint32 CBerOctetStringStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength)
 {
 	length.decode(iStream);
 	qDebug() << "CBerOctetStringStorage deserialize, length extracted: " << length.getVal();
@@ -38,7 +38,6 @@ quint32 CBerOctetStringStorage::deserialize(CBerByteArrayInputStream& iStream, Q
 		QByteArray data(lenval, Qt::Initialization::Uninitialized);
 		if (iStream.read(data, 0, lenval) < lenval)
 		{
-//			runtimeError("CBerBaseOctetString::deserialize: error reading");
 			return codeLength;
 		}
 
@@ -55,17 +54,3 @@ quint32 CBerOctetStringStorage::deserialize(CBerByteArrayInputStream& iStream, Q
 	return codeLength;
 
 }
-
-//quint32 CBerOctetStringStorage::encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
-//{
-//	quint32 codeLength = CBerBaseStorage::encode(berOStream, obj, explct);
-//
-//	return codeLength;
-//}
-//
-//quint32 CBerOctetStringStorage::decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct)
-//{
-//	int codeLength =  CBerBaseStorage::decode(iStream, obj, explct);
-//
-//	return codeLength;
-//}

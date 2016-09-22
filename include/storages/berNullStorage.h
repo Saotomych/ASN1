@@ -14,7 +14,7 @@ class CBerNullStorage
 {
 public:
 	quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
-	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct);
+	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength);
 
 };
 

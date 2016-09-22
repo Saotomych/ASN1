@@ -93,7 +93,7 @@ public:
 		return codeLength;
 	}
 
-	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool)
+	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength)
 	{
 		length.decode(iStream);
 		qDebug() << "CContainerStorage::deserialize, length extracted: " << length.getVal();
@@ -142,7 +142,7 @@ public:
 
 							DataType val;
 							temp_berobject->push_back(val);
-							codeLength += temp_berobject->back().decode(iStream, false);
+							codeLength += temp_berobject->back().nextDecode(iStream);
 
 							idobjectReceive = lastBerIdentifier::get(iStream, codeLength);
 						}
@@ -172,7 +172,7 @@ public:
 							temp_berobject->push_back(val);
 							codeLength += length.decode(iStream);
 
-							subCodeLength += temp_berobject->back().decode(iStream, false);
+							subCodeLength += temp_berobject->back().nextDecode(iStream);
 
 							idobjectReceive = lastBerIdentifier::get(iStream, codeLength);
 						}

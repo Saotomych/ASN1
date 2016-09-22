@@ -36,7 +36,7 @@ quint32 CBerIntegerStorage::serialize(CBerByteArrayOutputStream& berOStream, QOb
 	return codeLength;
 }
 
-quint32 CBerIntegerStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct)
+quint32 CBerIntegerStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength)
 {
 	length.decode(iStream);
 	qDebug() << "CBerIntegerStorage::deserialize, length extracted: " << length.getVal();
@@ -45,14 +45,12 @@ quint32 CBerIntegerStorage::deserialize(CBerByteArrayInputStream& iStream, QObje
 
 	if ( lenval < 1 || lenval > 8 )
 	{
-//		runtimeError("CBerInteger::deserialize: decoded length");
 		return codeLength;
 	}
 
 	QByteArray data(lenval, Qt::Initialization::Uninitialized);
 	if ( iStream.read(data, 0, lenval) < lenval )
 	{
-//		runtimeError("CBerInteger::deserialize: read wrong");
 		return codeLength;
 	}
 

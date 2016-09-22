@@ -32,10 +32,16 @@ namespace lastBerIdentifier
 		return codec.encode(berOStream, this, explct); \
 	} \
 	\
-	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool explct) \
+	virtual quint32 startDecode(CBerByteArrayInputStream& iStream) \
 	{ \
 		CDecoder< Storage > codec; \
-		return codec.decode(iStream, this, explct); \
+		return codec.decode(iStream, this); \
+	} \
+	\
+	virtual quint32 nextDecode(CBerByteArrayInputStream& iStream) \
+	{ \
+		CDecoder< Storage > codec; \
+		return codec.decodeInternal(iStream, this); \
 	} \
 	\
 	virtual IBerBaseType* createMember(CBerIdentifier& id) \
@@ -92,7 +98,7 @@ public:
 		return codeLength;
 	}
 
-	quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool explct)
+	quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj)
 	{
 
 		qDebug() << "Start decode new type";
@@ -105,7 +111,7 @@ public:
 			qDebug() << IdVariant.typeName() << "; " << IdVariant.userType() << "; ";
 			CBerIdentifier BerId = qvariant_cast<CBerIdentifier> (IdVariant);
 
-			if (explct && BerId.IsExisting())
+			if (BerId.IsExisting())
 			{
 				CBerIdentifier id = lastBerIdentifier::get(iStream, codeLength);
 				lastBerIdentifier::reset();
@@ -116,7 +122,7 @@ public:
 		}
 
 		CBerLength length;
-		codeLength += m_storage.deserialize(iStream, obj, length, codeLength, explct);
+		codeLength += m_storage.deserialize(iStream, obj, length, codeLength);
 
 		qDebug() << "CDecoder::extracted length = " << length.getVal();
 
@@ -127,6 +133,31 @@ public:
 
 	}
 
+	quint32 decodeInternal(CBerByteArrayInputStream& iStream, QObject* obj)
+	{
+
+		qDebug() << "Start decode new type";
+
+		quint32 codeLength = 0;
+
+		QVariant IdVariant = obj->metaObject()->property(1).read(obj);
+		if ( IdVariant.canConvert( CBerIdentifier::s_metaTypeId) )
+		{
+			qDebug() << IdVariant.typeName() << "; " << IdVariant.userType() << "; ";
+			CBerIdentifier BerId = qvariant_cast<CBerIdentifier> (IdVariant);
+		}
+
+		CBerLength length;
+		codeLength += m_storage.deserialize(iStream, obj, length, codeLength);
+
+		qDebug() << "CDecoder::extracted length = " << length.getVal();
+
+		QByteArray out = iStream.get();
+		qDebug() << "CDecoder::decode Result: " << out.toHex();
+
+		return codeLength;
+
+	}
 };
 
 

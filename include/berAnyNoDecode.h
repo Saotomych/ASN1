@@ -98,7 +98,7 @@ public:
 		return m_Length + CBerLength::encodeLength(berOStream, m_Length);
 	}
 
-	virtual quint32 decode(CBerByteArrayInputStream& iStream, bool)
+	virtual quint32 startDecode(CBerByteArrayInputStream& iStream)
 	{
 		CBerLength length;
 
@@ -107,6 +107,11 @@ public:
 		m_Length = codeLength + length.getVal();
 
 		return m_Length;
+	}
+
+	virtual quint32 nextDecode(CBerByteArrayInputStream& iStream)
+	{
+		return startDecode(iStream);
 	}
 
 	virtual IBerBaseType* createMember(CBerIdentifier& id)

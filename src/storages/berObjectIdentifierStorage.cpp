@@ -60,7 +60,7 @@ quint32 CBerObjectIdentifierStorage::serialize(CBerByteArrayOutputStream& berOSt
 	return codeLength;
 }
 
-quint32 CBerObjectIdentifierStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength, bool explct)
+quint32 CBerObjectIdentifierStorage::deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength)
 {
 	length.decode(iStream);
 	qDebug() << "CBerObjectIdentifierStorage::deserialize, length extracted: " << length.getVal();
@@ -77,7 +77,6 @@ quint32 CBerObjectIdentifierStorage::deserialize(CBerByteArrayInputStream& iStre
 
 	QByteArray byteCode(lenval, Qt::Initialization::Uninitialized);
 	if (iStream.read(byteCode, 0, lenval) == -1) {
-//		runtimeError("CBerObjectIdentifierStorage::deserialize: Read wrong");
 		return codeLength;
 	}
 
@@ -117,7 +116,6 @@ quint32 CBerObjectIdentifierStorage::deserialize(CBerByteArrayInputStream& iStre
 
 		while ((byteCode[subIDEndIndex] & 0x80) == 0x80) {
 			if (subIDEndIndex == (lenval - 1)) {
-//				runtimeError("Invalid Object Identifier");
 				return codeLength;
 			}
 			subIDEndIndex++;
