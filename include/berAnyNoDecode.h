@@ -93,9 +93,14 @@ public:
 
 	virtual ~CBerAnyNoDecode() {}
 
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool)
+	virtual quint32 startEncode(CBerByteArrayOutputStream& berOStream)
 	{
 		return m_Length + CBerLength::encodeLength(berOStream, m_Length);
+	}
+
+	virtual quint32 nextEncode(CBerByteArrayOutputStream& berOStream)
+	{
+		return startEncode(berOStream);
 	}
 
 	virtual quint32 startDecode(CBerByteArrayInputStream& iStream)

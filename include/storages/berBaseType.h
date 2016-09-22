@@ -15,7 +15,8 @@ class ASN1_SHAREDEXPORT IBerBaseType
 {
 
 public:
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct)=0;
+	virtual quint32 startEncode(CBerByteArrayOutputStream& berOStream)=0;
+	virtual quint32 nextEncode(CBerByteArrayOutputStream& berOStream)=0;
 	virtual quint32 startDecode(CBerByteArrayInputStream& iStream)=0;
 	virtual quint32 nextDecode(CBerByteArrayInputStream& iStream)=0;
 	virtual IBerBaseType* createMember(CBerIdentifier&)=0;

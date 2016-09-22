@@ -47,7 +47,7 @@ class CContainerStorage
 
 public:
 
-	quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool)
+	quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj)
 	{
 		quint32 codeLength = 0;
 		qint32 size = obj->metaObject()->propertyCount()-1;
@@ -69,7 +69,7 @@ public:
 						{
 							for (DataType& val: *temp_berobject)
 							{
-								codeLength += val.encode(berOStream, false);
+								codeLength += val.nextEncode(berOStream);
 								CBerIdentifier idobject = idvar.value<CBerIdentifier>();
 								codeLength += idobject.encode(berOStream);
 							}
@@ -77,7 +77,7 @@ public:
 						else
 						{
 							for (DataType& val: *temp_berobject)
-								codeLength += val.encode(berOStream, true);
+								codeLength += val.nextEncode(berOStream);
 						}
 
 						qDebug() << "CContainerStorage::serialize: " << berOStream.getByteArray().toHex();

@@ -15,7 +15,7 @@ bool* CBerBooleanStorage::ptrValue(QObject* obj, quint32 idx)
 	return qvariant_cast <bool*> (var);
 }
 
-quint32 CBerBooleanStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
+quint32 CBerBooleanStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj)
 {
 	bool Bool = *ptrValue(obj, 3);
 
@@ -59,7 +59,7 @@ void CBerBooleanStorage::encodeAndSave(QObject* obj, qint32 encodingSizeGuess)
 
 	CBerByteArrayOutputStream berOStream(encodingSizeGuess);
 
-	pBerBoolean->encode(berOStream, false);
+	pBerBoolean->nextEncode(berOStream);
 	QByteArray Code = berOStream.getByteArray();
 
 	QVariant wrvar(Code);

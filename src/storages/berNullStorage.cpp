@@ -7,7 +7,7 @@
 
 #include "storages/berNullStorage.h"
 
-quint32 CBerNullStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
+quint32 CBerNullStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj)
 {
 	quint32 codeLength = CBerLength::encodeLength(berOStream, 0);
 

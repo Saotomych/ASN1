@@ -38,7 +38,7 @@ enum class WorkType { PARENT_IDENTIFIER, PARENT_IDENTIFIER_WITH_LENGTH, NOT_IDEN
 class CBerBaseStorage
 {
 public:
-	quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
+	quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj);
 	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength);
 
 	void runtimeError(QString strErr);

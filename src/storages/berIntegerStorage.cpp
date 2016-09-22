@@ -15,7 +15,7 @@ qint64* CBerIntegerStorage::ptrValue(QObject* obj, quint32 idx)
 	return qvariant_cast<qint64*> (var);
 }
 
-quint32 CBerIntegerStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
+quint32 CBerIntegerStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj)
 {
 	quint32 codeLength = 1;
 
@@ -90,7 +90,7 @@ void CBerIntegerStorage::encodeAndSave(QObject* obj, qint32 encodingSizeGuess)
 
 	CBerByteArrayOutputStream berOStream(encodingSizeGuess);
 
-	pBerInteger->encode(berOStream, false);
+	pBerInteger->nextEncode(berOStream);
 	QByteArray Code = berOStream.getByteArray();
 
 	QVariant wrvar(Code);

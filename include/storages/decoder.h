@@ -26,22 +26,28 @@ namespace lastBerIdentifier
 }
 
 #define ASN1_CODEC(Storage) \
-	virtual quint32 encode(CBerByteArrayOutputStream& berOStream, bool explct) \
+	virtual quint32 startEncode(CBerByteArrayOutputStream& berOStream) \
 	{ \
 		CDecoder< Storage > codec; \
-		return codec.encode(berOStream, this, explct); \
+		return codec.encode(berOStream, this, true); \
+	} \
+	\
+	virtual quint32 nextEncode(CBerByteArrayOutputStream& berOStream) \
+	{ \
+		CDecoder< Storage > codec; \
+		return codec.encode(berOStream, this, false); \
 	} \
 	\
 	virtual quint32 startDecode(CBerByteArrayInputStream& iStream) \
 	{ \
 		CDecoder< Storage > codec; \
-		return codec.decode(iStream, this); \
+		return codec.decode(iStream, this, true); \
 	} \
 	\
 	virtual quint32 nextDecode(CBerByteArrayInputStream& iStream) \
 	{ \
 		CDecoder< Storage > codec; \
-		return codec.decodeInternal(iStream, this); \
+		return codec.decode(iStream, this, false); \
 	} \
 	\
 	virtual IBerBaseType* createMember(CBerIdentifier& id) \
@@ -58,7 +64,7 @@ private:
 
 public:
 
-	quint32 encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
+	quint32 encode(CBerByteArrayOutputStream& berOStream, QObject* obj, bool start)
 	{
 
 		qDebug() << "Start encode new type";
@@ -80,7 +86,7 @@ public:
 		}
 		else
 		{
-			codeLength = m_storage.serialize(berOStream, obj, explct);
+			codeLength = m_storage.serialize(berOStream, obj);
 		}
 
 		QVariant IdVariant = obj->metaObject()->property(1).read(obj);
@@ -89,7 +95,7 @@ public:
 			qDebug() << IdVariant.typeName() << "; " << IdVariant.userType() << "; ";
 			CBerIdentifier BerId = qvariant_cast<CBerIdentifier> (IdVariant);
 
-			if (explct && BerId.IsExisting())
+			if (start && BerId.IsExisting())
 				codeLength += BerId.encode(berOStream);
 		}
 
@@ -98,7 +104,7 @@ public:
 		return codeLength;
 	}
 
-	quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj)
+	quint32 decode(CBerByteArrayInputStream& iStream, QObject* obj, bool start)
 	{
 
 		qDebug() << "Start decode new type";
@@ -111,7 +117,7 @@ public:
 			qDebug() << IdVariant.typeName() << "; " << IdVariant.userType() << "; ";
 			CBerIdentifier BerId = qvariant_cast<CBerIdentifier> (IdVariant);
 
-			if (BerId.IsExisting())
+			if (start && BerId.IsExisting())
 			{
 				CBerIdentifier id = lastBerIdentifier::get(iStream, codeLength);
 				lastBerIdentifier::reset();
@@ -119,32 +125,6 @@ public:
 				qDebug() << "Original id: " << BerId.toString() << "; as code = " << BerId.getCode()->toHex();
 				qDebug() << "Decoded id: " << id.toString() << "; as code = " << id.getCode()->toHex();
 			}
-		}
-
-		CBerLength length;
-		codeLength += m_storage.deserialize(iStream, obj, length, codeLength);
-
-		qDebug() << "CDecoder::extracted length = " << length.getVal();
-
-		QByteArray out = iStream.get();
-		qDebug() << "CDecoder::decode Result: " << out.toHex();
-
-		return codeLength;
-
-	}
-
-	quint32 decodeInternal(CBerByteArrayInputStream& iStream, QObject* obj)
-	{
-
-		qDebug() << "Start decode new type";
-
-		quint32 codeLength = 0;
-
-		QVariant IdVariant = obj->metaObject()->property(1).read(obj);
-		if ( IdVariant.canConvert( CBerIdentifier::s_metaTypeId) )
-		{
-			qDebug() << IdVariant.typeName() << "; " << IdVariant.userType() << "; ";
-			CBerIdentifier BerId = qvariant_cast<CBerIdentifier> (IdVariant);
 		}
 
 		CBerLength length;

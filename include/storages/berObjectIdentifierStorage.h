@@ -19,7 +19,7 @@ private:
 	QVector<qint32>* ptrValue(QObject* obj, quint32 idx);
 
 public:
-	quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct);
+	quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj);
 	quint32 deserialize(CBerByteArrayInputStream& iStream, QObject* obj, CBerLength& length, quint32 codeLength);
 	QString toString(QObject* obj);
 };

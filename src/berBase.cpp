@@ -60,7 +60,7 @@ QVariant CBerBaseStorage::getNextVariant(QObject* obj, QVariant& varposprev, qui
 		return obj->metaObject()->property(index).read(obj);
 }
 
-quint32 CBerBaseStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
+quint32 CBerBaseStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj)
 {
 	quint32 codeLength = 0;
 	qint32 size = obj->metaObject()->propertyCount()-1;
@@ -82,7 +82,7 @@ quint32 CBerBaseStorage::serialize(CBerByteArrayOutputStream& berOStream, QObjec
 				{
 				case WorkType::PARENT_IDENTIFIER:
 					{
-						codeLength += temp_berobject->encode(berOStream, false);
+						codeLength += temp_berobject->nextEncode(berOStream);
 						CBerIdentifier idobject = varpos1.value<CBerIdentifier>();
 						if (idobject.IsExisting())
 							codeLength += idobject.encode(berOStream);
@@ -92,7 +92,7 @@ quint32 CBerBaseStorage::serialize(CBerByteArrayOutputStream& berOStream, QObjec
 
 				case WorkType::PARENT_IDENTIFIER_WITH_LENGTH:
 					{
-						quint32 subCodeLength = temp_berobject->encode(berOStream, false);
+						quint32 subCodeLength = temp_berobject->nextEncode(berOStream);
 						subCodeLength += CBerLength::encodeLength(berOStream, subCodeLength);
 						codeLength += subCodeLength;
 

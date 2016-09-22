@@ -15,7 +15,7 @@ QVector<qint32>* CBerObjectIdentifierStorage::ptrValue(QObject* obj, quint32 idx
 	return qvariant_cast<QVector<qint32>* > (var);
 }
 
-quint32 CBerObjectIdentifierStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
+quint32 CBerObjectIdentifierStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj)
 {
 	QVector<qint32> OIC = *(ptrValue(obj, 3));
 

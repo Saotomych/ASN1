@@ -15,7 +15,7 @@ double* CBerRealStorage::ptrValue(QObject* obj, quint32 idx)
 	return qvariant_cast<double*>(var);
 }
 
-quint32 CBerRealStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
+quint32 CBerRealStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj)
 {
 	double Real = *ptrValue(obj, 3);
 
@@ -196,7 +196,7 @@ void CBerRealStorage::encodeAndSave(QObject* obj, qint32 encodingSizeGuess)
 	CBerByteArrayOutputStream berOStream(encodingSizeGuess);
 	CBerReal* pBerReal = reinterpret_cast<CBerReal*>(obj);
 
-	pBerReal->encode(berOStream, false);
+	pBerReal->nextEncode(berOStream);
 	QByteArray Code = berOStream.getByteArray();
 
 	QVariant wrvar(Code);

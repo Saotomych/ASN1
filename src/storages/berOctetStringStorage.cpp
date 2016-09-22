@@ -14,7 +14,7 @@ QByteArray* CBerOctetStringStorage::ptrValue(QObject* obj, quint32 idx)
 	return qvariant_cast<QByteArray*> (var);
 }
 
-quint32 CBerOctetStringStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool explct)
+quint32 CBerOctetStringStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj)
 {
 	QByteArray berOS = *ptrValue(obj, 3);
 

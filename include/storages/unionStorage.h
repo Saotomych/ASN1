@@ -46,7 +46,7 @@ class CUnionStorage
 
 public:
 
-	quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj, bool)
+	quint32 serialize(CBerByteArrayOutputStream& berOStream, QObject* obj)
 	{
 		quint32 codeLength = 0;
 		qint32 size = obj->metaObject()->propertyCount()-1;
@@ -68,7 +68,7 @@ public:
 					{
 					case WorkType::PARENT_IDENTIFIER:
 						{
-							codeLength += temp_berobject->encode(berOStream, false);
+							codeLength += temp_berobject->nextEncode(berOStream);
 							CBerIdentifier idobject = varpos1.value<CBerIdentifier>();
 							if (idobject.IsExisting())
 								codeLength += idobject.encode(berOStream);
@@ -78,7 +78,7 @@ public:
 
 					case WorkType::PARENT_IDENTIFIER_WITH_LENGTH:
 						{
-							quint32 subCodeLength = temp_berobject->encode(berOStream, false);
+							quint32 subCodeLength = temp_berobject->nextEncode(berOStream);
 							subCodeLength += CBerLength::encodeLength(berOStream, subCodeLength);
 							codeLength += subCodeLength;
 

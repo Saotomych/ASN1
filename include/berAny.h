@@ -93,7 +93,12 @@ public:
 
 	virtual ~CBerAny() {}
 
-	virtual quint32 encode(CBerByteArrayOutputStream&, bool)
+	virtual quint32 startEncode(CBerByteArrayOutputStream&)
+	{
+		return m_Length;
+	}
+
+	virtual quint32 nextEncode(CBerByteArrayOutputStream&)
 	{
 		return m_Length;
 	}
