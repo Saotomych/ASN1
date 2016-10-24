@@ -28,11 +28,11 @@
 #ifndef BER_BOOLEAN
 #define BER_BOOLEAN
 
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "storages/berBooleanStorage.h"
-#include "storages/berBaseType.h"
-#include "storages/decoder.h"
+#include <berIdentifier.h>
+#include <berLength.h>
+#include <storages/berBooleanStorage.h>
+#include <storages/berBaseType.h>
+#include <storages/decoder.h>
 
 class ASN1_SHAREDEXPORT CBerBoolean: public QObject, public IBerBaseType
 {

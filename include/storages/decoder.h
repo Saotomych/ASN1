@@ -8,12 +8,12 @@
 #ifndef INCLUDE_STORAGES_DECODER_H_
 #define INCLUDE_STORAGES_DECODER_H_
 
-#include "asn1_global.h"
-#include "berByteArrayOutputStream.h"
-#include "berByteArrayInputStream.h"
-#include "berLength.h"
-#include "berIdentifier.h"
-#include "berBaseType.h"
+#include <asn1_global.h>
+#include <berByteArrayOutputStream.h>
+#include <berByteArrayInputStream.h>
+#include <berLength.h>
+#include <berIdentifier.h>
+#include <storages/berBaseType.h>
 
 namespace lastBerIdentifier
 {

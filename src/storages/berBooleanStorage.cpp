@@ -5,8 +5,8 @@
  *      Author: alexey
  */
 
-#include "storages/berBooleanStorage.h"
-#include "berBoolean.h"
+#include <storages/berBooleanStorage.h>
+#include <berBoolean.h>
 
 bool* CBerBooleanStorage::ptrValue(QObject* obj, quint32 idx)
 {

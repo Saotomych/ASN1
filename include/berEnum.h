@@ -28,11 +28,11 @@
 #ifndef BER_ENUM
 #define BER_ENUM
 
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "storages/berIntegerStorage.h"
-#include "storages/berBaseType.h"
-#include "storages/decoder.h"
+#include <berIdentifier.h>
+#include <berLength.h>
+#include <storages/berIntegerStorage.h>
+#include <storages/berBaseType.h>
+#include <storages/decoder.h>
 
 class ASN1_SHAREDEXPORT CBerEnum: public QObject, public IBerBaseType
 {
@@ -100,6 +100,20 @@ public:
 		m_Val = rhs.m_Val;
 
 		return *this;
+	}
+
+	bool operator==(const CBerEnum& rhs)
+	{
+		if (this == &rhs) return true;
+
+		return m_Val == rhs.m_Val;
+	}
+
+	bool operator!=(const CBerEnum& rhs)
+	{
+		if (this == &rhs) return false;
+
+		return m_Val != rhs.m_Val;
 	}
 
 	CBerIdentifier getIdentifier() { return m_Identifier; }

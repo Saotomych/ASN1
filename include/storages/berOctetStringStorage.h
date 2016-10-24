@@ -8,7 +8,7 @@
 #ifndef INCLUDE_CBEROCTETSTRINGSTORAGE_H_
 #define INCLUDE_CBEROCTETSTRINGSTORAGE_H_
 
-#include "berBase.h"
+#include <berBase.h>
 
 class ASN1_SHAREDEXPORT CBerOctetStringStorage
 {

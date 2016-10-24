@@ -1,4 +1,4 @@
-#include "berObjectIdentifier.h"
+#include <berObjectIdentifier.h>
 
 CBerObjectIdentifier::CBerObjectIdentifier():
 	c_Identifier(getBerIdentifier())

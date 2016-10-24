@@ -5,8 +5,8 @@
  *      Author: alexey
  */
 
-#include "storages/berObjectIdentifierStorage.h"
-#include "berObjectIdentifier.h"
+#include <storages/berObjectIdentifierStorage.h>
+#include <berObjectIdentifier.h>
 
 QVector<qint32>* CBerObjectIdentifierStorage::ptrValue(QObject* obj, quint32 idx)
 {

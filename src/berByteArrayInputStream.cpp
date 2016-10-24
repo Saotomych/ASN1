@@ -5,7 +5,7 @@
  *      Author: alexey
  */
 
-#include "berByteArrayInputStream.h"
+#include <berByteArrayInputStream.h>
 
 void CBerByteArrayInputStream::runtimeError(QString str)
 {

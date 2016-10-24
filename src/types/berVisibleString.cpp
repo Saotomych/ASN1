@@ -1,4 +1,4 @@
-#include "berVisibleString.h"
+#include <berVisibleString.h>
 
 CBerVisibleString::CBerVisibleString()
 {

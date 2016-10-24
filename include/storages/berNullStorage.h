@@ -8,7 +8,7 @@
 #ifndef INCLUDE_STORAGES_BERNULLSTORAGE_H_
 #define INCLUDE_STORAGES_BERNULLSTORAGE_H_
 
-#include "berBase.h"
+#include <berBase.h>
 
 class CBerNullStorage
 {

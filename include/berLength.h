@@ -28,9 +28,9 @@
 #ifndef BER_LENGTH
 #define BER_LENGTH
 
-#include "asn1_global.h"
-#include "berByteArrayOutputStream.h"
-#include "berByteArrayInputStream.h"
+#include <asn1_global.h>
+#include <berByteArrayOutputStream.h>
+#include <berByteArrayInputStream.h>
 
 class ASN1_SHAREDEXPORT CBerLength: public QObject
 {

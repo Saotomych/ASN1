@@ -1,4 +1,4 @@
-#include "berReal.h"
+#include <berReal.h>
 
 CBerReal::CBerReal(): m_Real(0.0)
 {

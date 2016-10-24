@@ -28,11 +28,11 @@
 #ifndef BER_GENERALSTRING
 #define BER_GENERALSTRING
 
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "storages/berOctetStringStorage.h"
-#include "storages/berBaseType.h"
-#include "storages/decoder.h"
+#include <berIdentifier.h>
+#include <berLength.h>
+#include <storages/berOctetStringStorage.h>
+#include <storages/berBaseType.h>
+#include <storages/decoder.h>
 
 class ASN1_SHAREDEXPORT CBerGeneralString: public QObject, public IBerBaseType
 {

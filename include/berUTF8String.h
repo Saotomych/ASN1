@@ -28,11 +28,11 @@
 #ifndef BER_UTF8STRING
 #define BER_UTF8STRING
 
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "storages/berOctetStringStorage.h"
-#include "storages/berBaseType.h"
-#include "storages/decoder.h"
+#include <berIdentifier.h>
+#include <berLength.h>
+#include <storages/berOctetStringStorage.h>
+#include <storages/berBaseType.h>
+#include <storages/decoder.h>
 
 class ASN1_SHAREDEXPORT CBerUTF8String: public QObject, public IBerBaseType
 {

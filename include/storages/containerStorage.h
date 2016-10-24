@@ -8,7 +8,7 @@
 #ifndef INCLUDE_STORAGES_QLISTSTORAGE_H_
 #define INCLUDE_STORAGES_QLISTSTORAGE_H_
 
-#include "berBase.h"
+#include <berBase.h>
 
 template<class BaseClassType, class ContainerType, class DataType>
 class CContainerStorage

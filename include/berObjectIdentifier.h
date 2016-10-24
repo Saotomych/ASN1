@@ -28,11 +28,11 @@
 #ifndef BER_OBJECTIDENTIFIER
 #define BER_OBJECTIDENTIFIER
 
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "storages/berObjectIdentifierStorage.h"
-#include "storages/berBaseType.h"
-#include "storages/decoder.h"
+#include <berIdentifier.h>
+#include <berLength.h>
+#include <storages/berObjectIdentifierStorage.h>
+#include <storages/berBaseType.h>
+#include <storages/decoder.h>
 
 class ASN1_SHAREDEXPORT CBerObjectIdentifier: public QObject, public IBerBaseType
 {

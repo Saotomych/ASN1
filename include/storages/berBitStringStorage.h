@@ -8,7 +8,7 @@
 #ifndef INCLUDE_STORAGES_BERBITARRAYSTORAGE_H_
 #define INCLUDE_STORAGES_BERBITARRAYSTORAGE_H_
 
-#include "berBase.h"
+#include <berBase.h>
 
 class ASN1_SHAREDEXPORT CBerBitStringStorage
 {

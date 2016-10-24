@@ -5,8 +5,8 @@
  *      Author: alexey
  */
 
-#include "storages/berRealStorage.h"
-#include "berReal.h"
+#include <storages/berRealStorage.h>
+#include <berReal.h>
 
 double* CBerRealStorage::ptrValue(QObject* obj, quint32 idx)
 {
@@ -41,72 +41,74 @@ quint32 CBerRealStorage::serialize(CBerByteArrayOutputStream& berOStream, QObjec
 	}
 	quint8 exponentFormat = 0;
 
-	qint32 exponent = ((qint32) (longVal >> 52)) & 0x7ff;
-	quint64 mantissa = (longVal & 0x000fffffffffffffL) | 0x0010000000000000L;
+	quint64 mask = (quint64)(-1l) << 52;
+    qint32 exponent = (longVal >> 52) & 0x7ff;
+	quint64 mantissa = (longVal & ~mask) | (1l<<52);
 
 	if (exponent == 0x7ff) {
-		if (mantissa == 0x0010000000000000L) {
-			if (sign == 0) {
-				berOStream.write((quint8) 0x40);
+
+		// Special numbers
+		if (sign == 0) {
+			berOStream.write((quint8) 0x40);	// PLUS-INFINITY
+		}
+		else {
+			berOStream.write((quint8) 0x41);	// MINUS_INFINITY
+		}
+		codeLength++;
+		codeLength += CBerLength::encodeLength(berOStream, codeLength);
+		return codeLength;
+	}
+	else
+	{
+		if (!(exponent == 0 && mantissa == (1l<<52)))
+		{
+			int exponentIncr = 0;
+			while (((mantissa >> exponentIncr) & 0xff) == 0x00) {
+				exponentIncr += 8;
+			}
+			while (((mantissa >> exponentIncr) & 0x01) == 0x00) {
+				exponentIncr++;
+			}
+
+			exponent += exponentIncr - 1075;
+
+			mantissa >>= exponentIncr;
+
+			int mantissaLength = 1;
+
+			// TODO remove -1?
+			while (mantissa > (pow(2, 8 * mantissaLength - 1) - 1)) {
+				mantissaLength++;
+			}
+			for (qint8 i = 0; i < mantissaLength; i++) {
+				berOStream.write( (quint8) (((mantissa >> (8 * i))) & 0xff) );
+			}
+			codeLength += mantissaLength;
+
+			quint8 expLength = 1;
+			while ( (exponent > (pow(2, 8 * expLength - 1) - 1)
+					|| exponent < pow(-2, 8 * expLength - 1)) && expLength < 8)
+			{
+				expLength++;
+			}
+			for (qint8 i = 0; i < expLength; i++) {
+				berOStream.write( (quint8) (((exponent >> (8 * i))) & 0xff) );
+			}
+			codeLength += expLength;
+
+			if (expLength < 4) {
+				exponentFormat = (quint8) (expLength - 1);
 			}
 			else {
-				berOStream.write((quint8) 0x41);
+				berOStream.write(expLength);
+				codeLength++;
+				exponentFormat = 0x03;
 			}
+
+			berOStream.write( (quint8) (0x80 | sign | exponentFormat) );
+
 			codeLength++;
 		}
-		else {
-//			argumentWrong("CBerRealStorage::serialize: NAN not supported");
-			return 0;
-		}
-	}
-	else if (!(exponent == 0 && mantissa == 0x0010000000000000L)) {
-		exponent -= 1075;
-		int exponentIncr = 0;
-		while (((longVal >> exponentIncr) & 0xff) == 0x00) {
-			exponentIncr += 8;
-		}
-		while (((longVal >> exponentIncr) & 0x01) == 0x00) {
-			exponentIncr++;
-		}
-
-		exponent += exponentIncr;
-
-		mantissa >>= exponentIncr;
-
-		int mantissaLength = 1;
-
-		// TODO remove -1?
-		while (mantissa > (pow(2, 8 * mantissaLength - 1) - 1)) {
-			mantissaLength++;
-		}
-		for (qint8 i = 0; i < mantissaLength; i++) {
-			berOStream.write( (quint8) (((int) (mantissa >> 8 * (i))) & 0xff) );
-		}
-		codeLength += mantissaLength;
-
-		quint8 expLength = 1;
-		while ( (exponent > (pow(2, 8 * expLength - 1) - 1)
-				|| exponent < pow(-2, 8 * expLength - 1)) && expLength < 8)
-		{
-			expLength++;
-		}
-		for (qint8 i = 0; i < expLength; i++) {
-			berOStream.write( (quint8) (((int) (exponent >> 8 * (i))) & 0xff) );
-		}
-		codeLength += expLength;
-
-		if (expLength < 4) {
-			exponentFormat = (quint8) (expLength - 1);
-		}
-		else {
-			berOStream.write(expLength);
-			codeLength++;
-			exponentFormat = 0x03;
-		}
-
-		berOStream.write( (quint8) (0x80 | sign | exponentFormat) );
-
-		codeLength++;
 	}
 
 	codeLength += CBerLength::encodeLength(berOStream, codeLength);
@@ -120,7 +122,7 @@ quint32 CBerRealStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 	length.decode(iStream);
 	qDebug() << "CBerRealStorage deserialize, length extracted: " << length.getVal();
 
-	qint32 lenval = length.getVal();
+	quint32 lenval = length.getVal();
 
 	double real;
 
@@ -150,7 +152,7 @@ quint32 CBerRealStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 	}
 
 	QByteArray byteCode(lenval, Qt::Initialization::Uninitialized);
-	if (iStream.read(byteCode, 0, lenval) < lenval)
+	if ( (quint32) iStream.read(byteCode, 0, lenval) < lenval)
 	{
 		qDebug() << "CBerRealStorage::deserialize: data read wrong";
 		return codeLength;
@@ -158,14 +160,14 @@ quint32 CBerRealStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 
 	codeLength += lenval;
 
-	int tempLength = 1;
+	quint32 tempLength = 1;
 
-	int sign = 1;
+	qint32 sign = 1;
 	if ((byteCode[0] & 0x40) == 0x40) {
 		sign = -1;
 	}
 
-	int exponentLength = (byteCode[0] & 0x03) + 1;
+	quint32 exponentLength = (byteCode[0] & 0x03) + 1;
 	if (exponentLength == 4) {
 		exponentLength = byteCode[1];
 		tempLength++;
@@ -173,16 +175,19 @@ quint32 CBerRealStorage::deserialize(CBerByteArrayInputStream& iStream, QObject*
 
 	tempLength += exponentLength;
 
-	int exponent = 0;
-	for (int i = 0; i < exponentLength; i++) {
+	qint32 exponent = 0;
+	for (quint32 i = 0; i < exponentLength; i++) {
 		exponent |= byteCode[1 + i] << (8 * (exponentLength - i - 1));
 	}
-	int mantissa = 0;
-	for (int i = 0; i < lenval - tempLength; i++) {
-		mantissa |= byteCode[i + tempLength] << (8 * (lenval - tempLength - i - 1));
+
+	quint64 mantissa = 0;
+	quint32 pos = (lenval - tempLength - 1) * 8;
+	for (quint32 i = tempLength; i < lenval; ++i, pos-=8)
+	{
+		mantissa |= (((quint64)(byteCode[i])) << pos) & (0xFFl << pos);
 	}
 
-	real = sign * mantissa * pow(2, exponent);
+	real = sign * (double)(mantissa * pow(2, exponent));
 
 	double* pVal = &real;
 	QVariant wrvar(PtrMetaTypes::s_doublePtrMetaType, &pVal);

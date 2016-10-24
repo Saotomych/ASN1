@@ -1,33 +1,33 @@
 
 // Based classes
-#include "berOctetString.h"
-#include "berReal.h"
-#include "berObjectIdentifier.h"
-#include "berInteger.h"
-#include "berVisibleString.h"
-#include "berBoolean.h"
-#include "berEnum.h"
-#include "berNull.h"
-#include "berBitString.h"
-#include "berAny.h"
-#include "berAnyNoDecode.h"
+#include <berOctetString.h>
+#include <berReal.h>
+#include <berObjectIdentifier.h>
+#include <berInteger.h>
+#include <berVisibleString.h>
+#include <berBoolean.h>
+#include <berEnum.h>
+#include <berNull.h>
+#include <berBitString.h>
+#include <berAny.h>
+#include <berAnyNoDecode.h>
 
 // Legacy classes
-#include "berGeneralizedTime.h"
-#include "berBMPString.h"
-#include "berGeneralString.h"
-#include "berGraphicString.h"
-#include "berIA5String.h"
-#include "berNumericString.h"
-#include "berPrintableString.h"
-#include "berTeletexString.h"
-#include "berUniversalString.h"
-#include "berUTF8String.h"
-#include "berVideotexString.h"
+#include <berGeneralizedTime.h>
+#include <berBMPString.h>
+#include <berGeneralString.h>
+#include <berGraphicString.h>
+#include <berIA5String.h>
+#include <berNumericString.h>
+#include <berPrintableString.h>
+#include <berTeletexString.h>
+#include <berUniversalString.h>
+#include <berUTF8String.h>
+#include <berVideotexString.h>
 
-#include "compositeValue.h"
+#include <compositeValue.h>
 
-#include "storages/berBaseType.h"
+#include <storages/berBaseType.h>
 
 // Ber Variables
 quint32 CBerIdentifier::s_metaTypeId = qRegisterMetaType<CBerIdentifier>();

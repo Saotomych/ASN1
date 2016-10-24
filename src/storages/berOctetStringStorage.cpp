@@ -5,7 +5,7 @@
  *      Author: alexey
  */
 
-#include "storages/berOctetStringStorage.h"
+#include <storages/berOctetStringStorage.h>
 
 QByteArray* CBerOctetStringStorage::ptrValue(QObject* obj, quint32 idx)
 {

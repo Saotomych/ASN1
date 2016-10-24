@@ -5,8 +5,8 @@
  *      Author: alexey
  */
 
-#include "storages/berIntegerStorage.h"
-#include "berInteger.h"
+#include <storages/berIntegerStorage.h>
+#include <berInteger.h>
 
 qint64* CBerIntegerStorage::ptrValue(QObject* obj, quint32 idx)
 {

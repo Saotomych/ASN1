@@ -28,11 +28,11 @@
 #ifndef BER_BITSTRING
 #define BER_BITSTRING
 
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "storages/berBitStringStorage.h"
-#include "storages/berBaseType.h"
-#include "storages/decoder.h"
+#include <berIdentifier.h>
+#include <berLength.h>
+#include <storages/berBitStringStorage.h>
+#include <storages/berBaseType.h>
+#include <storages/decoder.h>
 
 class ASN1_SHAREDEXPORT CBerBitString: public QObject, public IBerBaseType
 {

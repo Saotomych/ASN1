@@ -5,7 +5,7 @@
  *      Author: alexey
  */
 
-#include "storages/berNullStorage.h"
+#include <storages/berNullStorage.h>
 
 quint32 CBerNullStorage::serialize(CBerByteArrayOutputStream& berOStream, QObject* obj)
 {

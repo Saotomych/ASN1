@@ -8,10 +8,10 @@
 #ifndef INCLUDE_STORAGES_BERBOOLEANSTORAGE_H_
 #define INCLUDE_STORAGES_BERBOOLEANSTORAGE_H_
 
-#include "asn1_global.h"
-#include "berByteArrayOutputStream.h"
-#include "berByteArrayInputStream.h"
-#include "berLength.h"
+#include <asn1_global.h>
+#include <berByteArrayOutputStream.h>
+#include <berByteArrayInputStream.h>
+#include <berLength.h>
 
 class CBerBooleanStorage
 {

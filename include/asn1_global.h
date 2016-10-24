@@ -28,6 +28,6 @@
 #  define ASN1_SHAREDEXPORT Q_DECL_IMPORT
 #endif
 
-#include "DeclareCommonTypes.h"
+#include <DeclareCommonTypes.h>
 
 #endif // OSITRANSPORT_GLOBAL_H

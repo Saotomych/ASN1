@@ -28,11 +28,11 @@
 #ifndef BER_PRINTABLESTRING
 #define BER_PRINTABLESTRING
 
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "storages/berOctetStringStorage.h"
-#include "storages/berBaseType.h"
-#include "storages/decoder.h"
+#include <berIdentifier.h>
+#include <berLength.h>
+#include <storages/berOctetStringStorage.h>
+#include <storages/berBaseType.h>
+#include <storages/decoder.h>
 
 class ASN1_SHAREDEXPORT CBerPrintableString: public QObject, public IBerBaseType
 {

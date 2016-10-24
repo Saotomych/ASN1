@@ -28,10 +28,10 @@
 #ifndef BER_ANY_NODECODE
 #define BER_ANY_NODECODE
 
-#include "berByteArrayOutputStream.h"
-#include "berBase.h"
-#include "storages/berBaseType.h"
-#include "storages/decoder.h"
+#include <berByteArrayOutputStream.h>
+#include <berBase.h>
+#include <storages/berBaseType.h>
+#include <storages/decoder.h>
 
 class  ASN1_SHAREDEXPORT CBerAnyNoDecode: public QObject, public IBerBaseType
 {

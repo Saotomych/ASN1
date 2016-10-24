@@ -28,12 +28,12 @@
 #ifndef BER_NULL
 #define BER_NULL
 
-#include "berIdentifier.h"
-#include "berBase.h"
-#include "berLength.h"
-#include "storages/berNullStorage.h"
-#include "storages/berBaseType.h"
-#include "storages/decoder.h"
+#include <berIdentifier.h>
+#include <berBase.h>
+#include <berLength.h>
+#include <storages/berNullStorage.h>
+#include <storages/berBaseType.h>
+#include <storages/decoder.h>
 
 class ASN1_SHAREDEXPORT CBerNull: public QObject, public IBerBaseType
 {

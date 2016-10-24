@@ -24,12 +24,12 @@
 #define BER_BASE
 
 #include <stdexcept>
-#include "asn1_global.h"
-#include "berByteArrayOutputStream.h"
-#include "berByteArrayInputStream.h"
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "storages/berBaseType.h"
+#include <asn1_global.h>
+#include <berByteArrayOutputStream.h>
+#include <berByteArrayInputStream.h>
+#include <berIdentifier.h>
+#include <berLength.h>
+#include <storages/berBaseType.h>
 
 #define START_PROPERTY_INDEX 3
 

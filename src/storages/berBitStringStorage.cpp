@@ -5,7 +5,7 @@
  *      Author: alexey
  */
 
-#include "storages/berBitStringStorage.h"
+#include <storages/berBitStringStorage.h>
 
 QBitArray* CBerBitStringStorage::ptrValue(QObject* obj, quint32 idx)
 {

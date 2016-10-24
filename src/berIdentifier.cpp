@@ -1,39 +1,5 @@
 #include <include/berIdentifier.h>
 
-qint32 CBerIdentifier::UNIVERSAL_CLASS = 0x00;
-qint32 CBerIdentifier::APPLICATION_CLASS = 0x40;
-qint32 CBerIdentifier::CONTEXT_CLASS = 0x80;
-qint32 CBerIdentifier::PRIVATE_CLASS = 0xc0;
-
-qint32 CBerIdentifier::PRIMITIVE = 0x00;
-qint32 CBerIdentifier::CONSTRUCTED = 0x20;
-
-qint32 CBerIdentifier::BOOLEAN_TAG = 1;
-qint32 CBerIdentifier::INTEGER_TAG = 2;
-qint32 CBerIdentifier::BIT_STRING_TAG = 3;
-qint32 CBerIdentifier::OCTET_STRING_TAG = 4;
-qint32 CBerIdentifier::NULL_TAG = 5;
-qint32 CBerIdentifier::OBJECT_IDENTIFIER_TAG = 6;
-qint32 CBerIdentifier::REAL_TAG = 9;
-qint32 CBerIdentifier::ENUMERATED_TAG = 10;
-qint32 CBerIdentifier::UTF8_STRING_TAG = 12;
-qint32 CBerIdentifier::NUMERIC_STRING_TAG = 18;
-qint32 CBerIdentifier::PRINTABLE_STRING_TAG = 19;
-qint32 CBerIdentifier::TELETEX_STRING_TAG = 20;
-qint32 CBerIdentifier::VIDEOTEX_STRING_TAG = 21;
-qint32 CBerIdentifier::IA5_STRING_TAG = 22;
-qint32 CBerIdentifier::GENERALIZED_TIME_TAG = 24;
-qint32 CBerIdentifier::GRAPHIC_STRING_TAG = 25;
-qint32 CBerIdentifier::VISIBLE_STRING_TAG = 26;
-qint32 CBerIdentifier::GENERAL_STRING_TAG = 27;
-qint32 CBerIdentifier::UNIVERSAL_STRING_TAG = 28;
-qint32 CBerIdentifier::BMP_STRING_TAG = 30;
-qint32 CBerIdentifier::PPDU_TAG = 16;
-
-quint8 CBerIdentifier::IDENTIFIER_CLASS_MASK = 0xC0;
-quint8 CBerIdentifier::PRIMITIVE_MASK = 0x20;
-quint8 CBerIdentifier::TAG_NUMBER_MASK = 0x1F;
-
 CBerIdentifier::CBerIdentifier(): m_IdentifierClass(0), m_Primitive(0), m_TagNumber(0), isExisting(false)
 {
 	code();

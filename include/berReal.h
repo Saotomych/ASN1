@@ -28,11 +28,11 @@
 #ifndef BER_REAL
 #define BER_REAL
 
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "storages/berRealStorage.h"
-#include "storages/berBaseType.h"
-#include "storages/decoder.h"
+#include <berIdentifier.h>
+#include <berLength.h>
+#include <storages/berRealStorage.h>
+#include <storages/berBaseType.h>
+#include <storages/decoder.h>
 
 class ASN1_SHAREDEXPORT CBerReal: public QObject, public IBerBaseType
 {

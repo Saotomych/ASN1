@@ -28,11 +28,11 @@
 #ifndef BER_INTEGER
 #define BER_INTEGER
 
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "storages/berIntegerStorage.h"
-#include "storages/berBaseType.h"
-#include "storages/decoder.h"
+#include <berIdentifier.h>
+#include <berLength.h>
+#include <storages/berIntegerStorage.h>
+#include <storages/berBaseType.h>
+#include <storages/decoder.h>
 
 class ASN1_SHAREDEXPORT CBerInteger: public QObject, public IBerBaseType
 {

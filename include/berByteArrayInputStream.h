@@ -28,7 +28,7 @@
 #ifndef BER_BYTEARRAYINPUTSTREAM
 #define BER_BYTEARRAYINPUTSTREAM
 
-#include "asn1_global.h"
+#include <asn1_global.h>
 
 class ASN1_SHAREDEXPORT CBerByteArrayInputStream: public QObject
 {

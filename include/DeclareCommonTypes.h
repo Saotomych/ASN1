@@ -8,6 +8,10 @@
 #ifndef DECLARECOMMONTYPES_H_
 #define DECLARECOMMONTYPES_H_
 
+#include <QByteArray>
+#include <QBitArray>
+#include <QVector>
+
 Q_DECLARE_METATYPE(QByteArray*)
 Q_DECLARE_METATYPE(qint64*)
 Q_DECLARE_METATYPE(QVector<qint32>*)

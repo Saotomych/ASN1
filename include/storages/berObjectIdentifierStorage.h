@@ -8,10 +8,10 @@
 #ifndef INCLUDE_STORAGES_BEROBJECTIDENTIFIERSTORAGE_H_
 #define INCLUDE_STORAGES_BEROBJECTIDENTIFIERSTORAGE_H_
 
-#include "berByteArrayOutputStream.h"
-#include "berByteArrayInputStream.h"
-#include "berIdentifier.h"
-#include "berLength.h"
+#include <asn1_global.h>
+#include <berByteArrayOutputStream.h>
+#include <berByteArrayInputStream.h>
+#include <berLength.h>
 
 class CBerObjectIdentifierStorage
 {

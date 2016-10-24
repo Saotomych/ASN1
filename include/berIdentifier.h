@@ -28,9 +28,9 @@
 #ifndef BER_IDENTIFIER
 #define BER_IDENTIFIER
 
-#include "asn1_global.h"
-#include "berByteArrayOutputStream.h"
-#include "berByteArrayInputStream.h"
+#include <asn1_global.h>
+#include <berByteArrayOutputStream.h>
+#include <berByteArrayInputStream.h>
 
 class ASN1_SHAREDEXPORT CBerIdentifier: public QObject
 {
@@ -44,39 +44,45 @@ class ASN1_SHAREDEXPORT CBerIdentifier: public QObject
 	bool isExisting;
 
 public:
-	 static qint32 UNIVERSAL_CLASS;
-	 static qint32 APPLICATION_CLASS;
-	 static qint32 CONTEXT_CLASS;
-	 static qint32 PRIVATE_CLASS;
 
-	 static qint32 PRIMITIVE;
-	 static qint32 CONSTRUCTED;
+    enum {
+        UNIVERSAL_CLASS = 0x00,
+        APPLICATION_CLASS = 0x40,
+        CONTEXT_CLASS = 0x80,
+        PRIVATE_CLASS = 0xc0,
+        PRIMITIVE = 0x00,
+        CONSTRUCTED = 0x20
+    };
 
-	 static qint32 BOOLEAN_TAG;
-	 static qint32 INTEGER_TAG;
-	 static qint32 BIT_STRING_TAG;
-	 static qint32 OCTET_STRING_TAG;
-	 static qint32 NULL_TAG;
-	 static qint32 OBJECT_IDENTIFIER_TAG;
-	 static qint32 REAL_TAG;
-	 static qint32 ENUMERATED_TAG;
-	 static qint32 UTF8_STRING_TAG;
-	 static qint32 NUMERIC_STRING_TAG;
-	 static qint32 PRINTABLE_STRING_TAG;
-	 static qint32 TELETEX_STRING_TAG;
-	 static qint32 VIDEOTEX_STRING_TAG;
-	 static qint32 IA5_STRING_TAG;
-	 static qint32 GENERALIZED_TIME_TAG;
-	 static qint32 GRAPHIC_STRING_TAG;
-	 static qint32 VISIBLE_STRING_TAG;
-	 static qint32 GENERAL_STRING_TAG;
-	 static qint32 UNIVERSAL_STRING_TAG;
-	 static qint32 BMP_STRING_TAG;
-	 static qint32 PPDU_TAG;
+    enum {
+        BOOLEAN_TAG = 1,
+        INTEGER_TAG = 2,
+        BIT_STRING_TAG = 3,
+        OCTET_STRING_TAG = 4,
+        NULL_TAG = 5,
+        OBJECT_IDENTIFIER_TAG = 6,
+        REAL_TAG = 9,
+        ENUMERATED_TAG = 10,
+        UTF8_STRING_TAG = 12,
+        NUMERIC_STRING_TAG = 18,
+        PRINTABLE_STRING_TAG = 19,
+        TELETEX_STRING_TAG = 20,
+        VIDEOTEX_STRING_TAG = 21,
+        IA5_STRING_TAG = 22,
+        GENERALIZED_TIME_TAG = 24,
+        GRAPHIC_STRING_TAG = 25,
+        VISIBLE_STRING_TAG = 26,
+        GENERAL_STRING_TAG = 27,
+        UNIVERSAL_STRING_TAG = 28,
+        BMP_STRING_TAG = 30,
+        PPDU_TAG = 16
+    };
 
-	 static quint8 IDENTIFIER_CLASS_MASK;
-	 static quint8 PRIMITIVE_MASK;
-	 static quint8 TAG_NUMBER_MASK;
+    enum {
+        IDENTIFIER_CLASS_MASK = 0xC0,
+        PRIMITIVE_MASK = 0x20,
+        TAG_NUMBER_MASK = 0x1F,
+    };
 
 public:
 

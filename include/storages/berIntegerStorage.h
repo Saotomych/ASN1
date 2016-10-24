@@ -8,7 +8,7 @@
 #ifndef INCLUDE_BERINTEGERSTORAGE_H_
 #define INCLUDE_BERINTEGERSTORAGE_H_
 
-#include "berBase.h"
+#include <berBase.h>
 
 class ASN1_SHAREDEXPORT CBerIntegerStorage//: public CBerBaseStorage
 {

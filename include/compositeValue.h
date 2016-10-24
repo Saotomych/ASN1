@@ -8,14 +8,14 @@
 #ifndef INCLUDE_COMPOSITEVALUE_H_
 #define INCLUDE_COMPOSITEVALUE_H_
 
-#include "berByteArrayOutputStream.h"
-#include "berIdentifier.h"
-#include "berLength.h"
-#include "berBitString.h"
-#include "berVisibleString.h"
-#include "berInteger.h"
-#include "storages/berBaseType.h"
-#include "storages/decoder.h"
+#include <berByteArrayOutputStream.h>
+#include <berIdentifier.h>
+#include <berLength.h>
+#include <berBitString.h>
+#include <berVisibleString.h>
+#include <berInteger.h>
+#include <storages/berBaseType.h>
+#include <storages/decoder.h>
 
 class ASN1_SHAREDEXPORT CCompositeValue: public QObject, public IBerBaseType
 {

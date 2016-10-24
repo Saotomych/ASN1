@@ -28,12 +28,13 @@
 #ifndef BER_OCTETSTRING
 #define BER_OCTETSTRING
 
-#include "berIdentifier.h"
-#include "berBase.h"
-#include "berLength.h"
-#include "storages/berOctetStringStorage.h"
-#include "storages/berBaseType.h"
-#include "storages/decoder.h"
+#include <berBase.h>
+#include <berIdentifier.h>
+#include <berLength.h>
+#include <storages/berOctetStringStorage.h>
+#include <storages/berBaseType.h>
+#include <storages/decoder.h>
+
 
 class ASN1_SHAREDEXPORT CBerOctetString: public QObject, public IBerBaseType
 {

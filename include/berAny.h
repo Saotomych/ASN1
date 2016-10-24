@@ -28,10 +28,10 @@
 #ifndef BER_ANY
 #define BER_ANY
 
-#include "berByteArrayOutputStream.h"
-#include "berBase.h"
-#include "storages/berBaseType.h"
-#include "storages/decoder.h"
+#include <berByteArrayOutputStream.h>
+#include <berBase.h>
+#include <storages/berBaseType.h>
+#include <storages/decoder.h>
 
 class  ASN1_SHAREDEXPORT CBerAny: public QObject, public IBerBaseType
 {

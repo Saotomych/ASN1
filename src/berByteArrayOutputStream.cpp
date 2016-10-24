@@ -1,4 +1,4 @@
-#include "berByteArrayOutputStream.h"
+#include <berByteArrayOutputStream.h>
 
 void CBerByteArrayOutputStream::resize()
 {

@@ -28,7 +28,7 @@
 #ifndef BER_BYTEARRAYOUTPUTSTREAM
 #define BER_BYTEARRAYOUTPUTSTREAM
 
-#include "asn1_global.h"
+#include <asn1_global.h>
 
 class ASN1_SHAREDEXPORT CBerByteArrayOutputStream: public QObject
 {

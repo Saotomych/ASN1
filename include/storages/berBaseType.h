@@ -8,8 +8,8 @@
 #ifndef INCLUDE_STORAGES_BERBASETYPE_H_
 #define INCLUDE_STORAGES_BERBASETYPE_H_
 
-#include "asn1_global.h"
-#include "berIdentifier.h"
+#include <asn1_global.h>
+#include <berIdentifier.h>
 
 class ASN1_SHAREDEXPORT IBerBaseType
 {
@@ -20,6 +20,8 @@ public:
 	virtual quint32 startDecode(CBerByteArrayInputStream& iStream)=0;
 	virtual quint32 nextDecode(CBerByteArrayInputStream& iStream)=0;
 	virtual IBerBaseType* createMember(CBerIdentifier&)=0;
+    virtual CBerIdentifier getIdentifier()=0;
+    virtual QString getString() { return QString(); }
 
 	virtual ~IBerBaseType() { }
 
